@@ -1,0 +1,557 @@
+/**
+ * MRDS Gestion Restaurant - Styles
+ * 
+ * Style pour la page de gestion des restaurants
+ * Cohérent avec le thème Mes Ronds de Serviette
+ * 
+ * Couleurs:
+ * - Primary (Bleu foncé): #141B42
+ * - Accent (Doré): #DA9D42
+ * - Light Gold: #E8C987
+ * - Background: #F8F6F3
+ */
+
+/* ========================================
+   CONTAINER PRINCIPAL
+======================================== */
+
+#mrds-restaurants-app {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+#mrds-restaurants-app h2,
+#mrds-restaurants-app h1 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: #141b42;
+  border-bottom: 1px solid var(--color-blue);
+  padding-bottom: 40px;
+}
+
+#mrds-restaurants-app .text-muted {
+  color: #888 !important;
+}
+
+/* ========================================
+   CARDS
+======================================== */
+
+#mrds-restaurants-app .card {
+  border: none;
+  border-radius: 0;
+  box-shadow: 0 4px 20px rgba(20, 27, 66, 0.08);
+  overflow: hidden;
+}
+
+#mrds-restaurants-app .card-header {
+  background: linear-gradient(135deg, #f8f6f3 0%, #f0ede8 100%);
+  border-bottom: 2px solid #da9d42;
+  padding: 18px 25px;
+}
+
+#mrds-restaurants-app .card-header h5 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #141b42;
+  margin: 0;
+}
+
+#mrds-restaurants-app .card-body {
+  padding: 25px;
+  background: #ffffff;
+}
+
+/* ========================================
+   TABLE
+======================================== */
+
+#mrds-restaurants-app .table {
+  margin-bottom: 0;
+}
+
+#mrds-restaurants-app .table thead {
+  background: #141b42 !important;
+}
+
+#mrds-restaurants-app .table thead th {
+  background: #141b42 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 15px 18px;
+  border: none !important;
+  vertical-align: middle;
+}
+
+#mrds-restaurants-app .table-light {
+  background: #141b42 !important;
+}
+
+#mrds-restaurants-app .table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+#mrds-restaurants-app .table tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+#mrds-restaurants-app .table tbody tr:nth-child(even) {
+  background-color: #f8f6f3;
+}
+
+#mrds-restaurants-app .table tbody tr:hover {
+  background-color: rgba(218, 157, 66, 0.1) !important;
+}
+
+#mrds-restaurants-app .table tbody td {
+  padding: 15px 18px;
+  vertical-align: middle;
+  border-bottom: 1px solid #e5e5e5;
+  color: #333;
+  font-size: 14px;
+}
+
+#mrds-restaurants-app .table-striped > tbody > tr:nth-of-type(odd) > * {
+  --bs-table-bg-type: transparent;
+}
+
+/* ========================================
+   BADGES (Types cuisine, Tags)
+======================================== */
+
+#mrds-restaurants-app .mrds-badge,
+#mrds-restaurants-app .badge {
+  display: inline-block;
+  padding: 5px 12px;
+  margin: 2px 4px 2px 0;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 0;
+  background: #141b42 !important;
+  color: #ffffff !important;
+}
+
+#mrds-restaurants-app .badge-tag,
+#mrds-restaurants-app td:nth-child(4) .mrds-badge {
+  background: transparent !important;
+  border: 1px solid #da9d42;
+  color: #da9d42 !important;
+}
+
+/* ========================================
+   BOUTONS
+======================================== */
+
+/* Bouton Primary (Nouveau restaurant) */
+#mrds-restaurants-app .btn-primary,
+#mrds-restaurants-app .btn-primary:focus {
+  background: linear-gradient(135deg, #da9d42 0%, #c4882e 100%);
+  border: none;
+  color: #ffffff;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: 0;
+  transition: all 0.3s ease;
+  box-shadow: none;
+}
+
+#mrds-restaurants-app .btn-primary:hover {
+  background: linear-gradient(135deg, #c4882e 0%, #b07a24 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(218, 157, 66, 0.4);
+  color: #ffffff;
+}
+
+/* Bouton Success (Enregistrer) */
+#mrds-restaurants-app .btn-success,
+#mrds-restaurants-app .btn-success:focus {
+  background: linear-gradient(135deg, #da9d42 0%, #c4882e 100%);
+  border: none;
+  color: #ffffff;
+  padding: 12px 30px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: 0;
+  transition: all 0.3s ease;
+  box-shadow: none;
+}
+
+#mrds-restaurants-app .btn-success:hover {
+  background: linear-gradient(135deg, #c4882e 0%, #b07a24 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(218, 157, 66, 0.4);
+  color: #ffffff;
+}
+
+/* Bouton Outline Secondary (Annuler) */
+#mrds-restaurants-app .btn-outline-secondary,
+#mrds-restaurants-app .btn-outline-secondary:focus {
+  background: transparent;
+  border: 2px solid #141b42;
+  color: #141b42;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 0;
+  transition: all 0.3s ease;
+  box-shadow: none;
+}
+
+#mrds-restaurants-app .btn-outline-secondary:hover {
+  background: #141b42;
+  border-color: #141b42;
+  color: #ffffff;
+}
+
+/* Bouton Modifier */
+#mrds-restaurants-app .btn-outline-primary,
+#mrds-restaurants-app .btn-outline-info {
+  background: transparent;
+  border: 2px solid #da9d42;
+  color: #da9d42;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+
+#mrds-restaurants-app .btn-outline-primary:hover,
+#mrds-restaurants-app .btn-outline-info:hover {
+  background: #da9d42;
+  border-color: #da9d42;
+  color: #ffffff;
+}
+
+/* Bouton Supprimer */
+#mrds-restaurants-app .btn-outline-danger {
+  background: transparent;
+  border: 2px solid #dc3545;
+  color: #dc3545;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+
+#mrds-restaurants-app .btn-outline-danger:hover {
+  background: #dc3545;
+  border-color: #dc3545;
+  color: #ffffff;
+}
+
+/* Boutons dans les actions (petits) */
+#mrds-restaurants-app .btn-sm {
+  padding: 6px 14px;
+  font-size: 13px;
+}
+
+/* ========================================
+   FORMULAIRE
+======================================== */
+
+#mrds-restaurants-app .form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #141b42;
+  margin-bottom: 8px;
+}
+
+#mrds-restaurants-app .form-control,
+#mrds-restaurants-app .form-select {
+  border: 1px solid #d0d0d0;
+  border-radius: 0;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #333;
+  background-color: #ffffff;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+#mrds-restaurants-app .form-control:focus,
+#mrds-restaurants-app .form-select:focus {
+  border-color: #da9d42;
+  box-shadow: 0 0 0 3px rgba(218, 157, 66, 0.15);
+  outline: none;
+}
+
+#mrds-restaurants-app .form-control::placeholder {
+  color: #aaa;
+}
+
+#mrds-restaurants-app .form-text {
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+}
+
+#mrds-restaurants-app textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Select multiple */
+#mrds-restaurants-app select[multiple].form-select {
+  min-height: 120px;
+}
+
+/* ========================================
+   FIELDSET / LEGEND
+======================================== */
+
+#mrds-restaurants-app fieldset {
+  border: 1px solid #e5e5e5 !important;
+  border-radius: 0 !important;
+  padding: 25px !important;
+  margin-bottom: 25px;
+  background: #fafafa;
+}
+
+#mrds-restaurants-app fieldset legend {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 16px !important;
+  font-weight: 600;
+  color: #141b42 !important;
+  background: #f8f6f3;
+  padding: 5px 15px !important;
+  border-left: 3px solid #da9d42;
+}
+
+/* ========================================
+   HR SÉPARATEUR
+======================================== */
+
+#mrds-restaurants-app hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, #da9d42 0%, transparent 100%);
+  opacity: 0.5;
+}
+
+/* ========================================
+   TARIFS ET HORAIRES (Repeaters)
+======================================== */
+
+#mrds-restaurants-app .mrds-tarif-row,
+#mrds-restaurants-app .mrds-horaire-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 12px 15px;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+}
+
+#mrds-restaurants-app .mrds-tarif-row input[type="text"],
+#mrds-restaurants-app .mrds-tarif-row input[type="number"],
+#mrds-restaurants-app .mrds-horaire-row select {
+  max-width: 200px;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+#mrds-restaurants-app .mrds-tarif-row .btn-close,
+#mrds-restaurants-app .mrds-horaire-row .btn-close {
+  background-color: transparent;
+  opacity: 0.5;
+}
+
+#mrds-restaurants-app .mrds-tarif-row .btn-close:hover,
+#mrds-restaurants-app .mrds-horaire-row .btn-close:hover {
+  opacity: 1;
+}
+
+/* ========================================
+   MESSAGES (Alertes)
+======================================== */
+
+#mrds-restaurants-app .alert {
+  border-radius: 0;
+  border: none;
+  padding: 15px 20px;
+  font-size: 14px;
+}
+
+#mrds-restaurants-app .alert-success {
+  background-color: #e8f5e9;
+  border-left: 4px solid #28a745;
+  color: #1b5e20;
+}
+
+#mrds-restaurants-app .alert-danger {
+  background-color: #ffebee;
+  border-left: 4px solid #dc3545;
+  color: #b71c1c;
+}
+
+#mrds-restaurants-app .alert-warning {
+  background-color: #fff8e1;
+  border-left: 4px solid #da9d42;
+  color: #8b6914;
+}
+
+#mrds-restaurants-app .alert-info {
+  background-color: #e3f2fd;
+  border-left: 4px solid #141b42;
+  color: #141b42;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 768px) {
+  #mrds-restaurants-app h2,
+  #mrds-restaurants-app h1 {
+    font-size: 24px;
+  }
+
+  #mrds-restaurants-app .card-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  #mrds-restaurants-app .card-body {
+    padding: 20px 15px;
+  }
+
+  #mrds-restaurants-app .table thead th {
+    font-size: 11px;
+    padding: 10px 8px;
+  }
+
+  #mrds-restaurants-app .table tbody td {
+    font-size: 13px;
+    padding: 10px 8px;
+  }
+
+  #mrds-restaurants-app fieldset {
+    padding: 15px !important;
+  }
+
+  #mrds-restaurants-app .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  #mrds-restaurants-app .d-flex.justify-content-end {
+    flex-direction: column;
+  }
+}
+
+/* ========================================
+   ANIMATIONS
+======================================== */
+
+@keyframes mrds-fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#mrds-restaurants-app .alert {
+  animation: mrds-fadeIn 0.3s ease;
+}
+
+/* ========================================
+   ÉTAT DE CHARGEMENT
+======================================== */
+
+#mrds-restaurants-app .btn:disabled,
+#mrds-restaurants-app .btn.loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+#mrds-restaurants-app .btn.loading {
+  position: relative;
+  color: transparent !important;
+}
+
+#mrds-restaurants-app .btn.loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: mrds-spin 0.8s linear infinite;
+}
+
+@keyframes mrds-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#mrds-restaurants-app .mrds-contenteditable {
+  min-height: 100px;
+  white-space: normal;
+}
+#mrds-restaurants-app .mrds-contenteditable:empty:before {
+  content: "Saisissez votre citation…";
+  color: #aaa;
+}
+
+/* Tooltips Bootstrap - style MRDS */
+.tooltip {
+  font-size: 12px;
+}
+
+.tooltip .tooltip-inner {
+  background: #141b42; /* bleu nuit (proche de ton identité) */
+  color: #fff;
+  padding: 8px 10px;
+  border-radius: 8px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+  max-width: 260px;
+  letter-spacing: 0.2px;
+}
+
+/* Flèche (arrow) */
+.tooltip.bs-tooltip-top .tooltip-arrow::before {
+  border-top-color: #141b42;
+}
+.tooltip.bs-tooltip-bottom .tooltip-arrow::before {
+  border-bottom-color: #141b42;
+}
+.tooltip.bs-tooltip-start .tooltip-arrow::before {
+  border-left-color: #141b42;
+}
+.tooltip.bs-tooltip-end .tooltip-arrow::before {
+  border-right-color: #141b42;
+}
+
+/* Optionnel : un léger effet au survol des boutons d'action */
+#mrds-restaurants-app td .btn {
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+#mrds-restaurants-app td .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}

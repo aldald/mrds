@@ -1,0 +1,94 @@
+{
+    "key": "group_page_faq",
+    "title": "Page FAQ",
+    "fields": [
+        {
+            "key": "field_faq_title",
+            "label": "Titre de la page",
+            "name": "faq_title",
+            "type": "text",
+            "instructions": "Titre principal de la page FAQ",
+            "required": 1,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "FAQ",
+            "maxlength": "",
+            "placeholder": "Titre de la page"
+        },
+        {
+            "key": "field_faq_items",
+            "label": "Questions / Réponses",
+            "name": "faq_items",
+            "type": "repeater",
+            "instructions": "Ajoutez les questions et réponses de la FAQ",
+            "required": 1,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "min": 1,
+            "max": 50,
+            "collapsed": "field_faq_question",
+            "button_label": "Ajouter une question",
+            "sub_fields": [
+                {
+                    "key": "field_faq_question",
+                    "label": "Question",
+                    "name": "question",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Entrez la question"
+                },
+                {
+                    "key": "field_faq_answer",
+                    "label": "Réponse",
+                    "name": "answer",
+                    "type": "wysiwyg",
+                    "instructions": "",
+                    "required": 1,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "tabs": "all",
+                    "toolbar": "full",
+                    "media_upload": 0,
+                    "delay": 0
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "templates/page-faq.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Champs pour la page FAQ",
+    "show_in_rest": 0
+}

@@ -1,0 +1,689 @@
+{
+    "key": "group_frontpage_sections",
+    "title": "Page Accueil - Sections",
+    "fields": [
+        {
+            "key": "field_tab_hero",
+            "label": "Hero Section",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_hero_title",
+            "label": "Titre Hero",
+            "name": "hero_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Titre principal affiché dans la section hero",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Jusqu'à -20% sur une sélection de plus de 40 restaurants premium à Paris",
+            "maxlength": "",
+            "placeholder": "Entrez le titre principal",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_hero_button_text",
+            "label": "Texte du bouton",
+            "name": "hero_button_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Texte affiché sur le bouton principal",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Rejoindre le club",
+            "maxlength": "",
+            "placeholder": "Texte du bouton",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_hero_button_link",
+            "label": "Lien du bouton",
+            "name": "hero_button_link",
+            "aria-label": "",
+            "type": "link",
+            "instructions": "Lien vers lequel le bouton redirige",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array"
+        },
+        {
+            "key": "field_hero_background_image",
+            "label": "Image de fond",
+            "name": "hero_background_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Image de fond de la section Hero (recommandé : 1920x1080px minimum)",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "mime_types": "jpg,jpeg,png,webp",
+            "preview_size": "medium",
+            "min_width": 0,
+            "min_height": 0,
+            "min_size": 0,
+            "max_width": 0,
+            "max_height": 0,
+            "max_size": 0
+        },
+        {
+            "key": "field_tab_cta",
+            "label": "CTA Section",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_cta_button_text",
+            "label": "Texte du bouton recherche",
+            "name": "cta_button_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Texte du bouton qui ouvre le formulaire de recherche",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Trouver mon prochain restaurant",
+            "maxlength": "",
+            "placeholder": "Texte du bouton",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_tab_avantages",
+            "label": "Section Avantages",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_avantages_title",
+            "label": "Titre de la section",
+            "name": "avantages_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Titre principal de la section avantages",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Les avantages",
+            "maxlength": "",
+            "placeholder": "Titre de la section",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_avantages_subtitle",
+            "label": "Sous-titre (courbe)",
+            "name": "avantages_subtitle",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Texte affiché sur la courbe (ex: DU CLUB)",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "DU CLUB",
+            "maxlength": 20,
+            "placeholder": "Sous-titre",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_avantages_items",
+            "label": "Liste des avantages",
+            "name": "avantages_items",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Ajoutez les avantages du club (recommandé : 3 avantages)",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "min": 1,
+            "max": 6,
+            "collapsed": "field_avantage_text",
+            "button_label": "Ajouter un avantage",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_avantage_icon",
+                    "label": "Icône",
+                    "name": "icon",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "Icône représentant l'avantage",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "30",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "library": "all",
+                    "mime_types": "png,jpg,jpeg,svg",
+                    "preview_size": "thumbnail",
+                    "min_width": 0,
+                    "min_height": 0,
+                    "min_size": 0,
+                    "max_width": 0,
+                    "max_height": 0,
+                    "max_size": 0,
+                    "parent_repeater": "field_avantages_items"
+                },
+                {
+                    "key": "field_avantage_text",
+                    "label": "Description",
+                    "name": "text",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "Description de l'avantage",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "70",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": 200,
+                    "rows": 3,
+                    "placeholder": "Décrivez l'avantage",
+                    "new_lines": "",
+                    "parent_repeater": "field_avantages_items"
+                }
+            ]
+        },
+        {
+            "key": "field_tab_trouvailles",
+            "label": "Section Trouvailles",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_trouvailles_title",
+            "label": "Titre de la section",
+            "name": "trouvailles_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Titre de la section des dernières trouvailles",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Nos dernières trouvailles",
+            "maxlength": "",
+            "placeholder": "Titre de la section",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_trouvailles_restaurants",
+            "label": "Restaurants à afficher",
+            "name": "trouvailles_restaurants",
+            "aria-label": "",
+            "type": "relationship",
+            "instructions": "Sélectionnez les restaurants à mettre en avant (recommandé : 4 restaurants)",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "restaurant"
+            ],
+            "post_status": [
+                "publish"
+            ],
+            "taxonomy": [],
+            "filters": [
+                "search"
+            ],
+            "return_format": "object",
+            "min": 1,
+            "max": 4,
+            "elements": [
+                "featured_image"
+            ],
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_trouvailles_button_text",
+            "label": "Texte du bouton",
+            "name": "trouvailles_button_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Texte du bouton vers la page des restaurants",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Voir toutes nos adresses exclusives",
+            "maxlength": "",
+            "placeholder": "Texte du bouton",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_trouvailles_button_link",
+            "label": "Lien du bouton",
+            "name": "trouvailles_button_link",
+            "aria-label": "",
+            "type": "link",
+            "instructions": "Lien vers la page des restaurants",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array"
+        },
+        {
+            "key": "field_tab_fonctionnement",
+            "label": "Section Fonctionnement",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_fonctionnement_title",
+            "label": "Titre de la section",
+            "name": "fonctionnement_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Titre principal de la section fonctionnement",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Le fonctionnement",
+            "maxlength": "",
+            "placeholder": "Titre de la section",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_fonctionnement_subtitle",
+            "label": "Sous-titre (courbe)",
+            "name": "fonctionnement_subtitle",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Texte affiché sur la courbe (ex: DU CLUB)",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "DU CLUB",
+            "maxlength": 20,
+            "placeholder": "Sous-titre",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_fonctionnement_items",
+            "label": "Etapes du fonctionnement",
+            "name": "fonctionnement_items",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Ajoutez les étapes du fonctionnement (recommandé : 3 étapes)",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "min": 1,
+            "max": 6,
+            "collapsed": "field_fonctionnement_item_title",
+            "button_label": "Ajouter une étape",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_fonctionnement_item_title",
+                    "label": "Titre",
+                    "name": "title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "Titre de l'étape",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Titre de l'étape",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_fonctionnement_items"
+                },
+                {
+                    "key": "field_fonctionnement_item_text",
+                    "label": "Description",
+                    "name": "text",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "Description de l'étape",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": 300,
+                    "rows": 3,
+                    "placeholder": "Décrivez l'étape",
+                    "new_lines": "",
+                    "parent_repeater": "field_fonctionnement_items"
+                }
+            ]
+        },
+        {
+            "key": "field_fonctionnement_button_text",
+            "label": "Texte du bouton",
+            "name": "fonctionnement_button_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Texte du bouton",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Rejoindre le club",
+            "maxlength": "",
+            "placeholder": "Texte du bouton",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_fonctionnement_button_link",
+            "label": "Lien du bouton",
+            "name": "fonctionnement_button_link",
+            "aria-label": "",
+            "type": "link",
+            "instructions": "Lien du bouton",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array"
+        },
+        {
+            "key": "field_tab_chiffres",
+            "label": "Section Chiffres",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_chiffres_items",
+            "label": "Les chiffres clés",
+            "name": "chiffres_items",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Ajoutez les chiffres clés (recommandé : 3 chiffres)",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "min": 1,
+            "max": 4,
+            "collapsed": "",
+            "button_label": "Ajouter un chiffre",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_chiffre_number",
+                    "label": "Chiffre",
+                    "name": "number",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "30",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Ex: 50",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_chiffres_items"
+                },
+                {
+                    "key": "field_chiffre_text",
+                    "label": "Description",
+                    "name": "text",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "70",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Ex: restaurants partenaires",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_chiffres_items"
+                }
+            ]
+        },
+        {
+            "key": "field_tab_carte",
+            "label": "Section Carte",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_carte_restaurants",
+            "label": "Restaurants à afficher",
+            "name": "carte_restaurants",
+            "aria-label": "",
+            "type": "relationship",
+            "instructions": "Sélectionnez les restaurants à afficher sur la carte et dans la liste (max 3)",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "restaurant"
+            ],
+            "post_status": [
+                "publish"
+            ],
+            "taxonomy": [],
+            "filters": [
+                "search"
+            ],
+            "return_format": "object",
+            "min": 1,
+            "max": 3,
+            "elements": [
+                "featured_image"
+            ],
+            "bidirectional_target": []
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_type",
+                "operator": "==",
+                "value": "front_page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Champs pour les sections de la page d'accueil",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1773317320
+}

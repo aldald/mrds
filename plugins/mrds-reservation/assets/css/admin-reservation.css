@@ -1,0 +1,295 @@
+/**
+ * MRDS Réservation - Admin CSS
+ * 
+ * Styles pour l'administration WordPress (CPT Réservation)
+ * 
+ * @package MRDS_Reservation
+ * @author Coccinet
+ */
+
+/* ========================================
+   LISTE DES RÉSERVATIONS
+======================================== */
+
+/* Colonnes */
+.post-type-mrds_reservation .wp-list-table .column-restaurant {
+    width: 15%;
+}
+
+.post-type-mrds_reservation .wp-list-table .column-member {
+    width: 18%;
+}
+
+.post-type-mrds_reservation .wp-list-table .column-date_time {
+    width: 18%;
+}
+
+.post-type-mrds_reservation .wp-list-table .column-guests {
+    width: 8%;
+    text-align: center;
+}
+
+.post-type-mrds_reservation .wp-list-table .column-status {
+    width: 12%;
+}
+
+/* ========================================
+   STATUTS COLORÉS
+======================================== */
+
+.mrds-status {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.mrds-status-pending {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+
+.mrds-status-confirmed {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+
+.mrds-status-cancelled {
+    background-color: #FEE2E2;
+    color: #991B1B;
+}
+
+.mrds-status-completed {
+    background-color: #DBEAFE;
+    color: #1E40AF;
+}
+
+.mrds-status-no-show {
+    background-color: #E5E7EB;
+    color: #374151;
+}
+
+/* ========================================
+   META BOXES
+======================================== */
+
+#mrds_resa_details .inside {
+    padding: 0;
+    margin: 0;
+}
+
+#mrds_resa_details .form-table {
+    margin: 0;
+}
+
+#mrds_resa_details .form-table th {
+    width: 150px;
+    padding: 15px 10px 15px 15px;
+    vertical-align: middle;
+    font-weight: 600;
+}
+
+#mrds_resa_details .form-table td {
+    padding: 15px 15px 15px 10px;
+    vertical-align: middle;
+}
+
+#mrds_resa_details .form-table tr {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+#mrds_resa_details .form-table tr:last-child {
+    border-bottom: none;
+}
+
+#mrds_resa_details .form-table input.regular-text,
+#mrds_resa_details .form-table select.regular-text {
+    width: 100%;
+    max-width: 400px;
+}
+
+#mrds_resa_details .form-table textarea {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Meta box Membre */
+#mrds_resa_member .inside {
+    padding: 12px;
+}
+
+#mrds_resa_member p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+#mrds_resa_member a {
+    color: #2271b1;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+#mrds_resa_member a:hover {
+    color: #135e96;
+    text-decoration: underline;
+}
+
+#mrds_resa_member small {
+    color: #666;
+}
+
+/* Meta box Statut */
+#mrds_resa_status .inside {
+    padding: 12px;
+}
+
+#mrds_resa_status select {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 14px;
+}
+
+/* ========================================
+   FILTRES ADMIN
+======================================== */
+
+.post-type-mrds_reservation .tablenav .actions select {
+    min-width: 180px;
+}
+
+/* ========================================
+   PAGE DÉTAIL RÉSERVATION
+======================================== */
+
+.post-type-mrds_reservation #titlediv {
+    margin-bottom: 20px;
+}
+
+.post-type-mrds_reservation #titlewrap {
+    background-color: #f6f7f7;
+    border-radius: 4px;
+}
+
+.post-type-mrds_reservation #title {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    font-size: 1.4em;
+    padding: 10px 12px;
+}
+
+.post-type-mrds_reservation #title:focus {
+    box-shadow: none;
+}
+
+/* ========================================
+   DASHBOARD WIDGET (optionnel)
+======================================== */
+
+.mrds-dashboard-widget .reservation-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.mrds-dashboard-widget .reservation-item:last-child {
+    border-bottom: none;
+}
+
+.mrds-dashboard-widget .reservation-info {
+    flex: 1;
+}
+
+.mrds-dashboard-widget .reservation-restaurant {
+    font-weight: 600;
+    color: #1d2327;
+    margin-bottom: 3px;
+}
+
+.mrds-dashboard-widget .reservation-meta {
+    font-size: 12px;
+    color: #666;
+}
+
+.mrds-dashboard-widget .reservation-status {
+    flex-shrink: 0;
+}
+
+/* ========================================
+   ÉTATS VIDES
+======================================== */
+
+.post-type-mrds_reservation .no-items td {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+/* ========================================
+   QUICK EDIT (si activé)
+======================================== */
+
+.post-type-mrds_reservation .inline-edit-row .inline-edit-col {
+    padding: 10px;
+}
+
+.post-type-mrds_reservation .inline-edit-row label {
+    margin-bottom: 8px;
+}
+
+/* ========================================
+   IMPRESSION
+======================================== */
+
+@media print {
+    .mrds-status {
+        border: 1px solid #ccc;
+        background: none !important;
+        color: #000 !important;
+    }
+}
+
+/* ========================================
+   RESPONSIVE ADMIN
+======================================== */
+
+@media screen and (max-width: 782px) {
+    .post-type-mrds_reservation .wp-list-table .column-restaurant,
+    .post-type-mrds_reservation .wp-list-table .column-member,
+    .post-type-mrds_reservation .wp-list-table .column-date_time,
+    .post-type-mrds_reservation .wp-list-table .column-guests,
+    .post-type-mrds_reservation .wp-list-table .column-status {
+        width: auto;
+        display: block;
+        padding: 8px 10px;
+    }
+
+    .post-type-mrds_reservation .wp-list-table .column-guests {
+        text-align: left;
+    }
+
+    #mrds_resa_details .form-table th,
+    #mrds_resa_details .form-table td {
+        display: block;
+        width: 100%;
+        padding: 10px 15px;
+    }
+
+    #mrds_resa_details .form-table th {
+        padding-bottom: 5px;
+    }
+
+    #mrds_resa_details .form-table td {
+        padding-top: 0;
+    }
+
+    #mrds_resa_details .form-table input.regular-text,
+    #mrds_resa_details .form-table select.regular-text,
+    #mrds_resa_details .form-table textarea {
+        max-width: 100%;
+    }
+}

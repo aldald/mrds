@@ -1,0 +1,318 @@
+/* ================================
+   POPUP ACCÈS MEMBRE
+================================ */
+
+/* Overlay blanc semi-transparent */
+.member-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.53);
+    z-index: 9999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.member-popup-overlay.active {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Bloquer le scroll quand popup ouvert */
+body.popup-open {
+    overflow: hidden;
+}
+
+/* Popup Container */
+.member-popup {
+    position: relative;
+    width: 100%;
+    max-width: 580px;
+    margin: 20px;
+}
+
+.member-popup-content {
+    background-color: var(--color-white);
+    padding: 50px 45px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
+
+/* Bouton Fermer */
+.member-popup-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-blue);
+    padding: 5px;
+    transition: color 0.3s ease;
+}
+
+.member-popup-close:hover {
+    color: var(--color-maron);
+}
+
+/* Titre */
+.member-popup-title {
+    font-family: var(--font-second);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--color-blue);
+    text-align: center;
+    margin: 0 0 10px 0;
+}
+
+.member-popup-subtitle {
+    font-size: 16px;
+    color: var(--color-blue);
+    text-align: center;
+    margin: 0 0 30px 0;
+}
+
+.member-popup-subtitle a {
+    color: var(--color-maron);
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.member-popup-subtitle a:hover {
+    color: var(--color-gold);
+}
+
+/* Formulaire */
+.member-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.member-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.member-form label {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-blue);
+}
+
+.member-form input[type="text"],
+.member-form input[type="email"],
+.member-form input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--color-blue);
+    font-size: 14px;
+    font-weight: 400;
+    font-family: var(--font-second);
+    color: var(--color-blue);
+    transition: border-color 0.3s ease;
+}
+
+.member-form input[type="text"]::placeholder,
+.member-form input[type="email"]::placeholder,
+.member-form input[type="password"]::placeholder {
+    color: #999;
+}
+
+.member-form input[type="text"]:focus,
+.member-form input[type="email"]:focus,
+.member-form input[type="password"]:focus {
+    outline: none;
+    border-color: var(--color-maron);
+}
+
+/* Options (checkbox + forgot password) */
+.member-form .form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+
+/* Checkbox personnalisée */
+.member-form .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-blue);
+    cursor: pointer;
+    position: relative;
+}
+
+.member-form .checkbox-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.member-form .checkbox-label .checkmark {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--color-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.member-form .checkbox-label input[type="checkbox"]:checked ~ .checkmark {
+    background-color: var(--color-blue);
+}
+
+.member-form .checkbox-label input[type="checkbox"]:checked ~ .checkmark::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-white);
+    border-radius: 50%;
+}
+
+/* Mot de passe oublié */
+.member-form .forgot-password {
+    font-size: 13px;
+    color: var(--color-blue);
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.member-form .forgot-password:hover {
+    color: var(--color-maron);
+}
+
+/* Bouton Submit */
+.member-submit {
+    width: 100%;
+    padding: 15px 30px;
+    background-color: var(--color-maron);
+    border: 1px solid var(--color-maron);
+    color: var(--color-white);
+    font-size: 16px;
+    font-weight: 600;
+    font-family: var(--font-second);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.member-submit:hover {
+    background-color: transparent;
+    color: var(--color-maron);
+}
+
+/* Retour */
+.member-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 25px;
+    font-size: 14px;
+    color: var(--color-blue);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.member-back:hover {
+    color: var(--color-maron);
+}
+
+.member-back svg {
+    transition: transform 0.3s ease;
+}
+
+.member-back:hover svg {
+    transform: translateX(-3px);
+}
+
+/* Messages formulaires */
+.form-messages {
+    margin-bottom: 20px;
+    display: none;
+}
+
+.form-messages.show {
+    display: block;
+}
+
+.form-messages .message {
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.form-messages .message.success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.form-messages .message.error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+button[type="submit"]:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* ================================
+   RESPONSIVE POPUP ACCÈS MEMBRE
+================================ */
+@media screen and (max-width: 768px) {
+    .member-popup-content {
+        padding: 40px 25px;
+    }
+    
+    .member-popup-title {
+        font-size: 20px;
+    }
+    
+    .member-popup-subtitle {
+        font-size: 13px;
+    }
+    
+    .member-form .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .member-popup {
+        margin: 15px;
+    }
+    
+    .member-popup-content {
+        padding: 30px 20px;
+    }
+    
+    .member-popup-title {
+        font-size: 18px;
+    }
+    
+    .member-submit {
+        padding: 12px 25px;
+        font-size: 14px;
+    }
+}

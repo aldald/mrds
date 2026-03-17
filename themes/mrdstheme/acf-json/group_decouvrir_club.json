@@ -1,0 +1,599 @@
+{
+    "key": "group_decouvrir_club",
+    "title": "Page Découvrir le Club - Sections",
+    "fields": [
+        {
+            "key": "field_dc_tab_cta",
+            "label": "CTA Section",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+
+        {
+            "key": "field_dc_cta_button_text",
+            "label": "Texte du bouton",
+            "name": "dc_cta_button_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Texte du bouton CTA",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Trouver mon prochain restaurant",
+            "maxlength": "",
+            "placeholder": "Texte du bouton",
+            "prepend": "",
+            "append": ""
+        },
+                {
+            "key": "field_dc_button_link",
+            "label": "Lien du bouton",
+            "name": "dc_button_link",
+            "aria-label": "",
+            "type": "link",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array"
+        },
+        {
+            "key": "field_dc_tab_avantages",
+            "label": "Section Avantages",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_dc_avantages_title",
+            "label": "Titre de la section",
+            "name": "dc_avantages_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Titre principal de la section avantages",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Les avantages",
+            "maxlength": "",
+            "placeholder": "Titre de la section",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_dc_avantages_subtitle",
+            "label": "Sous-titre (courbe)",
+            "name": "dc_avantages_subtitle",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Texte affiché sur la courbe",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "DU CLUB",
+            "maxlength": 20,
+            "placeholder": "Sous-titre",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_dc_avantages_items",
+            "label": "Liste des avantages",
+            "name": "dc_avantages_items",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Ajoutez les avantages (recommandé : 3)",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "min": 1,
+            "max": 6,
+            "collapsed": "field_dc_avantage_text",
+            "button_label": "Ajouter un avantage",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_dc_avantage_icon",
+                    "label": "Icône",
+                    "name": "icon",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "30",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "library": "all",
+                    "mime_types": "png,jpg,jpeg,svg",
+                    "preview_size": "thumbnail",
+                    "min_width": 0,
+                    "min_height": 0,
+                    "min_size": 0,
+                    "max_width": 0,
+                    "max_height": 0,
+                    "max_size": 0,
+                    "parent_repeater": "field_dc_avantages_items"
+                },
+                {
+                    "key": "field_dc_avantage_text",
+                    "label": "Description",
+                    "name": "text",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "70",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": 200,
+                    "rows": 3,
+                    "placeholder": "Décrivez l'avantage",
+                    "new_lines": "",
+                    "parent_repeater": "field_dc_avantages_items"
+                }
+            ]
+        },
+        {
+            "key": "field_dc_tab_chiffres",
+            "label": "Section Chiffres",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_dc_chiffres_items",
+            "label": "Les chiffres clés",
+            "name": "dc_chiffres_items",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Ajoutez les chiffres clés (recommandé : 3)",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "min": 1,
+            "max": 4,
+            "collapsed": "",
+            "button_label": "Ajouter un chiffre",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_dc_chiffre_number",
+                    "label": "Chiffre",
+                    "name": "number",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "30",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Ex: 50",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_dc_chiffres_items"
+                },
+                {
+                    "key": "field_dc_chiffre_text",
+                    "label": "Description",
+                    "name": "text",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "70",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Ex: restaurants partenaires",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_dc_chiffres_items"
+                }
+            ]
+        },
+        {
+            "key": "field_dc_tab_carte_membre",
+            "label": "Section Carte Membre",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_dc_carte_membre_title",
+            "label": "Titre de la section",
+            "name": "dc_carte_membre_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Titre de la section carte membre",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Comment s'utilise la carte membre ?",
+            "maxlength": "",
+            "placeholder": "Titre de la section",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_dc_carte_membre_items",
+            "label": "Informations carte membre",
+            "name": "dc_carte_membre_items",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Ajoutez les informations (recommandé : 4)",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "min": 1,
+            "max": 4,
+            "collapsed": "field_dc_carte_membre_text",
+            "button_label": "Ajouter une information",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_dc_carte_membre_icon",
+                    "label": "Icône",
+                    "name": "icon",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "30",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "library": "all",
+                    "mime_types": "png,jpg,jpeg,svg",
+                    "preview_size": "thumbnail",
+                    "min_width": 0,
+                    "min_height": 0,
+                    "min_size": 0,
+                    "max_width": 0,
+                    "max_height": 0,
+                    "max_size": 0,
+                    "parent_repeater": "field_dc_carte_membre_items"
+                },
+                {
+                    "key": "field_dc_carte_membre_text",
+                    "label": "Description",
+                    "name": "text",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "70",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": 300,
+                    "rows": 3,
+                    "placeholder": "Décrivez l'information",
+                    "new_lines": "",
+                    "parent_repeater": "field_dc_carte_membre_items"
+                }
+            ]
+        },
+        {
+            "key": "field_dc_carte_membre_button_text",
+            "label": "Texte du bouton",
+            "name": "dc_carte_membre_button_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Rejoindre le club",
+            "maxlength": "",
+            "placeholder": "Texte du bouton",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_dc_carte_membre_button_link",
+            "label": "Lien du bouton",
+            "name": "dc_carte_membre_button_link",
+            "aria-label": "",
+            "type": "link",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array"
+        },
+        {
+            "key": "field_dc_tab_offre",
+            "label": "Section Offre Limitée",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_dc_offre_title",
+            "label": "Titre de la section",
+            "name": "dc_offre_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Titre de la section offre",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Découvrez notre offre limitée à 2500 membres",
+            "maxlength": "",
+            "placeholder": "Titre de la section",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_dc_offre_image",
+            "label": "Image",
+            "name": "dc_offre_image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Image de la section offre",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "mime_types": "png,jpg,jpeg",
+            "preview_size": "medium",
+            "min_width": 0,
+            "min_height": 0,
+            "min_size": 0,
+            "max_width": 0,
+            "max_height": 0,
+            "max_size": 0
+        },
+        {
+            "key": "field_dc_offre_price",
+            "label": "Prix",
+            "name": "dc_offre_price",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Ex: Pour 500€\/an",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Pour 500€\/an",
+            "maxlength": "",
+            "placeholder": "Prix de l'offre",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_dc_offre_liste",
+            "label": "Liste des avantages",
+            "name": "dc_offre_liste",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Liste des points de l'offre",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "min": 1,
+            "max": 10,
+            "collapsed": "",
+            "button_label": "Ajouter un point",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_dc_offre_liste_item",
+                    "label": "Texte",
+                    "name": "item",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": false,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Ex: -20% sur chaque addition",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_dc_offre_liste"
+                }
+            ]
+        },
+        {
+            "key": "field_dc_offre_button_text",
+            "label": "Texte du bouton",
+            "name": "dc_offre_button_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Rejoindre le club",
+            "maxlength": "",
+            "placeholder": "Texte du bouton",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_dc_offre_button_link",
+            "label": "Lien du bouton",
+            "name": "dc_offre_button_link",
+            "aria-label": "",
+            "type": "link",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "templates/page-decouvrir-club.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Champs pour les sections de la page Découvrir le Club",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1767946239
+}

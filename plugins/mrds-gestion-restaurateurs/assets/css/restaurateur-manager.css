@@ -1,0 +1,405 @@
+/**
+ * MRDS Gestion Restaurateurs - Styles
+ * 
+ * Style pour la page de gestion des restaurateurs
+ * Cohérent avec le thème Mes Ronds de Serviette
+ * 
+ * Couleurs:
+ * - Primary (Bleu foncé): #141B42
+ * - Accent (Doré): #DA9D42
+ * - Light Gold: #E8C987
+ * - Background: #F8F6F3
+ */
+
+/* ========================================
+   CONTAINER PRINCIPAL
+======================================== */
+
+#mrds-restaurateurs-app {
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+#mrds-restaurateurs-app h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: #141B42;
+}
+
+#mrds-restaurateurs-app .text-muted {
+    color: #888 !important;
+}
+
+/* ========================================
+   CARDS
+======================================== */
+
+#mrds-restaurateurs-app .card {
+    border: none;
+    border-radius: 0;
+    box-shadow: 0 4px 20px rgba(20, 27, 66, 0.08);
+    overflow: hidden;
+}
+
+#mrds-restaurateurs-app .card-header {
+    background: linear-gradient(135deg, #F8F6F3 0%, #F0EDE8 100%);
+    border-bottom: 2px solid #DA9D42;
+    padding: 18px 25px;
+}
+
+#mrds-restaurateurs-app .card-header h5 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #141B42;
+    margin: 0;
+}
+
+#mrds-restaurateurs-app .card-body {
+    padding: 25px;
+    background: #FFFFFF;
+}
+
+/* ========================================
+   TABLE
+======================================== */
+
+#mrds-restaurateurs-app .table {
+    margin-bottom: 0;
+}
+
+#mrds-restaurateurs-app .table thead {
+    background: #141B42 !important;
+}
+
+#mrds-restaurateurs-app .table thead th {
+    background: #141B42 !important;
+    color: #FFFFFF !important;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 15px 18px;
+    border: none !important;
+    vertical-align: middle;
+}
+
+#mrds-restaurateurs-app .table-light {
+    background: #141B42 !important;
+}
+
+#mrds-restaurateurs-app .table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+#mrds-restaurateurs-app .table tbody tr:nth-child(odd) {
+    background-color: #FFFFFF;
+}
+
+#mrds-restaurateurs-app .table tbody tr:nth-child(even) {
+    background-color: #F8F6F3;
+}
+
+#mrds-restaurateurs-app .table tbody tr:hover {
+    background-color: rgba(218, 157, 66, 0.1) !important;
+}
+
+#mrds-restaurateurs-app .table tbody td {
+    padding: 15px 18px;
+    vertical-align: middle;
+    border-bottom: 1px solid #E5E5E5;
+    color: #333;
+    font-size: 14px;
+}
+
+#mrds-restaurateurs-app .table-striped > tbody > tr:nth-of-type(odd) > * {
+    --bs-table-bg-type: transparent;
+}
+
+/* ========================================
+   BOUTONS
+======================================== */
+
+/* Bouton Primary (Nouveau restaurateur) */
+#mrds-restaurateurs-app .btn-primary,
+#mrds-restaurateurs-app .btn-primary:focus {
+    background: linear-gradient(135deg, #DA9D42 0%, #C4882E 100%);
+    border: none;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 0;
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+#mrds-restaurateurs-app .btn-primary:hover {
+    background: linear-gradient(135deg, #C4882E 0%, #B07A24 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(218, 157, 66, 0.4);
+    color: #FFFFFF;
+}
+
+/* Bouton Success (Enregistrer) */
+#mrds-restaurateurs-app .btn-success,
+#mrds-restaurateurs-app .btn-success:focus {
+    background: linear-gradient(135deg, #DA9D42 0%, #C4882E 100%);
+    border: none;
+    color: #FFFFFF;
+    padding: 12px 30px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 0;
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+#mrds-restaurateurs-app .btn-success:hover {
+    background: linear-gradient(135deg, #C4882E 0%, #B07A24 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(218, 157, 66, 0.4);
+    color: #FFFFFF;
+}
+
+/* Bouton Outline Secondary (Annuler) */
+#mrds-restaurateurs-app .btn-outline-secondary,
+#mrds-restaurateurs-app .btn-outline-secondary:focus {
+    background: transparent;
+    border: 2px solid #141B42;
+    color: #141B42;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 0;
+    transition: all 0.3s ease;
+    box-shadow: none;
+}
+
+#mrds-restaurateurs-app .btn-outline-secondary:hover {
+    background: #141B42;
+    border-color: #141B42;
+    color: #FFFFFF;
+}
+
+/* Bouton Modifier */
+#mrds-restaurateurs-app .btn-outline-primary,
+#mrds-restaurateurs-app .btn-outline-info {
+    background: transparent;
+    border: 2px solid #DA9D42;
+    color: #DA9D42;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 0;
+    transition: all 0.3s ease;
+}
+
+#mrds-restaurateurs-app .btn-outline-primary:hover,
+#mrds-restaurateurs-app .btn-outline-info:hover {
+    background: #DA9D42;
+    border-color: #DA9D42;
+    color: #FFFFFF;
+}
+
+/* Boutons dans les actions (petits) */
+#mrds-restaurateurs-app .btn-sm {
+    padding: 6px 14px;
+    font-size: 13px;
+}
+
+/* ========================================
+   FORMULAIRE
+======================================== */
+
+#mrds-restaurateurs-app .form-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #141B42;
+    margin-bottom: 8px;
+}
+
+#mrds-restaurateurs-app .form-control,
+#mrds-restaurateurs-app .form-select {
+    border: 1px solid #D0D0D0;
+    border-radius: 0;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #333;
+    background-color: #FFFFFF;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#mrds-restaurateurs-app .form-control:focus,
+#mrds-restaurateurs-app .form-select:focus {
+    border-color: #DA9D42;
+    box-shadow: 0 0 0 3px rgba(218, 157, 66, 0.15);
+    outline: none;
+}
+
+#mrds-restaurateurs-app .form-control::placeholder {
+    color: #AAA;
+}
+
+#mrds-restaurateurs-app .form-text {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}
+
+/* ========================================
+   FIELDSET / LEGEND
+======================================== */
+
+#mrds-restaurateurs-app fieldset {
+    border: 1px solid #E5E5E5 !important;
+    border-radius: 0 !important;
+    padding: 25px !important;
+    margin-bottom: 25px;
+    background: #FAFAFA;
+}
+
+#mrds-restaurateurs-app fieldset legend {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 16px !important;
+    font-weight: 600;
+    color: #141B42 !important;
+    background: #F8F6F3;
+    padding: 5px 15px !important;
+    border-left: 3px solid #DA9D42;
+}
+
+/* ========================================
+   MESSAGES (Alertes)
+======================================== */
+
+#mrds-restaurateurs-app .alert {
+    border-radius: 0;
+    border: none;
+    padding: 15px 20px;
+    font-size: 14px;
+}
+
+#mrds-restaurateurs-app .alert-success {
+    background-color: #E8F5E9;
+    border-left: 4px solid #28A745;
+    color: #1B5E20;
+}
+
+#mrds-restaurateurs-app .alert-danger {
+    background-color: #FFEBEE;
+    border-left: 4px solid #DC3545;
+    color: #B71C1C;
+}
+
+#mrds-restaurateurs-app .alert-warning {
+    background-color: #FFF8E1;
+    border-left: 4px solid #DA9D42;
+    color: #8B6914;
+}
+
+#mrds-restaurateurs-app .alert-info {
+    background-color: #E3F2FD;
+    border-left: 4px solid #141B42;
+    color: #141B42;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 768px) {
+    #mrds-restaurateurs-app h2 {
+        font-size: 24px;
+    }
+
+    #mrds-restaurateurs-app .card-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    #mrds-restaurateurs-app .card-body {
+        padding: 20px 15px;
+    }
+
+    #mrds-restaurateurs-app .table thead th {
+        font-size: 11px;
+        padding: 10px 8px;
+    }
+
+    #mrds-restaurateurs-app .table tbody td {
+        font-size: 13px;
+        padding: 10px 8px;
+    }
+
+    #mrds-restaurateurs-app fieldset {
+        padding: 15px !important;
+    }
+
+    #mrds-restaurateurs-app .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    #mrds-restaurateurs-app .d-flex.justify-content-end {
+        flex-direction: column;
+    }
+}
+
+/* ========================================
+   ANIMATIONS
+======================================== */
+
+@keyframes mrds-fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#mrds-restaurateurs-app .alert {
+    animation: mrds-fadeIn 0.3s ease;
+}
+
+/* ========================================
+   ÉTAT DE CHARGEMENT
+======================================== */
+
+#mrds-restaurateurs-app .btn:disabled,
+#mrds-restaurateurs-app .btn.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+#mrds-restaurateurs-app .btn.loading {
+    position: relative;
+    color: transparent !important;
+}
+
+#mrds-restaurateurs-app .btn.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    margin: -9px 0 0 -9px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #FFFFFF;
+    border-radius: 50%;
+    animation: mrds-spin 0.8s linear infinite;
+}
+
+@keyframes mrds-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,251 @@
+{
+    "key": "group_page_nous_rejoindre",
+    "title": "Page Nous Rejoindre",
+    "fields": [
+        {
+            "key": "field_nr_tab_hero",
+            "label": "Hero Section",
+            "name": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_nr_hero_title",
+            "label": "Titre Hero",
+            "name": "nr_hero_title",
+            "type": "text",
+            "instructions": "Titre principal de la page",
+            "required": 1,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Devenez membre et profitez de -20% sur + de 40 restaurants",
+            "maxlength": "",
+            "placeholder": "Titre principal"
+        },
+        {
+            "key": "field_nr_tab_fonctionnement",
+            "label": "Section Fonctionnement",
+            "name": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_nr_fonctionnement_title",
+            "label": "Titre de la section",
+            "name": "nr_fonctionnement_title",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Le fonctionnement",
+            "maxlength": "",
+            "placeholder": "Titre"
+        },
+        {
+            "key": "field_nr_fonctionnement_subtitle",
+            "label": "Sous-titre (courbe)",
+            "name": "nr_fonctionnement_subtitle",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "DU CLUB",
+            "maxlength": 20,
+            "placeholder": "Sous-titre"
+        },
+        {
+            "key": "field_nr_fonctionnement_items",
+            "label": "Étapes",
+            "name": "nr_fonctionnement_items",
+            "type": "repeater",
+            "instructions": "Ajoutez les étapes du fonctionnement (recommandé : 3)",
+            "required": 1,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "min": 1,
+            "max": 6,
+            "collapsed": "field_nr_fonctionnement_item_title",
+            "button_label": "Ajouter une étape",
+            "sub_fields": [
+                {
+                    "key": "field_nr_fonctionnement_item_title",
+                    "label": "Titre",
+                    "name": "title",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "Titre de l'étape"
+                },
+                {
+                    "key": "field_nr_fonctionnement_item_text",
+                    "label": "Description",
+                    "name": "text",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 1,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": 300,
+                    "rows": 3,
+                    "placeholder": "Description"
+                }
+            ]
+        },
+        {
+            "key": "field_nr_fonctionnement_button_text",
+            "label": "Texte du bouton",
+            "name": "nr_fonctionnement_button_text",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Rejoindre le club",
+            "maxlength": "",
+            "placeholder": "Texte du bouton"
+        },
+        {
+            "key": "field_nr_fonctionnement_button_link",
+            "label": "Lien du bouton",
+            "name": "nr_fonctionnement_button_link",
+            "type": "text",
+            "instructions": "Lien ancre vers le formulaire (ex: #section-inscription)",
+            "required": 1,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#section-inscription",
+            "maxlength": "",
+            "placeholder": "#section-inscription"
+        },
+        {
+            "key": "field_nr_tab_inscription",
+            "label": "Section Inscription",
+            "name": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_nr_inscription_intro_title",
+            "label": "Titre intro",
+            "name": "nr_inscription_intro_title",
+            "type": "text",
+            "instructions": "Titre du bloc d'introduction",
+            "required": 1,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Je souhaite adhérer au club Mes Ronds de Serviette :",
+            "maxlength": "",
+            "placeholder": "Titre"
+        },
+        {
+            "key": "field_nr_inscription_intro_text",
+            "label": "Texte intro",
+            "name": "nr_inscription_intro_text",
+            "type": "textarea",
+            "instructions": "Texte d'introduction",
+            "required": 1,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 5,
+            "placeholder": "Texte d'introduction"
+        },
+        {
+            "key": "field_nr_inscription_form_title",
+            "label": "Titre du formulaire",
+            "name": "nr_inscription_form_title",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Je m'inscris :",
+            "maxlength": "",
+            "placeholder": "Titre"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "templates/page-nous-rejoindre.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Champs pour la page Nous Rejoindre",
+    "show_in_rest": 0
+}

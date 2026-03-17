@@ -1,0 +1,472 @@
+/**
+ * MRDS Reservations Manager - CSS
+ * 
+ * Styles pour l'interface de gestion des réservations restaurateur
+ * 
+ * @package MRDS_Reservation
+ */
+
+/* ========================================
+   VARIABLES
+======================================== */
+:root {
+    --mrds-primary: #141B42;
+    --mrds-accent: #DA9D42;
+    --mrds-success: #28a745;
+    --mrds-warning: #ffc107;
+    --mrds-danger: #dc3545;
+    --mrds-info: #17a2b8;
+    --mrds-light: #f8f9fa;
+    --mrds-dark: #343a40;
+    --mrds-muted: #6c757d;
+}
+
+/* ========================================
+   CONTAINER PRINCIPAL
+======================================== */
+#mrds-reservations-app {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+#mrds-reservations-app h2 {
+    color: var(--mrds-primary);
+    font-weight: 600;
+}
+
+/* ========================================
+   HEADER
+======================================== */
+.header-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ========================================
+   STATS CARDS
+======================================== */
+.stat-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid var(--mrds-muted);
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-card.stat-pending {
+    border-left-color: var(--mrds-warning);
+}
+
+.stat-card.stat-confirmed {
+    border-left-color: var(--mrds-success);
+}
+
+.stat-card.stat-today {
+    border-left-color: var(--mrds-info);
+}
+
+.stat-card.stat-week {
+    border-left-color: var(--mrds-primary);
+}
+
+.stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--mrds-primary);
+    line-height: 1.2;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--mrds-muted);
+    margin-top: 4px;
+}
+
+/* ========================================
+   CARD RESERVATIONS
+======================================== */
+.card {
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+}
+
+.card-header {
+    background: var(--mrds-primary);
+    color: #fff;
+    border-radius: 8px 8px 0 0 !important;
+    padding: 15px 20px;
+}
+
+.card-header h5 {
+    font-weight: 600;
+}
+
+/* ========================================
+   TABLE
+======================================== */
+.table {
+    margin-bottom: 0;
+}
+
+.table thead {
+    background: #f8f9fa;
+}
+
+.table thead th {
+    font-weight: 600;
+    color: var(--mrds-primary);
+    border-bottom: 2px solid #dee2e6;
+    padding: 12px 16px;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.table tbody td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid #eee;
+}
+
+/* Client Info */
+.client-info strong {
+    color: var(--mrds-primary);
+    font-size: 14px;
+}
+
+.client-info small {
+    font-size: 0.8rem;
+}
+
+/* Guests Badge */
+.guests-badge {
+    display: inline-block;
+    background: var(--mrds-primary);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Phone Link */
+.phone-link {
+    color: var(--mrds-primary);
+    text-decoration: none;
+}
+
+.phone-link:hover {
+    color: var(--mrds-accent);
+    text-decoration: underline;
+}
+
+/* ========================================
+   STATUS BADGES
+======================================== */
+.status-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-confirmed {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-refused {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.status-cancelled {
+    background: #e2e3e5;
+    color: #383d41;
+}
+
+.status-completed {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.status-noshow {
+    background: #d6d8d9;
+    color: #1b1e21;
+}
+
+/* ========================================
+   ACTION BUTTONS
+======================================== */
+.action-buttons {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+}
+
+.action-buttons .btn {
+    padding: 6px 10px;
+    line-height: 1;
+}
+
+.action-buttons .btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ========================================
+   MODAL
+======================================== */
+.modal-header {
+    background: var(--mrds-primary);
+    color: #fff;
+    border-bottom: none;
+}
+
+.modal-header .btn-close {
+    filter: invert(1);
+}
+
+.modal-title {
+    font-weight: 600;
+}
+
+.detail-group {
+    margin-bottom: 16px;
+}
+
+.detail-group label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--mrds-muted);
+    margin-bottom: 4px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.detail-value {
+    font-size: 1rem;
+    color: var(--mrds-primary);
+    margin: 0;
+    font-weight: 500;
+}
+
+.detail-value a {
+    color: var(--mrds-accent);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #eee;
+    padding: 16px 20px;
+}
+
+.modal-actions-left,
+.modal-actions-right {
+    display: flex;
+    gap: 8px;
+}
+
+/* ========================================
+   FILTRES
+======================================== */
+.form-label {
+    font-weight: 500;
+    color: var(--mrds-primary);
+    font-size: 0.875rem;
+}
+
+.form-select,
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    padding: 10px 14px;
+}
+
+.form-select:focus,
+.form-control:focus {
+    border-color: var(--mrds-accent);
+    box-shadow: 0 0 0 3px rgba(218, 157, 66, 0.15);
+}
+
+/* ========================================
+   ALERTS / MESSAGES
+======================================== */
+#reservations-message .alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.alert-danger {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.alert-warning {
+    background: #fff3cd;
+    color: #856404;
+    text-align: center;
+}
+
+.alert-info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+/* ========================================
+   BOUTONS
+======================================== */
+.btn-primary {
+    background: var(--mrds-primary);
+    border-color: var(--mrds-primary);
+}
+
+.btn-primary:hover {
+    background: #0d1230;
+    border-color: #0d1230;
+}
+
+.btn-success {
+    background: var(--mrds-success);
+    border-color: var(--mrds-success);
+}
+
+.btn-danger {
+    background: var(--mrds-danger);
+    border-color: var(--mrds-danger);
+}
+
+.btn-outline-secondary {
+    color: var(--mrds-muted);
+    border-color: #ced4da;
+}
+
+.btn-outline-secondary:hover {
+    background: #f8f9fa;
+    color: var(--mrds-primary);
+}
+
+.btn-outline-danger {
+    color: var(--mrds-danger);
+    border-color: var(--mrds-danger);
+}
+
+.btn-outline-danger:hover {
+    background: var(--mrds-danger);
+    color: #fff;
+}
+
+.btn-outline-warning {
+    color: #856404;
+    border-color: var(--mrds-warning);
+}
+
+.btn-outline-warning:hover {
+    background: var(--mrds-warning);
+    color: #212529;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+@media (max-width: 992px) {
+    .stat-card {
+        margin-bottom: 16px;
+    }
+
+    .stat-number {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #mrds-reservations-app h2 {
+        font-size: 1.5rem;
+    }
+
+    .header-actions {
+        margin-top: 10px;
+    }
+
+    .table thead th {
+        font-size: 0.75rem;
+        padding: 10px 8px;
+    }
+
+    .table tbody td {
+        padding: 10px 8px;
+        font-size: 0.875rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .action-buttons .btn {
+        padding: 8px;
+    }
+
+    .modal-footer {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .modal-actions-left,
+    .modal-actions-right {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ========================================
+   LOADING
+======================================== */
+.spinner-border {
+    color: var(--mrds-accent) !important;
+}
+
+/* ========================================
+   EMPTY STATE
+======================================== */
+.text-muted {
+    color: var(--mrds-muted) !important;
+}
+
+.stat-card.stat-refused {
+    border-left: 4px solid #dc3545;
+}
+.stat-card.stat-refused .stat-number {
+    color: #dc3545;
+}
