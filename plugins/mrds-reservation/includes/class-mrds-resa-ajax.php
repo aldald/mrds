@@ -164,11 +164,29 @@ class MRDS_Resa_Ajax
         // Vérifier si une réduction s'applique pour cette date
         $has_reduction = false;
         $reduction_text = '';
-        if (function_exists('mrdstheme_get_restaurant_remise_text') && class_exists('MRDS_Remises_management')) {
-            $remises_du_jour = MRDS_Remises_management::get_instance()->get_applicable_remises_for_restaurant($restaurant_id, $date);
+        if (class_exists('MRDS_Remises_management')) {
+            $remises_du_jour = MRDS_Remises_management::get_instance()
+                ->get_applicable_remises_for_restaurant($restaurant_id, $date);
             if (!empty($remises_du_jour)) {
-                $has_reduction = true;
-                $reduction_text = mrdstheme_get_restaurant_remise_text($restaurant_id);
+                if (is_string($remises_du_jour)) {
+                    $has_reduction = true;
+                    $reduction_text = $remises_du_jour;
+                } elseif (is_array($remises_du_jour) || is_object($remises_du_jour)) {
+                    $textes = [];
+                    foreach ($remises_du_jour as $remise) {
+                        $remise_post = is_object($remise) && isset($remise->ID)
+                            ? $remise
+                            : (is_numeric($remise) ? get_post((int) $remise) : null);
+                        if (!$remise_post) continue;
+                        $pct = get_field('pourcentage', $remise_post->ID)
+                            ?: get_post_meta($remise_post->ID, 'pourcentage', true);
+                        $textes[] = $pct ? '-' . $pct . '%' : $remise_post->post_title;
+                    }
+                    if (!empty($textes)) {
+                        $has_reduction = true;
+                        $reduction_text = implode(' / ', $textes);
+                    }
+                }
             }
         }
 

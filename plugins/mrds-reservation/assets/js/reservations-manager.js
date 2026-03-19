@@ -21,17 +21,18 @@
   };
 
   // Nombre de colonnes : 7 (mono) ou 8 (multi, colonne Restaurant)
-  const HAS_MULTIPLE = CONFIG.allRestaurantIds && CONFIG.allRestaurantIds.length > 1;
+  const HAS_MULTIPLE =
+    CONFIG.allRestaurantIds && CONFIG.allRestaurantIds.length > 1;
 
-let state = {
+  let state = {
     reservations: [],
     filters: {
-        status: '',
-        dateFrom: '', // ← vide au lieu de aujourd'hui
-        dateTo: ''    // ← vide au lieu de +30 jours
+      status: "",
+      dateFrom: "", // ← vide au lieu de aujourd'hui
+      dateTo: "", // ← vide au lieu de +30 jours
     },
-    selectedReservation: null
-};
+    selectedReservation: null,
+  };
 
   // Labels des statuts (avec refused)
   const STATUS_LABELS = {
@@ -70,7 +71,7 @@ let state = {
         const val = parseInt(this.value);
         // Recharger la page avec le nouveau restaurant_id (0 = tous)
         const url = new URL(window.location.href);
-        url.searchParams.set('restaurant_id', val);
+        url.searchParams.set("restaurant_id", val);
         window.location.href = url.toString();
       });
     }
@@ -113,10 +114,14 @@ let state = {
     try {
       let params;
 
-      if (CONFIG.isAllMode && CONFIG.allRestaurantIds && CONFIG.allRestaurantIds.length > 0) {
+      if (
+        CONFIG.isAllMode &&
+        CONFIG.allRestaurantIds &&
+        CONFIG.allRestaurantIds.length > 0
+      ) {
         // Mode "tous" : envoyer la liste des IDs
         params = new URLSearchParams({
-          restaurant_ids: CONFIG.allRestaurantIds.join(','),
+          restaurant_ids: CONFIG.allRestaurantIds.join(","),
           status: state.filters.status,
           date_from: state.filters.dateFrom,
           date_to: state.filters.dateTo,
@@ -208,8 +213,8 @@ let state = {
 
         // Colonne Restaurant : uniquement en mode multi
         const restaurantCell = HAS_MULTIPLE
-          ? `<td><span class="restaurant-badge">${escapeHtml(resa.restaurant_name || '')}</span></td>`
-          : '';
+          ? `<td><span class="restaurant-badge">${escapeHtml(resa.restaurant_name || "")}</span></td>`
+          : "";
 
         return `
                 <tr data-id="${resa.id}">
@@ -227,8 +232,11 @@ let state = {
                     <td>
                         <span class="guests-badge">${resa.guests} pers.</span>
                     </td>
-                    <td>
+<td>
                         <a href="tel:${resa.phone}" class="phone-link">${escapeHtml(resa.phone)}</a>
+                    </td>
+                    <td>
+                        ${resa.remise ? `<span class="remise-badge">${escapeHtml(resa.remise)}</span>` : '<span class="text-muted">-</span>'}
                     </td>
                     <td>
                         <span class="status-badge ${statusClass}">${statusLabel}</span>
@@ -375,6 +383,14 @@ let state = {
       resa.allergies || "-";
     document.getElementById("modal-preferences").textContent =
       resa.preferences || "-";
+
+    const remiseGroup = document.getElementById("modal-remise-group");
+    const remiseEl = document.getElementById("modal-remise");
+    if (remiseEl && remiseGroup) {
+      remiseEl.textContent = resa.remise || "-";
+      remiseGroup.style.display = resa.remise ? "" : "none";
+    }
+
     document.getElementById("modal-notes").value = resa.notes || "";
 
     // Afficher/masquer les boutons selon le statut
@@ -548,19 +564,19 @@ let state = {
   // UTILITAIRES
   // ========================================
 
-function updateStats(stats) {
-    const statPending   = document.getElementById('stat-pending');
-    const statConfirmed = document.getElementById('stat-confirmed');
-    const statRefused   = document.getElementById('stat-refused');
-    const statToday     = document.getElementById('stat-today');
-    const statWeek      = document.getElementById('stat-week');
+  function updateStats(stats) {
+    const statPending = document.getElementById("stat-pending");
+    const statConfirmed = document.getElementById("stat-confirmed");
+    const statRefused = document.getElementById("stat-refused");
+    const statToday = document.getElementById("stat-today");
+    const statWeek = document.getElementById("stat-week");
 
-    if (statPending)   statPending.textContent   = stats.pending   || 0;
+    if (statPending) statPending.textContent = stats.pending || 0;
     if (statConfirmed) statConfirmed.textContent = stats.confirmed || 0;
-    if (statRefused)   statRefused.textContent   = stats.refused   || 0;
-    if (statToday)     statToday.textContent     = stats.today     || 0;
-    if (statWeek)      statWeek.textContent      = stats.week      || 0;
-}
+    if (statRefused) statRefused.textContent = stats.refused || 0;
+    if (statToday) statToday.textContent = stats.today || 0;
+    if (statWeek) statWeek.textContent = stats.week || 0;
+  }
 
   function updateCount() {
     const count = state.reservations.length;

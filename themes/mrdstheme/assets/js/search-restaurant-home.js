@@ -434,7 +434,8 @@ selectedFilters.arrondissements.forEach((v) =>
                 <div class="col-12 col-md-6 col-lg-3 mb-4">
                     <div class="restaurant-card" data-restaurant-id="${resto.id}">
                         <div class="card-image">
-                            <img src="${escapeHtml(resto.image)}" alt="${escapeHtml(resto.title)}">
+<img src="${escapeHtml(resto.image)}" alt="${escapeHtml(resto.title)}">
+                            ${resto.remise ? `<span class="card-remise-badge">${escapeHtml(resto.remise)}</span>` : ""}
                             <button class="card-favorite" data-restaurant-id="${resto.id}">
                                 <span class="heart-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25.475" height="23.129" viewBox="0 0 25.475 23.129">

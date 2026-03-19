@@ -453,7 +453,7 @@ class MRDS_Gestion_Restaurant
             ]
         );
 
-        // Endpoint pour upload galerie (max 3 images)
+        // Endpoint pour upload galerie (max 4 images)
         register_rest_route(
             'mrds/v1',
             '/restaurants/(?P<id>\d+)/gallery',
@@ -526,7 +526,7 @@ class MRDS_Gestion_Restaurant
     }
 
     /**
-     * Upload image dans la galerie (max 3)
+     * Upload image dans la galerie (max 4)
      */
     public function rest_upload_gallery(WP_REST_Request $request)
     {
@@ -557,7 +557,7 @@ class MRDS_Gestion_Restaurant
         }
 
         // Verifier le max 3
-        if (count($current_gallery) >= 3) {
+        if (count($current_gallery) >= 4) {
             return new WP_Error('mrds_gallery_full', 'La galerie est limitee a 3 images.', ['status' => 400]);
         }
 

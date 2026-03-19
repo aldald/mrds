@@ -380,6 +380,27 @@
                     "delay": 0
                 },
                 {
+                    "key": "field_69ba6d43a5153",
+                    "label": "Citation",
+                    "name": "citation",
+                    "aria-label": "",
+                    "type": "wysiwyg",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "allow_in_bindings": 0,
+                    "tabs": "all",
+                    "toolbar": "full",
+                    "media_upload": 1,
+                    "delay": 0
+                },
+                {
                     "key": "field_693155093f24c",
                     "label": "auteur",
                     "name": "auteur",
@@ -630,5 +651,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1773755673
+    "modified": 1773829443
 }

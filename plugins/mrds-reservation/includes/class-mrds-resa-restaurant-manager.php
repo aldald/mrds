@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Classe MRDS_Resa_Restaurant_Manager
  * 
@@ -29,10 +30,10 @@ class MRDS_Resa_Restaurant_Manager
     {
         // Shortcode
         add_shortcode('mrds_reservations_manager', [$this, 'render_reservations_manager']);
-        
+
         // REST API
         add_action('rest_api_init', [$this, 'register_rest_routes']);
-        
+
         // Assets - priorité haute pour s'assurer que c'est chargé
         add_action('wp_enqueue_scripts', [$this, 'enqueue_assets'], 20);
     }
@@ -129,7 +130,7 @@ class MRDS_Resa_Restaurant_Manager
         }
 
         $user = wp_get_current_user();
-        
+
         // Admins OK
         if (in_array('administrator', (array) $user->roles)) {
             return true;
@@ -152,13 +153,13 @@ class MRDS_Resa_Restaurant_Manager
         }
 
         $restaurant_id = $request->get_param('restaurant_id');
-        
+
         if (defined('WP_DEBUG') && WP_DEBUG) {
             error_log("MRDS REST: Checking permission for user {$user->ID} on restaurant $restaurant_id");
         }
-        
+
         $has_permission = $this->user_can_manage_restaurant($user->ID, $restaurant_id);
-        
+
         if (!$has_permission) {
             return new WP_Error(
                 'rest_forbidden',
@@ -166,7 +167,7 @@ class MRDS_Resa_Restaurant_Manager
                 ['status' => 403]
             );
         }
-        
+
         return true;
     }
 
@@ -192,9 +193,9 @@ class MRDS_Resa_Restaurant_Manager
 
         $reservation_id = $request->get_param('id');
         $restaurant_id = get_post_meta($reservation_id, '_mrds_restaurant_id', true);
-        
+
         $has_permission = $this->user_can_manage_restaurant($user->ID, $restaurant_id);
-        
+
         if (!$has_permission) {
             return new WP_Error(
                 'rest_forbidden',
@@ -202,7 +203,7 @@ class MRDS_Resa_Restaurant_Manager
                 ['status' => 403]
             );
         }
-        
+
         return true;
     }
 
@@ -350,11 +351,11 @@ class MRDS_Resa_Restaurant_Manager
         ];
 
         $posts = get_posts($args);
-        
+
         if (defined('WP_DEBUG') && WP_DEBUG) {
             error_log("MRDS REST: Found " . count($posts) . " reservations");
         }
-        
+
         $reservations = [];
 
         foreach ($posts as $post) {
@@ -444,6 +445,7 @@ class MRDS_Resa_Restaurant_Manager
             'client_name' => $user ? trim($user->first_name . ' ' . $user->last_name) : 'Client inconnu',
             'phone' => get_post_meta($post->ID, '_mrds_phone', true),
             'email' => get_post_meta($post->ID, '_mrds_email', true),
+            'remise' => $this->get_remise_for_reservation($restaurant_id_meta, get_post_meta($post->ID, '_mrds_date', true)),
         ];
 
         if ($full) {
@@ -552,7 +554,7 @@ class MRDS_Resa_Restaurant_Manager
     private function log_status_change($reservation_id, $old_status, $new_status)
     {
         $logs = get_post_meta($reservation_id, '_mrds_status_logs', true) ?: [];
-        
+
         $logs[] = [
             'from' => $old_status,
             'to' => $new_status,
@@ -593,15 +595,17 @@ class MRDS_Resa_Restaurant_Manager
         // même si le shortcode n'a pas encore été rendu
         $user_id = get_current_user_id();
         $restaurants = $this->get_all_user_restaurants($user_id);
-        
+
         if (!empty($restaurants)) {
             $restaurant = $restaurants[0];
-            $restaurant_ids = array_map(function($r) { return $r->ID; }, $restaurants);
-            
+            $restaurant_ids = array_map(function ($r) {
+                return $r->ID;
+            }, $restaurants);
+
             wp_localize_script('mrds-reservations-manager', 'MRDSReservationsConfig', [
                 'restUrl' => esc_url_raw(rest_url('mrds/v1/reservations')),
                 'nonce' => wp_create_nonce('wp_rest'),
-                    'isAdmin' => current_user_can('administrator'),
+                'isAdmin' => current_user_can('administrator'),
                 'restaurantId' => $restaurant->ID,
                 'allRestaurantIds' => $restaurant_ids,
             ]);
@@ -655,7 +659,7 @@ class MRDS_Resa_Restaurant_Manager
         // Prendre le premier restaurant par défaut, ou celui sélectionné
         $selected_id = isset($_GET['restaurant_id']) ? (int) $_GET['restaurant_id'] : 0;
         $restaurant = null;
-        
+
         if ($selected_id) {
             foreach ($restaurants as $r) {
                 if ($r->ID === $selected_id) {
@@ -664,14 +668,16 @@ class MRDS_Resa_Restaurant_Manager
                 }
             }
         }
-        
+
         if (!$restaurant) {
             $restaurant = $restaurants[0];
         }
 
         // Localiser le script avec tous les IDs de restaurants
-        $restaurant_ids = array_map(function($r) { return $r->ID; }, $restaurants);
-        
+        $restaurant_ids = array_map(function ($r) {
+            return $r->ID;
+        }, $restaurants);
+
         wp_localize_script('mrds-reservations-manager', 'MRDSReservationsConfig', [
             'restUrl'          => esc_url_raw(rest_url('mrds/v1/reservations')),
             'nonce'            => wp_create_nonce('wp_rest'),
@@ -704,7 +710,7 @@ class MRDS_Resa_Restaurant_Manager
     {
         $user_id = (int) $user_id;
         $user_restaurants = [];
-        
+
         // Récupérer tous les restaurants publiés
         $args = [
             'post_type' => 'restaurant',
@@ -716,7 +722,7 @@ class MRDS_Resa_Restaurant_Manager
 
         foreach ($restaurants as $restaurant) {
             $is_manager = false;
-            
+
             // Vérifier si owner (via ACF get_field)
             $owner = get_field('restaurant_owner', $restaurant->ID);
             if ($owner) {
@@ -775,6 +781,42 @@ class MRDS_Resa_Restaurant_Manager
     {
         $restaurants = $this->get_all_user_restaurants($user_id);
         return !empty($restaurants) ? $restaurants[0] : null;
+    }
+
+    /**
+     * Récupérer la remise applicable pour l'affichage dans le manager
+     */
+    private function get_remise_for_reservation($restaurant_id, $date)
+    {
+        if (!class_exists('MRDS_Remises_management')) {
+            return '';
+        }
+
+        $remises = MRDS_Remises_management::get_instance()
+            ->get_applicable_remises_for_restaurant($restaurant_id, $date);
+
+        if (empty($remises)) return '';
+
+        // La fonction retourne une string directement
+        if (is_string($remises)) {
+            return $remises;
+        }
+
+        // Sinon c'est un array/object
+        $textes = [];
+        foreach ($remises as $remise) {
+            $post = is_object($remise) && isset($remise->ID)
+                ? $remise
+                : (is_numeric($remise) ? get_post((int) $remise) : null);
+            if (!$post) continue;
+            $pourcentage = get_field('pourcentage', $post->ID) ?: get_post_meta($post->ID, 'pourcentage', true);
+            if ($pourcentage) {
+                $textes[] = $post->post_title . ' : -' . $pourcentage . '%';
+            } else {
+                $textes[] = $post->post_title;
+            }
+        }
+        return implode(' / ', $textes);
     }
 }
 

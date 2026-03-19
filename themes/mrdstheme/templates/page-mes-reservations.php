@@ -125,7 +125,7 @@ if (is_user_logged_in()) {
                         // Adresse / arrondissement
                         $adresse = get_field('adresse', $restaurant_id);
                         $arrondissement = $adresse['arrondissement'] ?? '';
-                        $location = $arrondissement ? 'Paris ' . $arrondissement . ($arrondissement == 1 ? 'er' : 'e') : ($adresse['ville'] ?? 'Paris');
+                        $location = mrdstheme_build_address($adresse);
 
                         // Tags
                         $tags_terms = get_the_terms($restaurant_id, 'restaurant_tag');
@@ -138,10 +138,20 @@ if (is_user_logged_in()) {
 
                         // Formater la date
                         $date_formatted = date_i18n('l j F Y', strtotime($date));
+                        $remise_text = '';
+                        if (class_exists('MRDS_Remises_management') && !empty($date)) {
+                            $remises_du_jour = MRDS_Remises_management::get_instance()->get_applicable_remises_for_restaurant($restaurant_id, $date);
+                            if (!empty($remises_du_jour)) {
+                                $remise_text = mrdstheme_get_restaurant_remise_text($restaurant_id);
+                            }
+                        }
                     ?>
                         <div class="restaurant-card-horizontal">
                             <div class="card-image">
                                 <img src="<?php echo esc_url($restaurant_image); ?>" alt="<?php echo esc_attr($restaurant->post_title); ?>">
+                                <?php if (!empty($remise_text)) : ?>
+                                    <span class="card-remise-badge"><?php echo esc_html($remise_text); ?></span>
+                                <?php endif; ?>
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">
@@ -240,10 +250,11 @@ if (is_user_logged_in()) {
 
                             $adresse = get_field('adresse', $resto_id);
                             $arrondissement = $adresse['arrondissement'] ?? '';
-                            $location = $arrondissement ? 'Paris ' . $arrondissement . ($arrondissement == 1 ? 'er' : 'e') : ($adresse['ville'] ?? 'Paris');
+                            $location = mrdstheme_build_address($adresse);
 
                             $citation = get_field('citation_de_restaurant', $resto_id);
-                            $quote = $citation['description'] ?? '';
+                            $quote = !empty(strip_tags($citation['citation'] ?? ''))
+                                ? $citation['citation'] : ($citation['description'] ?? '');
                             $chef = $citation['auteur'] ?? '';
 
                             $tags_terms = get_the_terms($resto_id, 'restaurant_tag');
@@ -253,11 +264,15 @@ if (is_user_logged_in()) {
                                     $tags[] = $term->name;
                                 }
                             }
+                            $remise_text = mrdstheme_get_restaurant_remise_text($resto_id);
                         ?>
                             <div class="col-12 col-md-6 col-lg-3 mb-4">
                                 <div class="restaurant-card">
                                     <div class="card-image">
                                         <img src="<?php echo esc_url($restaurant_image); ?>" alt="<?php the_title_attribute(); ?>">
+                                        <?php if (!empty($remise_text)) : ?>
+                                            <span class="card-remise-badge"><?php echo esc_html($remise_text); ?></span>
+                                        <?php endif; ?>
                                         <button class="card-favorite active" data-restaurant-id="<?php echo $resto_id; ?>">
                                             <span class="heart-icon">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="25.475" height="23.129" viewBox="0 0 25.475 23.129">
@@ -332,10 +347,11 @@ if (is_user_logged_in()) {
 
                             $adresse = get_field('adresse', $restaurant_id);
                             $arrondissement = $adresse['arrondissement'] ?? '';
-                            $location = $arrondissement ? 'Paris ' . $arrondissement . ($arrondissement == 1 ? 'er' : 'e') : ($adresse['ville'] ?? 'Paris');
+                            $location = mrdstheme_build_address($adresse);
 
                             $citation = get_field('citation_de_restaurant', $restaurant_id);
-                            $quote = $citation['description'] ?? '';
+                            $quote = !empty(strip_tags($citation['citation'] ?? ''))
+                                ? $citation['citation'] : ($citation['description'] ?? '');
                             $chef = $citation['auteur'] ?? '';
 
                             $tags_terms = get_the_terms($restaurant_id, 'restaurant_tag');
@@ -345,11 +361,22 @@ if (is_user_logged_in()) {
                                     $tags[] = $term->name;
                                 }
                             }
-                        ?>
+                            $date = get_post_meta($resa_id, '_mrds_date', true);
+
+                            $remise_text = '';
+                            if (class_exists('MRDS_Remises_management') && !empty($date)) {
+                                $remises_du_jour = MRDS_Remises_management::get_instance()->get_applicable_remises_for_restaurant($restaurant_id, $date);
+                                if (!empty($remises_du_jour)) {
+                                    $remise_text = mrdstheme_get_restaurant_remise_text($restaurant_id);
+                                }
+                            }                        ?>
                             <div class="col-12 col-md-6 col-lg-3 mb-4">
                                 <div class="restaurant-card">
                                     <div class="card-image">
                                         <img src="<?php echo esc_url($restaurant_image); ?>" alt="<?php echo esc_attr($restaurant->post_title); ?>">
+                                        <?php if (!empty($remise_text)) : ?>
+                                            <span class="card-remise-badge"><?php echo esc_html($remise_text); ?></span>
+                                        <?php endif; ?>
                                         <button class="card-favorite <?php echo in_array($restaurant_id, $favoris_ids) ? 'active' : ''; ?>" data-restaurant-id="<?php echo $restaurant_id; ?>">
                                             <span class="heart-icon">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="25.475" height="23.129" viewBox="0 0 25.475 23.129">

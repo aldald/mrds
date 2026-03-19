@@ -92,16 +92,16 @@ $has_multiple = count($all_restaurants) > 1;
                 </div>
                 <div class="col-md-3">
                     <label for="filter-date-from" class="form-label">Du</label>
-                   <input type="text" id="filter-date-from" class="form-control filter-date-picker"
-    value=""
-    placeholder="jj/mm/aaaa" readonly>
+                    <input type="text" id="filter-date-from" class="form-control filter-date-picker"
+                        value=""
+                        placeholder="jj/mm/aaaa" readonly>
                 </div>
                 <div class="col-md-3">
                     <label for="filter-date-to" class="form-label">Au</label>
-                  
-<input type="text" id="filter-date-to" class="form-control filter-date-picker"
-    value=""
-    placeholder="jj/mm/aaaa" readonly>
+
+                    <input type="text" id="filter-date-to" class="form-control filter-date-picker"
+                        value=""
+                        placeholder="jj/mm/aaaa" readonly>
                 </div>
                 <div class="col-md-3">
                     <button type="button" id="btn-filter" class="btn btn-primary w-100">
@@ -127,11 +127,11 @@ $has_multiple = count($all_restaurants) > 1;
             </div>
         </div>
         <div class="col-6 col-md-2">
-    <div class="stat-card stat-refused">
-        <span class="stat-number" id="stat-refused">0</span>
-        <span class="stat-label">Refusées</span>
-    </div>
-</div>
+            <div class="stat-card stat-refused">
+                <span class="stat-number" id="stat-refused">0</span>
+                <span class="stat-label">Refusées</span>
+            </div>
+        </div>
         <div class="col-6 col-md-2">
             <div class="stat-card stat-today">
                 <span class="stat-number" id="stat-today">0</span>
@@ -162,17 +162,20 @@ $has_multiple = count($all_restaurants) > 1;
                             <th>Heure</th>
                             <th>Client</th>
                             <?php if ($has_multiple) : ?>
-                            <th>Restaurant</th>
+                                <th>Restaurant</th>
                             <?php endif; ?>
                             <th>Couverts</th>
                             <th>Téléphone</th>
+                            <th>Remise</th>
+
                             <th>Statut</th>
                             <th class="text-end">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="reservations-tbody">
                         <tr>
-                            <td colspan="<?php echo $has_multiple ? 8 : 7; ?>" class="text-center py-4">
+                            <td colspan="<?php echo $has_multiple ? 9 : 8; ?>" class="text-center py-4">
+
                                 <div class="spinner-border text-primary" role="status">
                                     <span class="visually-hidden">Chargement...</span>
                                 </div>
@@ -248,6 +251,16 @@ $has_multiple = count($all_restaurants) > 1;
                         <div class="detail-group">
                             <label>Préférences</label>
                             <p id="modal-preferences" class="detail-value">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Remise -->
+                <div class="row mt-2" id="modal-remise-group">
+                    <div class="col-md-12">
+                        <div class="detail-group">
+                            <label>Remise accordée</label>
+                            <p id="modal-remise" class="detail-value">-</p>
                         </div>
                     </div>
                 </div>

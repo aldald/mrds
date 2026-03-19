@@ -161,7 +161,7 @@ if (!empty($favoris_ids)) {
                     // Adresse / arrondissement
                     $adresse = get_field('adresse', $restaurant_id);
                     $arrondissement = $adresse['arrondissement'] ?? '';
-                    $location = $arrondissement ? 'Paris ' . $arrondissement . ($arrondissement == 1 ? 'er' : 'e') : ($adresse['ville'] ?? 'Paris');
+                    $location = mrdstheme_build_address($adresse);
 
                     // Tags
                     $tags_terms = get_the_terms($restaurant_id, 'restaurant_tag');
@@ -175,10 +175,14 @@ if (!empty($favoris_ids)) {
                     // Formater la date
                     $date_formatted = date_i18n('l j F Y', strtotime($date));
                     $time_formatted = $time;
+                    $remise_text = mrdstheme_get_restaurant_remise_text($restaurant_id);
                 ?>
                     <div class="restaurant-card-horizontal">
                         <div class="card-image">
                             <img src="<?php echo esc_url($restaurant_image); ?>" alt="<?php echo esc_attr($restaurant->post_title); ?>">
+                            <?php if (!empty($remise_text)) : ?>
+                                <span class="card-remise-badge"><?php echo esc_html($remise_text); ?></span>
+                            <?php endif; ?>
                         </div>
                         <div class="card-content">
                             <h3 class="card-title">
@@ -263,10 +267,11 @@ if (!empty($favoris_ids)) {
 
                                 $adresse = get_field('adresse', $resto_id);
                                 $arrondissement = $adresse['arrondissement'] ?? '';
-                                $location = $arrondissement ? 'Paris ' . $arrondissement . ($arrondissement == 1 ? 'er' : 'e') : ($adresse['ville'] ?? 'Paris');
+                                $location = mrdstheme_build_address($adresse);
 
                                 $citation = get_field('citation_de_restaurant', $resto_id);
-                                $quote = $citation['description'] ?? '';
+                                $quote = !empty(strip_tags($citation['citation'] ?? ''))
+                                    ? $citation['citation'] : ($citation['description'] ?? '');
                                 $chef = $citation['auteur'] ?? '';
 
                                 $tags_terms = get_the_terms($resto_id, 'restaurant_tag');
@@ -361,10 +366,11 @@ if (!empty($favoris_ids)) {
 
                         $adresse = get_field('adresse', $restaurant_id);
                         $arrondissement = $adresse['arrondissement'] ?? '';
-                        $location = $arrondissement ? 'Paris ' . $arrondissement . ($arrondissement == 1 ? 'er' : 'e') : ($adresse['ville'] ?? 'Paris');
+                        $location = mrdstheme_build_address($adresse);
 
                         $citation = get_field('citation_de_restaurant', $restaurant_id);
-                        $quote = $citation['description'] ?? '';
+                        $quote = !empty(strip_tags($citation['citation'] ?? ''))
+                            ? $citation['citation'] : ($citation['description'] ?? '');
                         $chef = $citation['auteur'] ?? '';
 
                         $tags_terms = get_the_terms($restaurant_id, 'restaurant_tag');

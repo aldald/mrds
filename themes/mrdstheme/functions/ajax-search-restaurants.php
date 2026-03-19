@@ -210,7 +210,8 @@ function mrdstheme_ajax_search_restaurants()
 
             // Citation
             $citation = get_field('citation_de_restaurant', $restaurant_id);
-            $quote = mrds_limit_text($citation['description'] ?? '', 120);
+            $quote = mrds_limit_text(!empty(strip_tags($citation['citation'] ?? ''))
+                ? $citation['citation'] : ($citation['description'] ?? ''), 120);
             $chef = $citation['auteur'] ?? '';
 
             // Tags (noms pour affichage)

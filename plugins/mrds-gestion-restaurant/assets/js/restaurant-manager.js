@@ -171,14 +171,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Desactiver input si max atteint
     if (galleryInput) {
-      galleryInput.disabled = currentGallery.length >= 3;
+      galleryInput.disabled = currentGallery.length >= 4;
     }
   }
 
   function uploadGalleryImage(restaurantId, file) {
     return new Promise(function (resolve, reject) {
-      if (currentGallery.length >= 3) {
-        reject(new Error("Maximum 3 images"));
+      if (currentGallery.length >= 4) {
+        reject(new Error("Maximum 4 images"));
         return;
       }
 

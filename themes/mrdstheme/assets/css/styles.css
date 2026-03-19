@@ -4019,7 +4019,7 @@ h3.wc-block-components-product-name {
     position: absolute;
     top: 12px;
     left: 0;
-    background-color: red;
+    background-color: var(--color-gold);
     color: #fff;
     font-size: 16px;
     font-weight: 700;
@@ -4044,7 +4044,7 @@ div#mrds-restaurateurs-app h1, div#mrds-reservations-app h1, .wrap mrds-stats-wr
 }
 
 .user-avatar.user-avatar-image {
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     width: 36px;

@@ -521,6 +521,8 @@ class MRDS_Resa_Reservation
 
             $citation = get_field('citation_de_restaurant', $restaurant_id);
 
+            $resa_date = get_post_meta($post->ID, '_mrds_date', true);
+
             $reservations[] = [
                 'id' => $post->ID,
                 'restaurant_id' => $restaurant_id,
@@ -531,12 +533,13 @@ class MRDS_Resa_Reservation
                 'tags' => $tags,
                 'citation' => $citation['description'] ?? '',
                 'citation_auteur' => $citation['auteur'] ?? '',
-                'date' => get_post_meta($post->ID, '_mrds_date', true),
-                'date_formatted' => date_i18n('l j F', strtotime(get_post_meta($post->ID, '_mrds_date', true))),
+                'date' => $resa_date,
+                'date_formatted' => date_i18n('l j F', strtotime($resa_date)),
                 'time' => get_post_meta($post->ID, '_mrds_time', true),
                 'time_formatted' => str_replace(':', 'h', get_post_meta($post->ID, '_mrds_time', true)),
                 'guests' => get_post_meta($post->ID, '_mrds_guests', true),
                 'status' => get_post_meta($post->ID, '_mrds_status', true),
+                'remise' => $this->get_restaurant_remise_for_email($restaurant_id, $resa_date),
             ];
         }
 

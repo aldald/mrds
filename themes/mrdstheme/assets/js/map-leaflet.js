@@ -22,14 +22,16 @@
   const CUSTOM_STYLE = {
     version: 8,
     name: "MRDS Dark Blue",
-    sprite: "https://api.maptiler.com/maps/basic-v2/sprite?key=TAYaAg3duAcdXiTBzNnG",
+    sprite:
+      "https://api.maptiler.com/maps/basic-v2/sprite?key=TAYaAg3duAcdXiTBzNnG",
     sources: {
       osm: {
         type: "vector",
         url: "https://api.maptiler.com/tiles/v3/tiles.json?key=TAYaAg3duAcdXiTBzNnG",
       },
     },
-    glyphs: "https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=TAYaAg3duAcdXiTBzNnG",
+    glyphs:
+      "https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=TAYaAg3duAcdXiTBzNnG",
     layers: [
       {
         id: "background",
@@ -74,7 +76,17 @@
         layout: { "line-cap": "round", "line-join": "round" },
         paint: {
           "line-color": "rgba(255, 255, 255, 0.25)",
-          "line-width": ["interpolate", ["linear"], ["zoom"], 10, 0.5, 14, 2, 18, 6],
+          "line-width": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            10,
+            0.5,
+            14,
+            2,
+            18,
+            6,
+          ],
         },
       },
       {
@@ -86,7 +98,17 @@
         layout: { "line-cap": "round", "line-join": "round" },
         paint: {
           "line-color": "rgba(255, 255, 255, 0.4)",
-          "line-width": ["interpolate", ["linear"], ["zoom"], 10, 1, 14, 3, 18, 10],
+          "line-width": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            10,
+            1,
+            14,
+            3,
+            18,
+            10,
+          ],
         },
       },
       {
@@ -98,7 +120,17 @@
         layout: { "line-cap": "round", "line-join": "round" },
         paint: {
           "line-color": "rgba(255, 255, 255, 0.55)",
-          "line-width": ["interpolate", ["linear"], ["zoom"], 10, 1.5, 14, 4, 18, 14],
+          "line-width": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            10,
+            1.5,
+            14,
+            4,
+            18,
+            14,
+          ],
         },
       },
       {
@@ -110,7 +142,19 @@
         layout: { "line-cap": "round", "line-join": "round" },
         paint: {
           "line-color": "rgba(255, 255, 255, 0.7)",
-          "line-width": ["interpolate", ["linear"], ["zoom"], 8, 1, 12, 3, 16, 8, 20, 16],
+          "line-width": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            8,
+            1,
+            12,
+            3,
+            16,
+            8,
+            20,
+            16,
+          ],
         },
       },
       {
@@ -215,7 +259,9 @@
       };
 
       try {
-        this.options.restaurants = JSON.parse(container.dataset.restaurants || "[]");
+        this.options.restaurants = JSON.parse(
+          container.dataset.restaurants || "[]",
+        );
       } catch (e) {
         console.warn("MRDS Map: Erreur parsing restaurants", e);
       }
@@ -234,14 +280,16 @@
 
       this.map.addControl(
         new maplibregl.NavigationControl({ showCompass: false }),
-        "bottom-right"
+        "bottom-right",
       );
 
-this.map.on("load", () => {
-  this.addMarkers(this.options.restaurants);
-});
+      this.map.on("load", () => {
+        this.addMarkers(this.options.restaurants);
+      });
 
-      this.map.on("resize", () => { this.map.resize(); });
+      this.map.on("resize", () => {
+        this.map.resize();
+      });
     }
 
     createMarkerElement(restaurant) {
@@ -286,8 +334,12 @@ this.map.on("load", () => {
           popup.setLngLat([restaurant.lng, restaurant.lat]).addTo(this.map);
           const popupEl = popup.getElement();
           if (popupEl) {
-            popupEl.addEventListener("mouseenter", () => { if (hoverTimer) clearTimeout(hoverTimer); });
-            popupEl.addEventListener("mouseleave", () => { hoverTimer = setTimeout(() => popup.remove(), 150); });
+            popupEl.addEventListener("mouseenter", () => {
+              if (hoverTimer) clearTimeout(hoverTimer);
+            });
+            popupEl.addEventListener("mouseleave", () => {
+              hoverTimer = setTimeout(() => popup.remove(), 150);
+            });
           }
         });
 
@@ -309,33 +361,41 @@ this.map.on("load", () => {
     }
 
     createPopupContent(restaurant) {
-      const tags = restaurant.tags
-        ? restaurant.tags.map((t) => `<span class="popup-tag">${t}</span>`).join("")
-        : "";
-      const address = restaurant.address || restaurant.location || "";
+      const tagsHtml = (restaurant.tags || [])
+        .map((t) => `<span class="tag">${t}</span>`)
+        .join("");
+
+      const cuisinesHtml = (restaurant.cuisines || [])
+        .map((c) => `<span class="tag tag-type-cuisine">${c}</span>`)
+        .join("");
+
+      const allTags = tagsHtml + cuisinesHtml;
+
+      const rawAddress = restaurant.address || restaurant.location || "";
+      const address = rawAddress.replace(/,?\s*France$/i, "").trim();
 
       return `
-        <div class="mrds-popup-content">
-          <h3 class="popup-title">${restaurant.title}</h3>
-          ${address ? `<p class="popup-address">${address}</p>` : ""}
-          ${tags ? `<div class="popup-tags">${tags}</div>` : ""}
-          <a href="${restaurant.link}" class="popup-link">Voir le restaurant →</a>
-        </div>`;
+    <div class="mrds-popup-content">
+      <h3 class="popup-title">${restaurant.title}</h3>
+      ${address ? `<p class="popup-address">${address}</p>` : ""}
+      ${allTags ? `<div class="popup-tags">${allTags}</div>` : ""}
+      <a href="${restaurant.link}" class="popup-link">Voir le restaurant →</a>
+    </div>`;
     }
-updateMarkers(restaurants) {
-  this.options.restaurants = restaurants;
-  this.addMarkers(restaurants);
-  if (restaurants.length > 0) {
-    this.centerOnMarkers(restaurants);
-  }
-}
-centerOnMarkers(restaurants) {
-  const bounds = new maplibregl.LngLatBounds();
-  restaurants.forEach((r) => bounds.extend([r.lng, r.lat]));
-  this.map.fitBounds(bounds, {
-    padding: 80,
-  });
-}
+    updateMarkers(restaurants) {
+      this.options.restaurants = restaurants;
+      this.addMarkers(restaurants);
+      if (restaurants.length > 0) {
+        this.fitToMarkers();
+      }
+    }
+    centerOnMarkers(restaurants) {
+      const bounds = new maplibregl.LngLatBounds();
+      restaurants.forEach((r) => bounds.extend([r.lng, r.lat]));
+      this.map.fitBounds(bounds, {
+        padding: 80,
+      });
+    }
 
     fitToMarkers() {
       if (this.markers.length === 0) return;
@@ -348,12 +408,14 @@ centerOnMarkers(restaurants) {
           const data = marker._restaurantData;
           bounds.extend([data.lng, data.lat]);
         });
-        this.map.fitBounds(bounds, { padding: 50, maxZoom: 14 });
+        this.map.fitBounds(bounds, { padding: 80, maxZoom: 12 });
       }
     }
 
     focusRestaurant(restaurantId) {
-      const marker = this.markers.find((m) => m._restaurantData.id === restaurantId);
+      const marker = this.markers.find(
+        (m) => m._restaurantData.id === restaurantId,
+      );
       if (marker) {
         const data = marker._restaurantData;
         this.map.flyTo({ center: [data.lng, data.lat], zoom: 14 });
@@ -366,9 +428,14 @@ centerOnMarkers(restaurants) {
         const formData = new FormData();
         formData.append("action", "mrds_get_restaurants");
         formData.append("nonce", CONFIG.nonce);
-        Object.keys(filters).forEach((key) => { formData.append(key, filters[key]); });
+        Object.keys(filters).forEach((key) => {
+          formData.append(key, filters[key]);
+        });
 
-        const response = await fetch(CONFIG.ajax_url, { method: "POST", body: formData });
+        const response = await fetch(CONFIG.ajax_url, {
+          method: "POST",
+          body: formData,
+        });
         const result = await response.json();
         if (result.success) {
           this.updateMarkers(result.data);
@@ -381,10 +448,15 @@ centerOnMarkers(restaurants) {
       }
     }
 
-    getMap() { return this.map; }
+    getMap() {
+      return this.map;
+    }
 
     destroy() {
-      if (this.map) { this.map.remove(); this.map = null; }
+      if (this.map) {
+        this.map.remove();
+        this.map = null;
+      }
     }
   }
 
@@ -401,7 +473,9 @@ centerOnMarkers(restaurants) {
       });
     },
 
-    get(mapId) { return this.instances.get(mapId); },
+    get(mapId) {
+      return this.instances.get(mapId);
+    },
 
     create(containerId, options = {}) {
       const container = document.getElementById(containerId);
@@ -412,7 +486,9 @@ centerOnMarkers(restaurants) {
       Object.keys(options).forEach((key) => {
         const dataKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
         container.dataset[dataKey] =
-          typeof options[key] === "object" ? JSON.stringify(options[key]) : options[key];
+          typeof options[key] === "object"
+            ? JSON.stringify(options[key])
+            : options[key];
       });
       const instance = new MRDSMap(container);
       this.instances.set(containerId, instance);
@@ -426,7 +502,9 @@ centerOnMarkers(restaurants) {
   };
 
   if (typeof maplibregl !== "undefined") {
-    document.addEventListener("DOMContentLoaded", () => { MapManager.initAll(); });
+    document.addEventListener("DOMContentLoaded", () => {
+      MapManager.initAll();
+    });
   } else {
     console.warn("MRDS Map: MapLibre GL non chargé");
   }

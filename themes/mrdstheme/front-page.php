@@ -322,20 +322,21 @@ $trouvailles_button_target = ($trouvailles_button_link && !empty($trouvailles_bu
                         $ville = $adresse['ville'] ?? 'Paris';
 
                         // Construction de la location (Paris + arrondissement)
-                        if ($arrondissement) {
-                            $restaurant_location = 'Paris ' . $arrondissement . ($arrondissement == 1 ? 'er' : 'e');
-                        } else {
-                            $restaurant_location = $ville;
-                        }
+                        $restaurant_location = mrdstheme_build_address($adresse);
+
 
                         // CITATION - Group (nom correct: citation_de_restaurant)
                         $citation = get_field('citation_de_restaurant', $restaurant_id);
-                        $restaurant_quote = $citation['description'] ?? '« Notre table est le reflet de notre engagement : sublimer chaque produit. »';
+                        $restaurant_quote = !empty(strip_tags($citation['citation'] ?? ''))
+                            ? $citation['citation'] : ($citation['description'] ?? '');
                         $restaurant_chef = $citation['auteur'] ?? 'Nom du chef';
 
                         // TAGS - Taxonomy
                         $restaurant_tags = get_field('tags_restaurant', $restaurant_id);
                         $type_cuisine_tags = get_field('type_de_cuisine', $restaurant_id);
+
+                        // REMISE
+                        $remise_text = mrdstheme_get_restaurant_remise_text($restaurant_id);
 
                         // Fallback pour l'image
                         if (!$restaurant_image) {
@@ -346,6 +347,9 @@ $trouvailles_button_target = ($trouvailles_button_link && !empty($trouvailles_bu
                             <div class="restaurant-card">
                                 <div class="card-image">
                                     <img src="<?php echo esc_url($restaurant_image); ?>" alt="<?php echo esc_attr($restaurant_title); ?>">
+                                    <?php if (!empty($remise_text)) : ?>
+                                        <span class="card-remise-badge"><?php echo esc_html($remise_text); ?></span>
+                                    <?php endif; ?>
                                     <button class="card-favorite" data-restaurant-id="<?php echo esc_attr($restaurant_id); ?>">
                                         <span class="heart-icon">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="25.475" height="23.129" viewBox="0 0 25.475 23.129">
@@ -475,7 +479,7 @@ $fonctionnement_button_target = ($fonctionnement_button_link && !empty($fonction
                         <div class="fonctionnement-card">
                             <span class="card-number"><?php echo $count; ?></span>
                             <h3 class="card-title">
-                                    <?php echo esc_html($item['title']); ?>
+                                <?php echo esc_html($item['title']); ?>
                                 </a>
                             </h3>
                             <p class="card-text"><?php echo esc_html($item['text']); ?></p>
@@ -599,21 +603,20 @@ if ($carte_restaurants) {
                             $ville = $adresse['ville'] ?? 'Paris';
 
                             // Construction de la location
-                            if ($arrondissement) {
-                                $restaurant_location = 'Paris ' . $arrondissement . ($arrondissement == 1 ? 'er' : 'e');
-                            } else {
-                                $restaurant_location = $ville;
-                            }
+                            $restaurant_location = mrdstheme_build_address($adresse);
+
 
                             // CITATION - Group
                             $citation = get_field('citation_de_restaurant', $restaurant_id);
-                            $restaurant_quote = $citation['description'] ?? '« Notre table est le reflet de notre engagement : sublimer chaque produit, respecter la saison et éveiller vos sens. »';
+                            $restaurant_quote = !empty(strip_tags($citation['citation'] ?? ''))
+                                ? $citation['citation'] : ($citation['description'] ?? '');
                             $restaurant_chef = $citation['auteur'] ?? 'Nom du chef';
 
                             // TAGS - Taxonomy
                             $restaurant_tags = get_field('tags_restaurant', $restaurant_id);
                             $type_cuisine_tags = get_field('type_de_cuisine', $restaurant_id);
-
+                            // REMISE
+                            $remise_text = mrdstheme_get_restaurant_remise_text($restaurant_id);
 
                             // Fallback pour l'image
                             if (!$restaurant_image) {
@@ -623,6 +626,9 @@ if ($carte_restaurants) {
                             <div class="restaurant-card-horizontal" data-restaurant-id="<?php echo esc_attr($restaurant_id); ?>">
                                 <div class="card-image">
                                     <img src="<?php echo esc_url($restaurant_image); ?>" alt="<?php echo esc_attr($restaurant_title); ?>">
+                                    <?php if (!empty($remise_text)) : ?>
+                                        <span class="card-remise-badge"><?php echo esc_html($remise_text); ?></span>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="card-content">
                                     <h3 class="card-title">

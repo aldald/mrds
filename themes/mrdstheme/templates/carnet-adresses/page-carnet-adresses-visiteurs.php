@@ -143,15 +143,13 @@
                     $ville = $adresse['ville'] ?? 'Paris';
 
                     // Construction de la location
-                    if ($arrondissement) {
-                        $restaurant_location = 'Paris ' . $arrondissement . ($arrondissement == 1 ? 'er' : 'e');
-                    } else {
-                        $restaurant_location = $ville;
-                    }
+                    $restaurant_location = mrdstheme_build_address($adresse);
+
 
                     // Citation
                     $citation = get_field('citation_de_restaurant', $restaurant_id);
-                    $restaurant_quote = $citation['description'] ?? '';
+                    $restaurant_quote = !empty(strip_tags($citation['citation'] ?? ''))
+                        ? $citation['citation'] : ($citation['description'] ?? '');
                     $restaurant_chef = $citation['auteur'] ?? '';
                     $remise_text = mrdstheme_get_restaurant_remise_text($restaurant_id);
 
@@ -245,7 +243,7 @@
                             <?php if ($restaurant_chef) : ?>
                                 <p class="card-chef">— <?php echo esc_html($restaurant_chef); ?></p>
                             <?php endif; ?>
-                           
+
                         </div>
                     </div>
                 <?php

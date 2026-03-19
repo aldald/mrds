@@ -99,10 +99,10 @@
 
                         <!-- Galerie -->
                         <div class="col-md-8">
-                            <label class="form-label">Galerie <small class="text-muted">(max 3 images)</small></label>
+                            <label class="form-label">Galerie <small class="text-muted">(max 4 images)</small></label>
                             <div id="mrds-gallery-preview" class="d-flex flex-wrap gap-2"></div>
                             <input type="file" class="form-control" id="mrds-gallery-input" accept="image/*">
-                            <div class="form-text">Ajoutez jusqu'a 3 images supplementaires</div>
+                            <div class="form-text">Ajoutez jusqu'a 4 images supplementaires</div>
                             <div id="mrds-gallery-upload-status" class="small mt-1"></div>
                         </div>
                     </div>

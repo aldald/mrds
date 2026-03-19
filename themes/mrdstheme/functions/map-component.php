@@ -188,7 +188,7 @@ function mrdstheme_get_restaurants_for_map($filter = 'all')
             $adresse_complete = mrdstheme_build_address($adresse);
 
             // Obtenir les coordonnées (avec cache)
-            $coords = mrdstheme_get_coordinates($post_id, $adresse_complete);
+            $coords = mrdstheme_get_coordinates($post_id, $adresse_complete . ', France');
 
             if (!$coords) {
                 continue; // Pas de coordonnées, on skip
@@ -196,18 +196,19 @@ function mrdstheme_get_restaurants_for_map($filter = 'all')
 
             // Récupérer les autres champs
             $restaurants[] = [
-                'id' => $post_id,
-                'title' => get_the_title(),
-                'lat' => $coords['lat'],
-                'lng' => $coords['lng'],
-                'address' => $adresse_complete,
+                'id'             => $post_id,
+                'title'          => get_the_title(),
+                'lat'            => $coords['lat'],
+                'lng'            => $coords['lng'],
+                'address'        => $adresse_complete,
                 'arrondissement' => isset($adresse['arrondissement']) ? $adresse['arrondissement'] : '',
-                'type' => get_field('type_cuisine', $post_id) ?: '',
-                'reduction' => mrdstheme_get_restaurant_remise_text($post_id),
-                'chef' => get_field('nom_chef', $post_id) ?: '',
-                'image' => get_the_post_thumbnail_url($post_id, 'medium') ?: '',
-                'link' => get_permalink($post_id),
-                'tags' => mrdstheme_get_restaurant_tags($post_id),
+                'type'           => get_field('type_cuisine', $post_id) ?: '',
+                'reduction'      => mrdstheme_get_restaurant_remise_text($post_id),
+                'chef'           => get_field('nom_chef', $post_id) ?: '',
+                'image'          => get_the_post_thumbnail_url($post_id, 'medium') ?: '',
+                'link'           => get_permalink($post_id),
+                'tags'           => mrdstheme_get_restaurant_tags($post_id),
+                'cuisines'       => mrdstheme_get_restaurant_cuisines($post_id), // ← AJOUT
             ];
         }
         wp_reset_postdata();
@@ -236,7 +237,7 @@ function mrdstheme_build_address($adresse)
     }
 
     // Ajouter France pour meilleur géocodage
-    $parts[] = 'France';
+    //$parts[] = 'France';
 
     return implode(', ', $parts);
 }
@@ -319,23 +320,54 @@ function mrdstheme_geocode_address($address)
 function mrdstheme_get_restaurant_tags($post_id)
 {
     $tags = [];
+    $restaurant_tags = get_field('tags_restaurant', $post_id);
 
-    // Si vous avez une taxonomie "envie" ou un champ ACF checkbox
-    $envies = get_field('envies', $post_id);
-
-    if ($envies && is_array($envies)) {
-        $tags = $envies;
-    }
-
-    // Ou si c'est une taxonomie
-    $terms = get_the_terms($post_id, 'envie');
-    if ($terms && !is_wp_error($terms)) {
-        foreach ($terms as $term) {
-            $tags[] = $term->name;
+    if ($restaurant_tags && is_array($restaurant_tags)) {
+        foreach ($restaurant_tags as $tag) {
+            if (is_object($tag)) {
+                $tags[] = $tag->name;
+            } else {
+                $term = get_term($tag, 'restaurant_tag');
+                if ($term && !is_wp_error($term)) {
+                    $tags[] = $term->name;
+                }
+            }
         }
     }
 
     return $tags;
+}
+
+function mrdstheme_get_restaurant_cuisines($post_id)
+{
+    $cuisines = [];
+    $type_cuisine_tags = get_field('type_de_cuisine', $post_id);
+
+    if (!empty($type_cuisine_tags)) {
+        if (is_array($type_cuisine_tags)) {
+            foreach ($type_cuisine_tags as $cuisine) {
+                if (is_object($cuisine) && !empty($cuisine->name)) {
+                    $cuisines[] = $cuisine->name;
+                } else {
+                    $term = get_term((int) $cuisine, 'type_cuisine');
+                    if ($term && !is_wp_error($term)) {
+                        $cuisines[] = $term->name;
+                    }
+                }
+            }
+        } else {
+            if (is_object($type_cuisine_tags) && !empty($type_cuisine_tags->name)) {
+                $cuisines[] = $type_cuisine_tags->name;
+            } else {
+                $term = get_term((int) $type_cuisine_tags, 'type_cuisine');
+                if ($term && !is_wp_error($term)) {
+                    $cuisines[] = $term->name;
+                }
+            }
+        }
+    }
+
+    return array_values(array_unique(array_filter($cuisines)));
 }
 
 

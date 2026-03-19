@@ -58,7 +58,7 @@ $type_cuisine_tags = get_field('type_de_cuisine', $restaurant_id);
 
 // Citation
 $citation = get_field('citation_de_restaurant', $restaurant_id);
-$citation_texte = $citation['description'] ?? '« Notre table est le reflet de notre engagement : sublimer chaque produit, respecter la saison et éveiller vos sens. »';
+$citation_texte = !empty(strip_tags($citation['citation'] ?? '')) ? $citation['citation'] : ($citation['description'] ?? '');
 $citation_auteur = $citation['auteur'] ?? 'Nom du chef';
 
 // Description menu
@@ -97,7 +97,7 @@ if (!$featured_image) {
 
             if ($gallery_images && is_array($gallery_images)) :
                 // Limiter à 3 images maximum pour la grille
-                $gallery_count = min(count($gallery_images), 3);
+                $gallery_count = min(count($gallery_images), 4);
 
                 for ($i = 0; $i < $gallery_count; $i++) :
                     $image = $gallery_images[$i];
@@ -123,6 +123,10 @@ if (!$featured_image) {
                 <div class="gallery-item">
                     <img src="<?php echo esc_url($featured_image); ?>" alt="<?php echo esc_attr(get_the_title()); ?>">
                 </div>
+                <div class="gallery-item">
+                    <img src="<?php echo esc_url($featured_image); ?>" alt="<?php echo esc_attr(get_the_title()); ?>">
+                </div>
+
                 <div class="gallery-item">
                     <img src="<?php echo esc_url($featured_image); ?>" alt="<?php echo esc_attr(get_the_title()); ?>">
                 </div>
@@ -268,7 +272,7 @@ if (!$featured_image) {
                         <blockquote>
                             <?php echo wp_kses_post($citation_texte); ?>
                         </blockquote>
-                        <?php if ( !empty($citation_auteur) ){?><p class="quote-author">— <?php echo esc_html($citation_auteur); ?></p><?php }?>
+                        <?php if (!empty($citation_auteur)) { ?><p class="quote-author">— <?php echo esc_html($citation_auteur); ?></p><?php } ?>
                     </div>
 
                     <!-- Description du menu -->

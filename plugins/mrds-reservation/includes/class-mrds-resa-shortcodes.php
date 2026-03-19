@@ -128,9 +128,17 @@ class MRDS_Resa_Shortcodes
 
         // Récupérer les paramètres GET
         $restaurant_id = intval($_GET['resto_id'] ?? 0);
-        $date = sanitize_text_field($_GET['date'] ?? '');
+        $date_raw = sanitize_text_field($_GET['date'] ?? '');
         $time = sanitize_text_field($_GET['heure'] ?? '');
         $guests = intval($_GET['personnes'] ?? 2);
+
+        // Normaliser la date en Y-m-d (le widget envoie d/m/Y)
+        if (!empty($date_raw) && strpos($date_raw, '/') !== false) {
+            $parts = explode('/', $date_raw);
+            $date = count($parts) === 3 ? $parts[2] . '-' . $parts[1] . '-' . $parts[0] : $date_raw;
+        } else {
+            $date = $date_raw;
+        }
 
         // Vérifier que le restaurant existe
         if (!$restaurant_id) {
@@ -270,7 +278,11 @@ class MRDS_Resa_Shortcodes
                                 <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
-
+                        <?php if (!empty($resa['remise'])) : ?>
+                            <div class="resa-remise-badge">
+                                <?php echo esc_html($resa['remise']); ?>
+                            </div>
+                        <?php endif; ?>
                         <div class="reservation-infos">
                             <span class="resa-info">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

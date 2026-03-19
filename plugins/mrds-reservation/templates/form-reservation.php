@@ -29,16 +29,53 @@ $location = $arrondissement ? 'Paris ' . $arrondissement . ($arrondissement == 1
 // Vérifier si la remise s'applique au jour de la réservation avant de l'afficher
 $reduction = '';
 $has_reduction = false;
-if (function_exists('mrdstheme_get_restaurant_remise_text')) {
-    $remise_applicable = true;
-    if (!empty($date) && class_exists('MRDS_Remises_management')) {
-        $remises_du_jour = MRDS_Remises_management::get_instance()->get_applicable_remises_for_restaurant($restaurant_id, $date);
-        $remise_applicable = !empty($remises_du_jour);
+
+// Forcer la conversion de la date en Y-m-d (sécurité double)
+$date_original = $date;
+if (!empty($date) && strpos($date, '/') !== false) {
+    $parts = explode('/', $date);
+    if (count($parts) === 3) {
+        $date = $parts[2] . '-' . $parts[1] . '-' . $parts[0];
     }
-    if ($remise_applicable) {
-        $reduction = mrdstheme_get_restaurant_remise_text($restaurant_id);
-        $has_reduction = true;
+}
+
+// DEBUG TEMPORAIRE - à supprimer après confirmation
+if (defined('WP_DEBUG') && WP_DEBUG) {
+    error_log('MRDS FORM DEBUG - date_original: ' . $date_original);
+    error_log('MRDS FORM DEBUG - date_converted: ' . $date);
+    error_log('MRDS FORM DEBUG - restaurant_id: ' . $restaurant_id);
+    error_log('MRDS FORM DEBUG - MRDS_Remises_management exists: ' . (class_exists('MRDS_Remises_management') ? 'YES' : 'NO'));
+}
+
+if (!empty($date) && class_exists('MRDS_Remises_management')) {
+    $remises_du_jour = MRDS_Remises_management::get_instance()
+        ->get_applicable_remises_for_restaurant($restaurant_id, $date);
+
+    if (!empty($remises_du_jour)) {
+        // La fonction retourne une string directement
+        if (is_string($remises_du_jour)) {
+            $reduction = $remises_du_jour;
+            $has_reduction = true;
+        } elseif (is_array($remises_du_jour) || is_object($remises_du_jour)) {
+            $textes = [];
+            foreach ($remises_du_jour as $remise) {
+                $remise_post = is_object($remise) && isset($remise->ID)
+                    ? $remise
+                    : (is_numeric($remise) ? get_post((int) $remise) : null);
+                if (!$remise_post) continue;
+                $pct = get_field('pourcentage', $remise_post->ID)
+                    ?: get_post_meta($remise_post->ID, 'pourcentage', true);
+                $textes[] = $pct ? '-' . $pct . '%' : $remise_post->post_title;
+            }
+            if (!empty($textes)) {
+                $reduction = implode(' / ', $textes);
+                $has_reduction = true;
+            }
+        }
     }
+} elseif (empty($date) && function_exists('mrdstheme_get_restaurant_remise_text')) {
+    $reduction = mrdstheme_get_restaurant_remise_text($restaurant_id);
+    $has_reduction = !empty($reduction);
 }
 $restaurant_image = get_the_post_thumbnail_url($restaurant_id, 'medium');
 
