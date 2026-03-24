@@ -50,6 +50,12 @@ $hero_bg_url = $hero_bg_image ? $hero_bg_image['url'] : get_template_directory_u
 // CTA SECTION - Récupération des champs ACF
 // ============================================
 $cta_button_text = get_field('cta_button_text') ?: 'Trouver mon prochain restaurant';
+$search_step1_title    = get_field('search_step1_title')    ?: '1- De quoi avez-vous envie ?';
+$search_step2_title    = get_field('search_step2_title')    ?: '2- Dans quel arrondissement ?';
+$search_btn_rechercher = get_field('search_btn_rechercher') ?: 'Rechercher';
+$search_btn_actualiser = get_field('search_btn_actualiser') ?: 'Actualiser';
+$resultats_title       = get_field('resultats_title')       ?: 'Votre sélection';
+$filter_label_cuisine  = get_field('filter_label_cuisine')  ?: 'Types de cuisine';
 ?>
 
 <!-- CALL TO ACTION SECTION -->
@@ -72,7 +78,7 @@ $cta_button_text = get_field('cta_button_text') ?: 'Trouver mon prochain restaur
         <div class="search-form" id="searchForm">
             <!-- Étape 1 : Envies -->
             <div class="search-step">
-                <h3 class="search-step-title">1- De quoi avez-vous envie ?</h3>
+                <h3 class="search-step-title"><?php echo esc_html($search_step1_title); ?></h3>
                 <div class="search-tags">
                     <?php
                     // Récupérer les termes de la taxonomie restaurant_tag
@@ -113,7 +119,7 @@ $cta_button_text = get_field('cta_button_text') ?: 'Trouver mon prochain restaur
 
             <!-- Étape 2 : Arrondissements -->
             <div class="search-step">
-                <h3 class="search-step-title">2- Dans quel arrondissement ?</h3>
+                <h3 class="search-step-title"><?php echo esc_html($search_step2_title); ?></h3>
                 <div class="search-arrondissements">
                     <?php for ($i = 1; $i <= 20; $i++) : ?>
                         <button type="button" class="search-arrondissement" data-filter="arrondissement" data-value="<?php echo $i; ?>">
@@ -128,7 +134,7 @@ $cta_button_text = get_field('cta_button_text') ?: 'Trouver mon prochain restaur
             <div class="search-submit">
                 <button type="button" class="my-btn-primary" id="btnRechercher">
                     <span class="btn-diamond">◆</span>
-                    Rechercher
+                    <?php echo esc_html($search_btn_rechercher); ?>
                     <span class="btn-diamond">◆</span>
                 </button>
             </div>
@@ -139,14 +145,14 @@ $cta_button_text = get_field('cta_button_text') ?: 'Trouver mon prochain restaur
 <!-- SECTION RÉSULTATS -->
 <section class="section-resultats" id="sectionResultats">
     <div class="container">
-        <h2 class="resultats-title">Votre sélection</h2>
+        <h2 class="resultats-title"><?php echo esc_html($resultats_title); ?></h2>
 
         <!-- Filtres actifs (CLIQUABLES) -->
         <div class="resultats-filters">
 
             <!-- Filtre Tags restaurant -->
             <div class="filter-row">
-                <span class="filter-label">De quoi avez-vous envie ?</span>
+                <span class="filter-label"><?php echo esc_html($search_step1_title); ?></span>
                 <div class="filter-values" id="filterTagsRestaurant">
                     <?php
                     $tags_restaurant = get_terms([
@@ -169,7 +175,7 @@ $cta_button_text = get_field('cta_button_text') ?: 'Trouver mon prochain restaur
             </div>
             <!-- Filtre Types de cuisine -->
             <div class="filter-row">
-                <span class="filter-label">Types de cuisine</span>
+                <span class="filter-label"><?php echo esc_html($filter_label_cuisine); ?></span>
                 <div class="filter-values" id="filterTypesCuisine">
                     <?php
                     $types_cuisine = get_terms([
@@ -194,7 +200,7 @@ $cta_button_text = get_field('cta_button_text') ?: 'Trouver mon prochain restaur
 
             <!-- Filtre Arrondissements -->
             <div class="filter-row">
-                <span class="filter-label">Dans quel arrondissement ?</span>
+                <span class="filter-label"><?php echo esc_html($search_step2_title); ?></span>
                 <div class="filter-values" id="filterArrondissements">
                     <?php for ($i = 1; $i <= 20; $i++) : ?>
                         <span class="filter-item" data-filter="arrondissement" data-value="<?php echo $i; ?>">
@@ -209,7 +215,7 @@ $cta_button_text = get_field('cta_button_text') ?: 'Trouver mon prochain restaur
             <div class="filter-row filter-actions">
                 <button type="button" class="my-btn-primary" id="btnActualiser">
                     <span class="btn-diamond">◆</span>
-                    Actualiser
+                    <?php echo esc_html($search_btn_actualiser); ?>
                     <span class="btn-diamond">◆</span>
                 </button>
             </div>

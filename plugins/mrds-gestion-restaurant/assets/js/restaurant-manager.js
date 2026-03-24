@@ -648,6 +648,12 @@ document.addEventListener("DOMContentLoaded", function () {
     renderGalleryPreview();
 
     formTitle.textContent = "Modifier le restaurant #" + r.id;
+
+    if (formCard) {
+    var offset = formCard.getBoundingClientRect().top + window.scrollY - 110;
+    window.scrollTo({ top: offset, behavior: "smooth" });
+}
+    
   }
 
   function getSelectedValues(select) {

@@ -572,17 +572,28 @@ class MRDS_Resa_Reservation
      */
     private function get_restaurant_remise_for_email($restaurant_id, $date)
     {
-        if (
-            !function_exists('mrdstheme_get_restaurant_remise_text') ||
-            !class_exists('MRDS_Remises_management')
-        ) {
+        if (!class_exists('MRDS_Remises_management')) {
             return '';
         }
 
-        $remises = MRDS_Remises_management::get_instance()->get_applicable_remises_for_restaurant($restaurant_id, $date);
-        if (empty($remises)) return '';
+        $remise_text = MRDS_Remises_management::get_instance()
+            ->get_applicable_remises_for_restaurant($restaurant_id, $date);
 
-        return mrdstheme_get_restaurant_remise_text($restaurant_id);
+        if (empty($remise_text)) {
+            return '';
+        }
+
+        // get_applicable_remises_for_restaurant() retourne une string directement
+        if (is_string($remise_text)) {
+            return $remise_text;
+        }
+
+        // Fallback sécuritaire : si jamais la méthode évolue et retourne un array
+        if (function_exists('mrdstheme_get_restaurant_remise_text')) {
+            return mrdstheme_get_restaurant_remise_text($restaurant_id, $date);
+        }
+
+        return '';
     }
 
     /**

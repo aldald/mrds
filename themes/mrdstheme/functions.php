@@ -207,8 +207,8 @@ register_nav_menus([
     'mobile_menu'   => __('Menu Mobile', 'mrdstheme'),
     'acces_member'  => __('Accès Membre', 'mrdstheme'),
     'menu_footer'   => __('Menu Footer', 'mrdstheme'),
-    'menu_left_restaurateur'       => __( 'Menu Gauche – Restaurateur', 'mrdstheme' ),
-    'menu_left_restaurateur_mobile'=> __( 'Menu Mobile – Restaurateur', 'mrdstheme' ),
+    'menu_left_restaurateur'       => __('Menu Gauche – Restaurateur', 'mrdstheme'),
+    'menu_left_restaurateur_mobile' => __('Menu Mobile – Restaurateur', 'mrdstheme'),
 
 ]);
 
@@ -603,6 +603,21 @@ add_filter('the_title', function ($title, $id = null) {
     return $title;
 }, 10, 2);
 
+
+/**
+ * ACF Options Page — Page Restaurant (textes configurables)
+ */
+if (function_exists('acf_add_options_page')) {
+    acf_add_options_page([
+        'page_title' => 'Page Restaurant — Textes',
+        'menu_title' => 'Textes Restaurant',
+        'menu_slug'  => 'mrds-single-restaurant',
+        'capability' => 'manage_options',
+        'redirect'   => false,
+        'icon_url'   => 'dashicons-store',
+        'position'   => 30,
+    ]);
+}
 
 
 require_once get_template_directory() . '/functions/shortcodes-buttons.php';

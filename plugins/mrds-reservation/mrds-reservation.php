@@ -175,6 +175,8 @@ final class MRDS_Reservation
                 'loading' => 'Chargement...',
                 'closed' => 'Fermé',
                 'error' => 'Une erreur est survenue',
+                'btn_reserver' => get_field('single_resto_btn_reserver', 'option') ?: 'Réserver',
+
             ]
         ]);
     }

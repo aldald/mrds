@@ -316,50 +316,106 @@ add_action('wp_ajax_nopriv_mrds_search_restaurants', 'mrdstheme_ajax_search_rest
 /**
  * Récupérer le texte de remise d'un restaurant
  */
-function mrdstheme_get_restaurant_remise_text($restaurant_id)
-{
-    $remises_liees = get_field('remises_liees', $restaurant_id);
-    if (empty($remises_liees) || !is_array($remises_liees)) {
+function mrdstheme_get_restaurant_remise_text( $restaurant_id, $date = null ) {
+ 
+    // Source : champ ACF côté restaurant (relationship)
+    $remises_liees = get_field( 'remises_liees', $restaurant_id );
+    if ( empty( $remises_liees ) || ! is_array( $remises_liees ) ) {
         return '';
     }
-
-    $best_remise    = null;
-    $best_valeur    = -1;
-
-    foreach ($remises_liees as $remise) {
-        $remise_id = is_object($remise) ? $remise->ID : (int) $remise;
-
-        // Ne garder que les remises actives
-        if (!(bool) get_field('remise_active', $remise_id)) {
+ 
+    // ── Préparer le filtrage par date si fournie ──────────────────────────────
+    $timestamp_resa = null;
+    $day_code       = '';
+ 
+    if ( ! empty( $date ) ) {
+        // Normaliser en YYYY-mm-dd (accepte d/m/Y et Y-m-d)
+        if ( strpos( $date, '/' ) !== false ) {
+            $p = explode( '/', $date );
+            if ( count( $p ) === 3 ) {
+                $date = $p[2] . '-' . $p[1] . '-' . $p[0];
+            }
+        }
+        $timestamp_resa = strtotime( $date );
+ 
+        // Correspondance date('N') → code ACF jours_semaine
+        $day_map  = [ 1=>'mon', 2=>'tue', 3=>'wed', 4=>'thu', 5=>'fri', 6=>'sat', 7=>'sun' ];
+        $day_code = $day_map[ (int) date( 'N', $timestamp_resa ) ] ?? '';
+    }
+ 
+    // ── Parcourir les remises et trouver la meilleure applicable ─────────────
+    $best_remise = null;
+    $best_valeur = -1;
+ 
+    foreach ( $remises_liees as $remise ) {
+        $remise_id = is_object( $remise ) ? $remise->ID : (int) $remise;
+ 
+        // Seulement les remises actives
+        if ( ! (bool) get_field( 'remise_active', $remise_id ) ) {
             continue;
         }
-
-        $valeur = (float) get_field('valeur_de_la_remise', $remise_id);
-
-        if ($valeur > $best_valeur) {
-            $best_valeur  = $valeur;
-            $best_remise  = $remise_id;
+ 
+        // ── Filtrage par date (uniquement si $date fournie) ──────────────────
+        if ( $timestamp_resa !== null ) {
+ 
+            // Filtre 1 : jour de la semaine
+            $jours = get_field( 'jours_semaine', $remise_id ); // array: ['mon','tue',...]
+            if ( ! empty( $jours ) && is_array( $jours ) && ! in_array( $day_code, $jours, true ) ) {
+                continue;
+            }
+ 
+            // Filtre 2 : plage date_debut / date_fin
+            // ACF retourne au format d/m/Y → convertir en timestamp via strtotime
+            $date_debut_acf = get_field( 'date_debut', $remise_id );
+            if ( ! empty( $date_debut_acf ) ) {
+                $p = explode( '/', $date_debut_acf );
+                if ( count( $p ) === 3 ) {
+                    $ts_debut = strtotime( $p[2] . '-' . $p[1] . '-' . $p[0] );
+                    if ( $timestamp_resa < $ts_debut ) {
+                        continue;
+                    }
+                }
+            }
+ 
+            $date_fin_acf = get_field( 'date_fin', $remise_id );
+            if ( ! empty( $date_fin_acf ) ) {
+                $p = explode( '/', $date_fin_acf );
+                if ( count( $p ) === 3 ) {
+                    $ts_fin = strtotime( $p[2] . '-' . $p[1] . '-' . $p[0] );
+                    if ( $timestamp_resa > $ts_fin ) {
+                        continue;
+                    }
+                }
+            }
+        }
+ 
+        // Garder la remise avec la valeur la plus élevée
+        $valeur = (float) get_field( 'valeur_de_la_remise', $remise_id );
+        if ( $valeur > $best_valeur ) {
+            $best_valeur = $valeur;
+            $best_remise = $remise_id;
         }
     }
-
-    if (!$best_remise) {
+ 
+    if ( ! $best_remise ) {
         return '';
     }
-
-    $type_remise = get_field('type_de_remise', $best_remise);
-    $valeur      = get_field('valeur_de_la_remise', $best_remise);
-
-    if (!$type_remise || $valeur === '') {
+ 
+    // ── Formater le badge court ("-20%", "-10€", …) ──────────────────────────
+    $type_remise = get_field( 'type_de_remise', $best_remise );
+    $valeur      = get_field( 'valeur_de_la_remise', $best_remise );
+ 
+    if ( ! $type_remise || $valeur === '' || $valeur === null ) {
         return '';
     }
-
+ 
     // IDs taxonomy type_remise : 21 = pourcentage, 23 = montant fixe
-    if ((int) $type_remise === 21) {
+    if ( (int) $type_remise === 21 ) {
         return '-' . $valeur . '%';
-    } elseif ((int) $type_remise === 23) {
+    } elseif ( (int) $type_remise === 23 ) {
         return '-' . $valeur . '€';
     }
-
-    $term = get_term((int) $type_remise, 'type_remise');
-    return ($term && !is_wp_error($term)) ? $term->name : '';
+ 
+    $term = get_term( (int) $type_remise, 'type_remise' );
+    return ( $term && ! is_wp_error( $term ) ) ? $term->name : '';
 }

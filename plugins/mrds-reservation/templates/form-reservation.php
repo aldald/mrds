@@ -63,9 +63,13 @@ if (!empty($date) && class_exists('MRDS_Remises_management')) {
                     ? $remise
                     : (is_numeric($remise) ? get_post((int) $remise) : null);
                 if (!$remise_post) continue;
-                $pct = get_field('pourcentage', $remise_post->ID)
-                    ?: get_post_meta($remise_post->ID, 'pourcentage', true);
-                $textes[] = $pct ? '-' . $pct . '%' : $remise_post->post_title;
+                $valeur = get_field('valeur_de_la_remise', $remise_post->ID);
+                $type   = get_field('type_de_remise', $remise_post->ID);
+                if ($valeur !== '' && $valeur !== null) {
+                    $textes[] = ((int) $type === 23) ? '-' . $valeur . '€' : '-' . $valeur . '%';
+                } else {
+                    $textes[] = $remise_post->post_title;
+                }
             }
             if (!empty($textes)) {
                 $reduction = implode(' / ', $textes);
@@ -143,13 +147,12 @@ $user_email = $user->user_email;
                                         class="form-date-picker"
                                         value="<?php echo esc_attr($date); ?>"
                                         placeholder="<?php _e('Sélectionner une date', 'mrds-reservation'); ?>"
-                                        data-locked="1"
                                         required
-                                        readonly>
+                                        >
                                 </div>
                                 <div class="form-group">
                                     <label for="resa-guests"><?php _e('Nombre de personnes', 'mrds-reservation'); ?> *</label>
-                                    <select id="resa-guests" name="guests" required disabled>
+                                    <select id="resa-guests" name="guests" required>
                                         <?php for ($i = 1; $i <= 10; $i++) : ?>
                                             <option value="<?php echo $i; ?>" <?php selected($guests, $i); ?>>
                                                 <?php echo $i; ?> <?php echo $i > 1 ? __('personnes', 'mrds-reservation') : __('personne', 'mrds-reservation'); ?>
@@ -165,7 +168,7 @@ $user_email = $user->user_email;
 
                                 <div class="form-group">
                                     <label for="resa-time"><?php _e('Heure', 'mrds-reservation'); ?> *</label>
-                                    <select id="resa-time" name="time" required disabled>
+                                    <select id="resa-time" name="time" required>
                                         <option value=""><?php _e('Sélectionnez d\'abord une date', 'mrds-reservation'); ?></option>
                                     </select>
                                 </div>
@@ -173,7 +176,7 @@ $user_email = $user->user_email;
                             </div>
 
                             <!-- Section : Coordonnées -->
-                            <div class="form-section">
+                            <div class="form-section coord-member">
                                 <h3 class="form-section-title">
                                     <span class="section-number">2</span>
                                     <?php _e('Vos coordonnées', 'mrds-reservation'); ?>

@@ -364,13 +364,17 @@ class MRDS_Remises_management
             return new WP_Error('no_restaurant', __('Aucun restaurant associé à cet utilisateur.', 'restaurant-remises'), ['status' => 400]);
         }
 
-        $title = isset($params['title']) ? sanitize_text_field($params['title']) : 'Remise';
+$title = isset($params['title']) ? sanitize_text_field($params['title']) : 'Remise';
+$restaurant_name = get_post_field('post_title', (int) $restaurant_id);
+if ($restaurant_name) {
+    $title = $restaurant_name . ' : ' . $title;
+}
 
-        $post_id = wp_insert_post([
-            'post_type' => $this->remise_post_type,
-            'post_status' => 'publish',
-            'post_title' => $title,
-        ], true);
+$post_id = wp_insert_post([
+    'post_type' => $this->remise_post_type,
+    'post_status' => 'publish',
+    'post_title' => $title,
+], true);
 
         if (is_wp_error($post_id)) {
             return $post_id;
@@ -399,12 +403,25 @@ class MRDS_Remises_management
 
         // Optionnel : vérifier que cette remise est bien liée au restaurant du user
 
-        if (isset($params['title'])) {
-            wp_update_post([
-                'ID' => $id,
-                'post_title' => sanitize_text_field($params['title']),
-            ]);
-        }
+if (isset($params['title'])) {
+    $restaurant_id_upd = $params['restaurant_id'] ?? null;
+    $restaurant_name   = $restaurant_id_upd ? get_post_field('post_title', (int) $restaurant_id_upd) : '';
+    $new_title         = sanitize_text_field($params['title']);
+
+    // Supprimer le préfixe s'il existe déjà
+    if ($restaurant_name && str_starts_with($new_title, $restaurant_name . ' : ')) {
+        $new_title = substr($new_title, strlen($restaurant_name . ' : '));
+    }
+
+    if ($restaurant_name) {
+        $new_title = $restaurant_name . ' : ' . $new_title;
+    }
+
+    wp_update_post([
+        'ID'         => $id,
+        'post_title' => $new_title,
+    ]);
+}
 
         $user_id = get_current_user_id();
         $restaurant_id = $params['restaurant_id'] ?? null;

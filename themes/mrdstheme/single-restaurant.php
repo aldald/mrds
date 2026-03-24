@@ -23,6 +23,22 @@ $code_postal = $adresse['code_postal'] ?? '';
 $ville = $adresse['ville'] ?? 'Paris';
 $arrondissement = $adresse['arrondissement'] ?? '';
 
+
+
+// ============================================
+// STRINGS CONFIGURABLES — Options Page ACF
+// ============================================
+$str_offer_label          = get_field('single_resto_offer_label',          'option') ?: "L'offre exclusive";
+$str_offer_title          = get_field('single_resto_offer_title',          'option') ?: 'Nos offres exclusives';
+$str_validite_label       = get_field('single_resto_validite_label',       'option') ?: 'Validité';
+$str_validite_jours_label = get_field('single_resto_validite_jours_label', 'option') ?: 'Validité jours/heure';
+$str_btn_reserver         = get_field('single_resto_btn_reserver',         'option') ?: 'Réserver';
+$str_site_web_label       = get_field('single_resto_site_web_label',       'option') ?: 'Site web';
+$str_menu_label           = get_field('single_resto_menu_label',           'option') ?: 'Menu';
+$str_exemples_label       = get_field('single_resto_exemples_label',       'option') ?: 'Exemples de plats';
+$str_btn_rejoindre      = get_field('single_resto_btn_rejoindre',      'option') ?: 'Rejoindre le club';
+$str_btn_rejoindre_link = get_field('single_resto_btn_rejoindre_link', 'option') ?: '/nous-rejoindre/';
+
 // ── Toutes les remises actives du restaurant ──
 // Récupérer les remises liées au restaurant via le champ ACF remises_liees
 // return_format: object → on reçoit directement des WP_Post objects
@@ -180,7 +196,7 @@ if (!$featured_image) {
                                             <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
                                         </svg>
                                     </span>
-                                    <a href="<?php echo esc_url($site_web); ?>" target="_blank" rel="noopener">Site web</a>
+                                    <a href="<?php echo esc_url($site_web); ?>" target="_blank" rel="noopener"><?php echo esc_html($str_site_web_label); ?></a>
                                 </p>
                             <?php endif; ?>
                         </div>
@@ -278,7 +294,7 @@ if (!$featured_image) {
                     <!-- Description du menu -->
                     <?php if ($description_menu) : ?>
                         <div class="restaurant-menu-description">
-                            <h2>Menu :</h2>
+                            <h2><?php echo esc_html($str_menu_label); ?> :</h2>
                             <?php echo wpautop(esc_html($description_menu)); ?>
                         </div>
                     <?php endif; ?>
@@ -286,7 +302,7 @@ if (!$featured_image) {
                     <!-- Exemples de plats -->
                     <?php if ($exemple_plats) : ?>
                         <div class="restaurant-dishes">
-                            <h3>Exemples de plats :</h3>
+                            <h3><?php echo esc_html($str_exemples_label); ?> :</h3>
                             <?php
                             // Convertir le texte en liste si ce n'est pas déjà du HTML
                             $plats_lines = explode("\n", $exemple_plats);
@@ -328,7 +344,7 @@ if (!$featured_image) {
                 <aside class="restaurant-sidebar">
                     <div class="offer-box">
                         <span class="offer-label">
-                            <?php echo count($remises_actives) > 1 ? 'Nos offres exclusives' : 'L\'offre exclusive'; ?>
+                            <?php echo count($remises_actives) > 1 ? esc_html($str_offer_title) : esc_html($str_offer_label); ?>
                         </span>
                         <?php
 
@@ -426,18 +442,19 @@ if (!$featured_image) {
                                 data-date-fin="<?php echo esc_attr($data_fin); ?>"
                                 data-jours="<?php echo esc_attr(json_encode($jours)); ?>">
 
-                                <p class="remise-titre"><?php echo esc_html(strtoupper($remise->post_title)); ?></p>
+                                <p class="remise-titre"><?php echo esc_html($remise->post_title); ?></p>
 
                                 <?php if ($valeur_max) : ?>
                                     <p class="remise-max">Jusqu'à <?php echo esc_html($valeur_max); ?>€ max.</p>
                                 <?php endif; ?>
 
                                 <?php if ($date_debut && $date_fin) : ?>
-                                    <p class="remise-validite"><strong>Validité :</strong> Du <?php echo esc_html($date_debut); ?> au <?php echo esc_html($date_fin); ?></p>
+                                    <p class="remise-validite"><strong><?php echo esc_html($str_validite_label); ?> :</strong>
+                                        Du <?php echo esc_html($date_debut); ?> au <?php echo esc_html($date_fin); ?></p>
                                 <?php endif; ?>
 
                                 <?php if ($validite_jours) : ?>
-                                    <p class="remise-jours"><strong>Validité jours/heure :</strong> <?php echo esc_html($validite_jours); ?></p>
+                                    <p class="remise-jours"><strong><?php echo esc_html($str_validite_jours_label); ?> :</strong> <?php echo esc_html($validite_jours); ?></p>
                                 <?php endif; ?>
 
                                 <?php if ($couverts_str) : ?>
@@ -501,11 +518,12 @@ if (!$featured_image) {
                                         </div>
                                     </div>
                                 </div>
-                                <?php echo do_shortcode('[mrds_button class="my-btn-gold" text="Réserver" link="#" id="btn-reserver-' . $restaurant_id . '"]'); ?>
+                                <?php echo do_shortcode('[mrds_button class="my-btn-gold" text="' . esc_attr($str_btn_reserver) . '" link="#" id="btn-reserver-' . $restaurant_id . '"]');
+                                ?>
                             </div>
 
                         <?php else : ?>
-                            <?php echo do_shortcode('[mrds_button class="my-btn-gold" text="Rejoindre le club" link="/nous-rejoindre/"]'); ?>
+                            <?php echo do_shortcode('[mrds_button class="my-btn-gold" text="' . esc_attr($str_btn_rejoindre) . '" link="' . esc_url($str_btn_rejoindre_link) . '"]'); ?>
                         <?php endif; ?>
 
                     </div>

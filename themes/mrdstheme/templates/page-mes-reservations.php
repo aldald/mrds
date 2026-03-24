@@ -142,7 +142,7 @@ if (is_user_logged_in()) {
                         if (class_exists('MRDS_Remises_management') && !empty($date)) {
                             $remises_du_jour = MRDS_Remises_management::get_instance()->get_applicable_remises_for_restaurant($restaurant_id, $date);
                             if (!empty($remises_du_jour)) {
-                                $remise_text = mrdstheme_get_restaurant_remise_text($restaurant_id);
+                                $remise_text = mrdstheme_get_restaurant_remise_text($restaurant_id, $date);
                             }
                         }
                     ?>
