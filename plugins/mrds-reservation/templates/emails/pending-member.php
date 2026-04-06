@@ -19,7 +19,7 @@
       <?php endif; ?>
       <p style="margin: 5px 0; font-size: 14px;"><strong>Date :</strong> <?php echo esc_html($date_label); ?></p>
       <p style="margin: 5px 0; font-size: 14px;"><strong>Heure :</strong> <?php echo esc_html($time); ?></p>
-      <p style="margin: 5px 0; font-size: 14px;"><strong>Nombre de personnes :</strong> <?php echo esc_html($guests); ?></p>
+      <p style="margin: 5px 0; font-size: 14px;"><strong>Nombre de convives :</strong> <?php echo esc_html($guests); ?></p>
       <?php if (!empty($remise)) : ?>
       <p style="margin: 5px 0; font-size: 14px;"><strong>Remise :</strong> <?php echo esc_html($remise); ?></p>
       <?php endif; ?>

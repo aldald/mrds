@@ -329,7 +329,8 @@ if (!$featured_image) {
                                 <?php foreach ($tarifs as $tarif) : ?>
                                     <li>
                                         <span class="price-label"><?php echo esc_html($tarif['nom_de_menu']); ?>:</span>
-                                        <span class="price-value"><?php echo esc_html($tarif['prix']); ?>€</span>
+                                        <span class="price-value"><?php echo esc_html($tarif['prix']); ?></span>
+
                                     </li>
                                 <?php endforeach; ?>
                             </ul>

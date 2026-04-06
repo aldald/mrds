@@ -21,7 +21,7 @@ defined('ABSPATH') || exit;
 $email = $email ?? null;
 
 // MRDS Custom Footer Settings
-$mrds_contact_email = get_option('mrds_email_support_email', 'hab@mesrondsdeserviette.com');
+$mrds_contact_email = get_option('mrds_email_support_email', 'contact@mesrondsdeserviette.com');
 $mrds_site_name     = 'Mes ronds de serviette';
 $mrds_country       = 'France';
 
@@ -50,7 +50,7 @@ $mrds_country       = 'France';
 						<tr>
 							<td valign="middle" id="credit" style="text-align: center; font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; font-size: 13px; line-height: 1.6; color: #b8b8b8;">
 								<p style="margin: 0 0 15px 0; color: #b8b8b8;">
-									Encore merci ! Contactez-nous à l'adresse <a href="mailto:<?php echo esc_attr($mrds_contact_email); ?>" style="color: #DA9D42; text-decoration: none;"><?php echo esc_html($mrds_contact_email); ?></a>, si vous avez besoin d'aide avec votre commande.
+									Contactez-nous à l'adresse <a href="mailto:<?php echo esc_attr($mrds_contact_email); ?>" style="color: #DA9D42; text-decoration: none;"><?php echo esc_html($mrds_contact_email); ?></a>, si vous avez besoin d'aide concernant votre adhésion.
 								</p>
 								<p style="margin: 0; color: #b8b8b8;">
 									<strong style="color: #ffffff;"><?php echo esc_html($mrds_site_name); ?></strong><br>

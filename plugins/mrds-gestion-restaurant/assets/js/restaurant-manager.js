@@ -333,16 +333,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var inputNom = document.createElement("input");
     inputNom.type = "text";
-    inputNom.placeholder = "Nom du menu";
+inputNom.placeholder = "Libellé (ex: Entrées, Menu midi…)";
     inputNom.className = "form-control mrds-tarif-nom";
     inputNom.value = nom;
 
-    var inputPrix = document.createElement("input");
-    inputPrix.type = "number";
-    inputPrix.placeholder = "Prix";
-    inputPrix.className = "form-control mrds-tarif-prix";
-    inputPrix.step = "0.01";
-    inputPrix.value = prix;
+var inputPrix = document.createElement("input");
+inputPrix.type = "text";
+inputPrix.placeholder = "Ex: 25€ ou de 20 à 30€";
+inputPrix.className = "form-control mrds-tarif-prix";
+inputPrix.value = prix;
 
     var btnRemove = document.createElement("button");
     btnRemove.type = "button";
@@ -729,10 +728,10 @@ document.addEventListener("DOMContentLoaded", function () {
       var nom = row.querySelector(".mrds-tarif-nom").value;
       var prix = row.querySelector(".mrds-tarif-prix").value;
       if (nom || prix) {
-        payload.tarifs.push({
-          nom_de_menu: nom,
-          prix: prix ? parseFloat(prix) : null,
-        });
+payload.tarifs.push({
+    nom_de_menu: nom,
+    prix: prix ? prix : '',
+});
       }
     });
 

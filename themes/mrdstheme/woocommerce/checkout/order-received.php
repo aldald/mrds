@@ -119,7 +119,7 @@ defined( 'ABSPATH' ) || exit;
 <div class="mrds-order-received-wrapper">
 	<div class="mrds-order-received-container">
 
-		<h2><?php esc_html_e( 'Merci pour votre commande !', 'woocommerce' ); ?></h2>
+		<h2><?php esc_html_e( 'Merci pour votre adhésion !', 'woocommerce' ); ?></h2>
 
 		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received message-text">
 			<?php
@@ -133,7 +133,7 @@ defined( 'ABSPATH' ) || exit;
 			 */
 			$message = apply_filters(
 				'woocommerce_thankyou_order_received_text',
-				esc_html( __( 'Votre commande a bien été enregistrée. Vous recevrez un e-mail de confirmation sous peu.', 'woocommerce' ) ),
+				esc_html( __( 'Votre adhésion a bien été enregistrée. Vous recevrez un e-mail de confirmation sous peu.', 'woocommerce' ) ),
 				$order
 			);
 

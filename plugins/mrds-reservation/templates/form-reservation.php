@@ -20,6 +20,12 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+if (!headers_sent()) {
+    header('Cache-Control: no-store, no-cache, must-revalidate');
+    header('Pragma: no-cache');
+    header('Expires: 0');
+}
+
 $user = wp_get_current_user();
 
 // Infos restaurant
@@ -147,8 +153,7 @@ $user_email = $user->user_email;
                                         class="form-date-picker"
                                         value="<?php echo esc_attr($date); ?>"
                                         placeholder="<?php _e('Sélectionner une date', 'mrds-reservation'); ?>"
-                                        required
-                                        >
+                                        required>
                                 </div>
                                 <div class="form-group">
                                     <label for="resa-guests"><?php _e('Nombre de personnes', 'mrds-reservation'); ?> *</label>

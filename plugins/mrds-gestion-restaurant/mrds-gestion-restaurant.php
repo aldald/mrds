@@ -496,7 +496,7 @@ class MRDS_Gestion_Restaurant
     public function rest_upload_image(WP_REST_Request $request)
     {
         $id = (int) $request['id'];
-        
+
         $post = get_post($id);
         if (!$post || $post->post_type !== $this->restaurant_post_type) {
             return new WP_Error('mrds_invalid_restaurant', 'Restaurant introuvable.', ['status' => 404]);
@@ -531,7 +531,7 @@ class MRDS_Gestion_Restaurant
     public function rest_upload_gallery(WP_REST_Request $request)
     {
         $id = (int) $request['id'];
-        
+
         $post = get_post($id);
         if (!$post || $post->post_type !== $this->restaurant_post_type) {
             return new WP_Error('mrds_invalid_restaurant', 'Restaurant introuvable.', ['status' => 404]);
@@ -590,7 +590,7 @@ class MRDS_Gestion_Restaurant
     {
         $id = (int) $request['id'];
         $image_id = (int) $request['image_id'];
-        
+
         $post = get_post($id);
         if (!$post || $post->post_type !== $this->restaurant_post_type) {
             return new WP_Error('mrds_invalid_restaurant', 'Restaurant introuvable.', ['status' => 404]);
@@ -610,7 +610,7 @@ class MRDS_Gestion_Restaurant
             } elseif (is_numeric($gal_item)) {
                 $item_id = (int) $gal_item;
             }
-            
+
             if ($item_id !== $image_id) {
                 $new_gallery[] = $item_id > 0 ? $item_id : $gal_item;
             }
@@ -950,7 +950,7 @@ class MRDS_Gestion_Restaurant
                 }
                 $rows[] = [
                     'nom_de_menu' => isset($row['nom_de_menu']) ? sanitize_text_field($row['nom_de_menu']) : '',
-                    'prix' => isset($row['prix']) ? (float) $row['prix'] : '',
+                    'prix' => isset($row['prix']) ? sanitize_text_field($row['prix']) : '',
                 ];
             }
             update_field('tarifs', $rows, $post_id);
@@ -1032,167 +1032,177 @@ class MRDS_Gestion_Restaurant
         }
     }
 
-public function render_restaurant_manager()
-{
-    // Si non connecté → message convivial avec bouton connexion
-    if (!is_user_logged_in()) {
-        ob_start();
-        ?>
-        <style>
-            .mrds-access-denied {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                padding: 40px 20px;
-                min-height: 40vh;
-            }
-            .mrds-access-denied-box {
-                background-color: #ffffff;
-                border-radius: 0;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-                padding: 40px;
-                width: 100%;
-                max-width: 450px;
-                text-align: center;
-            }
-            .mrds-access-denied-box h2 {
-                color: #141B42;
-                font-size: 24px;
-                font-weight: 600;
-                margin: 0 0 15px;
-            }
-            .mrds-access-denied-box p {
-                color: #636363;
-                font-size: 14px;
-                line-height: 1.6;
-                margin: 0 0 25px;
-            }
-            .mrds-access-denied-box .mrds-btn {
-                display: inline-block;
-                background-color: #DA9D42;
-                color: #ffffff !important;
-                border: none;
-                border-radius: 0;
-                padding: 14px 30px;
-                font-size: 14px;
-                font-weight: 600;
-                text-decoration: none;
-                transition: background-color 0.3s ease;
-            }
-            .mrds-access-denied-box .mrds-btn:hover {
-                background-color: #c98c3a;
-            }
-        </style>
-        <div class="mrds-access-denied">
-            <div class="mrds-access-denied-box">
-                <h2><?php esc_html_e('Connexion requise', 'mrds-gestion-restaurant'); ?></h2>
-                <p><?php esc_html_e('Vous devez être connecté pour accéder à la gestion des restaurants.', 'mrds-gestion-restaurant'); ?></p>
-                <a href="<?php echo esc_url(wp_login_url(get_permalink())); ?>" class="mrds-btn">
-                    <?php esc_html_e('Se connecter', 'mrds-gestion-restaurant'); ?>
-                </a>
+    public function render_restaurant_manager()
+    {
+        // Si non connecté → message convivial avec bouton connexion
+        if (!is_user_logged_in()) {
+            ob_start();
+?>
+            <style>
+                .mrds-access-denied {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 40px 20px;
+                    min-height: 40vh;
+                }
+
+                .mrds-access-denied-box {
+                    background-color: #ffffff;
+                    border-radius: 0;
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                    padding: 40px;
+                    width: 100%;
+                    max-width: 450px;
+                    text-align: center;
+                }
+
+                .mrds-access-denied-box h2 {
+                    color: #141B42;
+                    font-size: 24px;
+                    font-weight: 600;
+                    margin: 0 0 15px;
+                }
+
+                .mrds-access-denied-box p {
+                    color: #636363;
+                    font-size: 14px;
+                    line-height: 1.6;
+                    margin: 0 0 25px;
+                }
+
+                .mrds-access-denied-box .mrds-btn {
+                    display: inline-block;
+                    background-color: #DA9D42;
+                    color: #ffffff !important;
+                    border: none;
+                    border-radius: 0;
+                    padding: 14px 30px;
+                    font-size: 14px;
+                    font-weight: 600;
+                    text-decoration: none;
+                    transition: background-color 0.3s ease;
+                }
+
+                .mrds-access-denied-box .mrds-btn:hover {
+                    background-color: #c98c3a;
+                }
+            </style>
+            <div class="mrds-access-denied">
+                <div class="mrds-access-denied-box">
+                    <h2><?php esc_html_e('Connexion requise', 'mrds-gestion-restaurant'); ?></h2>
+                    <p><?php esc_html_e('Vous devez être connecté pour accéder à la gestion des restaurants.', 'mrds-gestion-restaurant'); ?></p>
+                    <a href="<?php echo esc_url(wp_login_url(get_permalink())); ?>" class="mrds-btn">
+                        <?php esc_html_e('Se connecter', 'mrds-gestion-restaurant'); ?>
+                    </a>
+                </div>
             </div>
-        </div>
         <?php
+            return ob_get_clean();
+        }
+
+        $user = wp_get_current_user();
+
+        // Si pas le bon rôle → message accès refusé
+        if (
+            !in_array('administrator', (array) $user->roles, true) &&
+            !in_array('super_restaurateur', (array) $user->roles, true) &&
+            !in_array('restaurateur', (array) $user->roles, true)
+        ) {
+            ob_start();
+        ?>
+            <style>
+                .mrds-access-denied {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 40px 20px;
+                    min-height: 40vh;
+                }
+
+                .mrds-access-denied-box {
+                    background-color: #ffffff;
+                    border-radius: 0;
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                    padding: 40px;
+                    width: 100%;
+                    max-width: 450px;
+                    text-align: center;
+                }
+
+                .mrds-access-denied-box h2 {
+                    color: #141B42;
+                    font-size: 24px;
+                    font-weight: 600;
+                    margin: 0 0 15px;
+                }
+
+                .mrds-access-denied-box p {
+                    color: #636363;
+                    font-size: 14px;
+                    line-height: 1.6;
+                    margin: 0 0 25px;
+                }
+
+                .mrds-access-denied-box .mrds-btn {
+                    display: inline-block;
+                    background-color: #DA9D42;
+                    color: #ffffff !important;
+                    border: none;
+                    border-radius: 0;
+                    padding: 14px 30px;
+                    font-size: 14px;
+                    font-weight: 600;
+                    text-decoration: none;
+                    transition: background-color 0.3s ease;
+                }
+
+                .mrds-access-denied-box .mrds-btn:hover {
+                    background-color: #c98c3a;
+                }
+            </style>
+            <div class="mrds-access-denied">
+                <div class="mrds-access-denied-box">
+                    <h2><?php esc_html_e('Accès refusé', 'mrds-gestion-restaurant'); ?></h2>
+                    <p><?php esc_html_e('Vous n\'avez pas les droits nécessaires pour accéder à cette page. Cette section est réservée aux restaurateurs.', 'mrds-gestion-restaurant'); ?></p>
+                    <a href="<?php echo esc_url(home_url('/')); ?>" class="mrds-btn">
+                        <?php esc_html_e('Retour à l\'accueil', 'mrds-gestion-restaurant'); ?>
+                    </a>
+                </div>
+            </div>
+<?php
+            return ob_get_clean();
+        }
+
+        ob_start();
+
+        $types_cuisine = get_terms([
+            'taxonomy' => 'type_cuisine',
+            'hide_empty' => false,
+        ]);
+
+        $tags_restaurant = get_terms([
+            'taxonomy' => 'restaurant_tag',
+            'hide_empty' => false,
+        ]);
+
+        $owners = get_users([
+            'role' => 'super_restaurateur',
+            'fields' => ['ID', 'display_name', 'user_email'],
+        ]);
+
+        $restaurateurs = MRDS_Gestion_Restaurateurs::get_instance()->get_restaurateurs_for_user();
+
+        $template = plugin_dir_path(__FILE__) . 'templates/restaurant-manager-template.php';
+
+        if (file_exists($template)) {
+            include $template;
+        } else {
+            echo '<p>Template restaurant-manager-template.php introuvable.</p>';
+        }
+
         return ob_get_clean();
     }
-
-    $user = wp_get_current_user();
-
-    // Si pas le bon rôle → message accès refusé
-    if (
-        !in_array('administrator', (array) $user->roles, true) &&
-        !in_array('super_restaurateur', (array) $user->roles, true) &&
-        !in_array('restaurateur', (array) $user->roles, true)
-    ) {
-        ob_start();
-        ?>
-        <style>
-            .mrds-access-denied {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                padding: 40px 20px;
-                min-height: 40vh;
-            }
-            .mrds-access-denied-box {
-                background-color: #ffffff;
-                border-radius: 0;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-                padding: 40px;
-                width: 100%;
-                max-width: 450px;
-                text-align: center;
-            }
-            .mrds-access-denied-box h2 {
-                color: #141B42;
-                font-size: 24px;
-                font-weight: 600;
-                margin: 0 0 15px;
-            }
-            .mrds-access-denied-box p {
-                color: #636363;
-                font-size: 14px;
-                line-height: 1.6;
-                margin: 0 0 25px;
-            }
-            .mrds-access-denied-box .mrds-btn {
-                display: inline-block;
-                background-color: #DA9D42;
-                color: #ffffff !important;
-                border: none;
-                border-radius: 0;
-                padding: 14px 30px;
-                font-size: 14px;
-                font-weight: 600;
-                text-decoration: none;
-                transition: background-color 0.3s ease;
-            }
-            .mrds-access-denied-box .mrds-btn:hover {
-                background-color: #c98c3a;
-            }
-        </style>
-        <div class="mrds-access-denied">
-            <div class="mrds-access-denied-box">
-                <h2><?php esc_html_e('Accès refusé', 'mrds-gestion-restaurant'); ?></h2>
-                <p><?php esc_html_e('Vous n\'avez pas les droits nécessaires pour accéder à cette page. Cette section est réservée aux restaurateurs.', 'mrds-gestion-restaurant'); ?></p>
-                <a href="<?php echo esc_url(home_url('/')); ?>" class="mrds-btn">
-                    <?php esc_html_e('Retour à l\'accueil', 'mrds-gestion-restaurant'); ?>
-                </a>
-            </div>
-        </div>
-        <?php
-        return ob_get_clean();
-    }
-
-    ob_start();
-
-    $types_cuisine = get_terms([
-        'taxonomy' => 'type_cuisine',
-        'hide_empty' => false,
-    ]);
-
-    $tags_restaurant = get_terms([
-        'taxonomy' => 'restaurant_tag',
-        'hide_empty' => false,
-    ]);
-
-    $owners = get_users([
-        'role' => 'super_restaurateur',
-        'fields' => ['ID', 'display_name', 'user_email'],
-    ]);
-
-    $restaurateurs = MRDS_Gestion_Restaurateurs::get_instance()->get_restaurateurs_for_user();
-
-    $template = plugin_dir_path(__FILE__) . 'templates/restaurant-manager-template.php';
-
-    if (file_exists($template)) {
-        include $template;
-    } else {
-        echo '<p>Template restaurant-manager-template.php introuvable.</p>';
-    }
-
-    return ob_get_clean();
-}
 
     public function get_user_restaurants($user_id)
     {

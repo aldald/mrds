@@ -4073,3 +4073,51 @@ div#mrds-restaurateurs-app h1, div#mrds-reservations-app h1, .wrap mrds-stats-wr
     font-weight: 600;
     color: #fff;
 }
+
+/* Masquer les éléments WCS checkout blocks */
+.wc-block-components-product-details,
+.wc-block-cart-item__description,
+.wc-block-components-totals-item.wc-block-components-totals-recurring-total,
+.wc-block-subscription-summary {
+    display: none !important;
+}
+
+.wc-block-components-order-summary-item__description h3 {
+    font-size: 18px !important;
+}
+.wc-block-components-totals-wrapper.slot-wrapper {
+    display: none !important;
+}
+
+/* Masquer éléments WCS checkout */
+.wc-block-components-product-details {
+    display: none !important;
+}
+.wc-block-cart-item__prices .wc-block-cart-item__price-at-checkout {
+    display: none !important;
+}
+
+.wp-block-woocommerce-checkout-order-summary-totals-block {
+    display: none !important;
+}
+
+span.price.wc-block-components-product-price {
+    display: none !important;
+}
+
+table.woocommerce-table.woocommerce-table--order-details.shop_table.order_details + header h2 {
+    visibility: hidden !important;
+    padding: 0 !important;
+}
+
+td.subscription-status {
+    font-size: 0;
+}
+
+td.subscription-status::after {
+    content: "Active";
+    font-size: 14px;
+}
+.woocommerce-account h1.mentions-main-title {
+    display: none;
+}

@@ -40,7 +40,7 @@
           <tr>
             <td style="background-color: #3c3c3c; padding: 30px 40px; text-align: center;">
               <p style="margin: 0 0 15px 0; font-size: 13px; color: #b8b8b8;">
-                Encore merci ! Contactez-nous à l'adresse
+                Contactez-nous à l'adresse
                 <a href="mailto:<?php echo esc_attr($support_email); ?>" style="color: <?php echo esc_attr($brand_color); ?>; text-decoration: none;">
                   <?php echo esc_html($support_email); ?>
                 </a>,

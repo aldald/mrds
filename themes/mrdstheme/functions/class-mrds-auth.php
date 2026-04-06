@@ -43,7 +43,7 @@ class MRDS_Auth
         add_action('woocommerce_payment_complete', [$this, 'send_welcome_email_after_payment']);
         add_action('woocommerce_order_status_completed', [$this, 'send_welcome_email_after_payment']);
 
-        add_action('template_redirect', [$this, 'redirect_mon_compte']);
+        //add_action('template_redirect', [$this, 'redirect_mon_compte']);
     }
 
     /**
@@ -312,7 +312,7 @@ class MRDS_Auth
                         <td style='padding: 40px; font-family: \"Helvetica Neue\", Helvetica, Roboto, Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #636363;'>
                             <p>Bonjour <strong>{$prenom} {$nom}</strong>,</p>
                             
-                            <p>Bienvenue chez Mes Ronds de Serviette ! Votre compte a été créé avec succès.</p>
+                            <p>Bienvenue chez Mes ronds de serviette ! Votre compte a été créé avec succès.</p>
                             
                             <table cellpadding='0' cellspacing='0' border='0' width='100%' style='margin: 25px 0;'>
                                 <tr>
@@ -343,7 +343,7 @@ class MRDS_Auth
                     <tr>
                         <td style='background-color: #3c3c3c; padding: 30px 40px; text-align: center;'>
                             <p style='margin: 0 0 15px 0; font-size: 13px; color: #b8b8b8;'>
-                                Encore merci ! Contactez-nous à l'adresse <a href='mailto:{$contact_email}' style='color: {$brand_color}; text-decoration: none;'>{$contact_email}</a>, si vous avez besoin d'aide avec votre commande.
+                                Contactez-nous à l'adresse <a href='mailto:{$contact_email}' style='color: {$brand_color}; text-decoration: none;'>{$contact_email}</a>, si vous avez besoin d'aide avec votre adhésion.
                             </p>
                             <p style='margin: 0; font-size: 13px; color: #b8b8b8;'>
 <strong style='color: #ffffff;'>{$site_name}</strong><br>{$country}

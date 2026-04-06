@@ -619,6 +619,21 @@ if (function_exists('acf_add_options_page')) {
     ]);
 }
 
+add_filter('woocommerce_subscription_price_string', function($price_string, $subscription) {
+    return preg_replace('/ \/ .+$/', '', $price_string);
+}, 10, 2);
+
+add_filter('woocommerce_get_formatted_order_total', function($formatted_total, $order) {
+    return preg_replace('/ pour \d+.*$/', '', $formatted_total);
+}, 10, 2);
+
+
+add_action('template_redirect', function() {
+    if (is_page('reserver')) {
+        define('DONOTCACHEPAGE', true);
+        define('DONOTCACHEDB', true);
+    }
+});
 
 require_once get_template_directory() . '/functions/shortcodes-buttons.php';
 require_once get_template_directory() . '/functions/bootstrap.php';
@@ -628,4 +643,7 @@ require_once get_template_directory() . '/functions/map-component.php';
 require_once get_template_directory() . '/functions/class-mrds-auth.php';
 require_once get_template_directory() . '/functions/header-user.php';
 require_once get_template_directory() . '/functions/ajax-search-restaurants.php';
+require_once get_template_directory() . '/functions/sync-taxonomy-acf.php';
+require_once get_template_directory() . '/functions/mrds-woocommerce-emails.php';
 require_once get_template_directory() . '/functions/helpers.php';
+

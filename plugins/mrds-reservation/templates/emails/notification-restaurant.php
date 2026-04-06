@@ -6,8 +6,9 @@
  * $occasion, $allergies, $preferences, $edit_link, $site_name, $brand_color
  */
 ?>
-<h2 style="margin: 0 0 20px 0; font-size: 18px; color: #141B42;">Nouvelle Demande de Réservation</h2>
+<h2 style="margin: 0 0 20px 0; font-size: 18px; color: #141B42;">Nouvelle demande de réservation</h2>
 
+<p>Bonjour,</p>
 <p>Une nouvelle demande de réservation a été effectuée pour <strong><?php echo esc_html($restaurant_name); ?></strong></p>
 
 <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin: 25px 0;">
@@ -18,7 +19,7 @@
       <p style="margin: 5px 0; font-size: 14px;"><strong>Email :</strong> <?php echo esc_html($email); ?></p>
       <p style="margin: 5px 0; font-size: 14px;"><strong>Date :</strong> <?php echo esc_html($date_label); ?></p>
       <p style="margin: 5px 0; font-size: 14px;"><strong>Heure :</strong> <?php echo esc_html($time); ?></p>
-      <p style="margin: 5px 0; font-size: 14px;"><strong>Nombre de personnes :</strong> <?php echo esc_html($guests); ?></p>
+      <p style="margin: 5px 0; font-size: 14px;"><strong>Nombre de convives :</strong> <?php echo esc_html($guests); ?></p>
       <?php if (!empty($remise)) : ?>
       <p style="margin: 5px 0; font-size: 14px;"><strong>Remise accordée :</strong> <?php echo esc_html($remise); ?></p>
       <?php endif; ?>
@@ -35,7 +36,7 @@
   </tr>
 </table>
 
-<p style="text-align: center;"><em>Ce client est membre du club <?php echo esc_html($site_name); ?>.</em></p>
+<p style="text-align: center;"><em>Ce client est adhérent de <?php echo esc_html($site_name); ?>.</em></p>
 
 <table cellpadding="0" cellspacing="0" border="0" style="margin: 30px auto;">
   <tr>
@@ -48,6 +49,6 @@
 </table>
 
 <p style="font-size: 12px; color: #999; text-align: center;">
-  Connectez-vous à l'administration pour <strong>confirmer</strong> ou <strong>refuser</strong> cette réservation.<br>
-  Un email sera automatiquement envoyé au client.
+  Connectez-vous à votre compte pour <strong>confirmer</strong> ou <strong>refuser</strong> cette réservation.<br>
+  Un email sera alors envoyé au client.
 </p>

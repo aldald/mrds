@@ -206,8 +206,8 @@
             },
             "taxonomy": "restaurant_tag",
             "add_term": 0,
-            "save_terms": 1,
-            "load_terms": 0,
+            "save_terms": 0,
+            "load_terms": 1,
             "return_format": "id",
             "field_type": "multi_select",
             "allow_null": 0,
@@ -232,8 +232,8 @@
             },
             "taxonomy": "type_cuisine",
             "add_term": 0,
-            "save_terms": 1,
-            "load_terms": 0,
+            "save_terms": 0,
+            "load_terms": 1,
             "return_format": "id",
             "field_type": "multi_select",
             "allow_null": 0,
@@ -296,7 +296,7 @@
             "sub_fields": [
                 {
                     "key": "field_693154543f248",
-                    "label": "Nom de menu",
+                    "label": "Libellé",
                     "name": "nom_de_menu",
                     "aria-label": "",
                     "type": "text",
@@ -321,9 +321,9 @@
                     "label": "prix",
                     "name": "prix",
                     "aria-label": "",
-                    "type": "number",
+                    "type": "text",
                     "instructions": "",
-                    "required": 1,
+                    "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
                         "width": "",
@@ -331,11 +331,9 @@
                         "id": ""
                     },
                     "default_value": "",
-                    "min": "",
-                    "max": "",
+                    "maxlength": "",
                     "allow_in_bindings": 0,
                     "placeholder": "",
-                    "step": "",
                     "prepend": "",
                     "append": "",
                     "parent_repeater": "field_693154423f247"
@@ -651,5 +649,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1773829443
+    "modified": 1774357849
 }
