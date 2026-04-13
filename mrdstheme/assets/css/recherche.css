@@ -1,0 +1,380 @@
+/* ================================
+   SEARCH FORM (CTA Section)
+================================ */
+section.cta-section {
+    background: var(--color-blue);
+    padding: 50px 0;
+}
+
+/* Bouton toggle */
+#btnToggleSearch {
+    cursor: pointer;
+}
+
+#btnToggleSearch .btn-arrow {
+    transition: transform 0.3s ease;
+}
+
+#btnToggleSearch.active .btn-arrow {
+    background-color: var(--color-beige);
+}
+
+#btnToggleSearch.active .arrow-icon {
+    transform: rotate(180deg);
+}
+
+/* Formulaire caché par défaut */
+.search-form {
+    display: none;
+    padding-top: 50px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.search-form.active {
+    display: block;
+}
+
+/* Étapes */
+.search-step {
+    margin-bottom: 40px;
+}
+
+.search-step-title {
+    color: var(--color-white);
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* Tags (Envies & Réductions) */
+.search-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.search-tag {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: var(--color-white);
+    padding: 10px 25px;
+    font-size: 14px;
+    font-family: "Work Sans", sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0;
+}
+
+.search-tag:hover {
+    border-color: var(--color-white);
+}
+
+.search-tag.active {
+    background: var(--color-white);
+    color: var(--color-blue);
+    border-color: var(--color-white);
+}
+
+/* Arrondissements */
+.search-arrondissements {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.search-arrondissement {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: var(--color-white);
+    font-size: 12px;
+    font-family: "Work Sans", sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.3;
+}
+
+.search-arrondissement:hover {
+    border-color: var(--color-white);
+}
+
+.search-arrondissement.active {
+    background: var(--color-white);
+    color: var(--color-blue);
+    border-color: var(--color-white);
+}
+
+/* Bouton Rechercher */
+.search-submit {
+    text-align: center;
+    margin-top: 40px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-arrondissement {
+        width: 60px;
+        height: 60px;
+        font-size: 11px;
+    }
+
+    .search-tag {
+        padding: 8px 18px;
+        font-size: 13px;
+    }
+
+    .search-step-title {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-arrondissements {
+        gap: 10px;
+    }
+
+    .search-arrondissement {
+        width: 55px;
+        height: 55px;
+        font-size: 10px;
+    }
+}
+
+/* ================================
+   SEARCH FORM (CTA Section)
+================================ */
+
+/* Bouton toggle */
+#btnToggleSearch {
+    cursor: pointer;
+}
+
+#btnToggleSearch .btn-arrow {
+    transition: transform 0.3s ease;
+}
+
+#btnToggleSearch.active .btn-arrow {
+    background-color: var(--color-beige);
+}
+
+#btnToggleSearch.active .arrow-icon {
+    transform: rotate(180deg);
+}
+
+/* Formulaire caché par défaut */
+.search-form {
+    display: none;
+    padding-top: 50px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.search-form.active {
+    display: block;
+}
+
+/* Étapes */
+.search-step {
+    margin-bottom: 40px;
+}
+
+.search-step-title {
+    color: var(--color-white);
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* Tags (Envies & Réductions) */
+.search-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.search-tag {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: var(--color-white);
+    padding: 10px 25px;
+    font-size: 14px;
+    font-family: "Work Sans", sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0;
+}
+
+.search-tag:hover {
+    border-color: var(--color-white);
+}
+
+.search-tag.active {
+    background: var(--color-white);
+    color: var(--color-blue);
+    border-color: var(--color-white);
+}
+
+/* Arrondissements */
+.search-arrondissements {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.search-arrondissement {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: var(--color-white);
+    font-size: 12px;
+    font-family: "Work Sans", sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.3;
+}
+
+.search-arrondissement:hover {
+    border-color: var(--color-white);
+}
+
+.search-arrondissement.active {
+    background: var(--color-white);
+    color: var(--color-blue);
+    border-color: var(--color-white);
+}
+
+/* Bouton Rechercher */
+.search-submit {
+    text-align: center;
+    margin-top: 40px;
+}
+
+/* ================================
+   SECTION RÉSULTATS
+================================ */
+.section-resultats {
+    display: none;
+    background-color: var(--color-beige);
+    padding: 60px 0;
+}
+
+.section-resultats.active {
+    display: block;
+}
+
+.resultats-title {
+    text-align: center;
+    font-size: 40px;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-blue);
+    margin-bottom: 30px;
+}
+
+/* Filtres actifs */
+.resultats-filters {
+    margin-bottom: 40px;
+}
+
+.filter-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-label {
+    color: var(--color-blue);
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 200px;
+}
+
+.filter-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--color-blue);
+}
+
+.filter-item .filter-radio {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid var(--color-blue);
+    background: transparent;
+}
+
+.filter-item.active .filter-radio {
+    background: var(--color-blue);
+}
+
+/* Grille des résultats */
+.resultats-grid {
+    margin-top: 30px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-arrondissement {
+        width: 60px;
+        height: 60px;
+        font-size: 11px;
+    }
+
+    .search-tag {
+        padding: 8px 18px;
+        font-size: 13px;
+    }
+
+    .search-step-title {
+        font-size: 18px;
+    }
+
+    .filter-label {
+        min-width: 100%;
+    }
+
+    .resultats-title {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-arrondissements {
+        gap: 10px;
+    }
+
+    .search-arrondissement {
+        width: 55px;
+        height: 55px;
+        font-size: 10px;
+    }
+}

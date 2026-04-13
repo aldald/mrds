@@ -1,0 +1,276 @@
+/**
+ * Personnalisation Mon Compte WooCommerce
+ * Version GOLD avec diamants ◆
+ * Thème "Mes Ronds de Serviette"
+ */
+
+/* ========================================
+   LAYOUT
+   ======================================== */
+
+.woocommerce-account .woocommerce-MyAccount-navigation,
+.woocommerce-account .woocommerce-MyAccount-content {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .woocommerce-account .woocommerce {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 50px;
+    }
+    
+    .woocommerce-account .woocommerce-MyAccount-navigation {
+        flex: 0 0 300px;
+        max-width: 300px;
+    }
+    
+    .woocommerce-account .woocommerce-MyAccount-content {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+/* ========================================
+   NAVIGATION - BOUTONS GOLD AVEC DIAMANTS
+   ======================================== */
+
+.woocommerce-MyAccount-navigation ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.woocommerce-MyAccount-navigation ul li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Bouton style my-btn-gold */
+.woocommerce-MyAccount-navigation ul li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 10px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    background-color: #DA9D42;
+    color: #fff;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+/* Effet hover */
+.woocommerce-MyAccount-navigation ul li a:hover {
+    background-color: #141B42;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(218, 157, 66, 0.3);
+}
+
+/* Item actif */
+.woocommerce-MyAccount-navigation ul li.is-active a {
+    background-color: #141B42;
+    color: #fff;
+}
+
+/* Diamants */
+.woocommerce-MyAccount-navigation ul li a::before,
+.woocommerce-MyAccount-navigation ul li a::after {
+    content: "◆";
+    font-size: 8px;
+    opacity: 0.8;
+    transition: transform 0.3s ease;
+}
+
+.woocommerce-MyAccount-navigation ul li a:hover::before {
+    transform: translateX(-3px);
+}
+
+.woocommerce-MyAccount-navigation ul li a:hover::after {
+    transform: translateX(3px);
+}
+
+/* Bouton Déconnexion - Style différent */
+.woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--customer-logout {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--customer-logout a {
+    background-color: transparent;
+    color: #666;
+    border: 1px solid #999;
+    font-size: 11px;
+    padding: 12px 20px;
+}
+
+.woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--customer-logout a::before,
+.woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--customer-logout a::after {
+    display: none;
+}
+
+.woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--customer-logout a:hover {
+    background-color: #dc3545;
+    color: #fff;
+    border-color: #dc3545;
+    box-shadow: none;
+    transform: none;
+}
+
+/* ========================================
+   CONTENU
+   ======================================== */
+
+.woocommerce-MyAccount-content {
+    padding: 40px;
+    background-color: #fff;
+}
+
+.woocommerce-MyAccount-content > p:first-child {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333;
+}
+
+/* Liens dans le contenu */
+.woocommerce-MyAccount-content a {
+    color: #DA9D42;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.woocommerce-MyAccount-content a:hover {
+    color: #141B42;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 767px) {
+    .woocommerce-MyAccount-navigation ul {
+        gap: 10px;
+    }
+    
+    .woocommerce-MyAccount-navigation ul li a {
+        padding: 14px 18px;
+        font-size: 12px;
+        gap: 8px;
+    }
+    
+    .woocommerce-MyAccount-content {
+        padding: 25px;
+        margin-top: 30px;
+    }
+}
+
+/* ========================================
+   FORMULAIRES & TABLEAUX
+   ======================================== */
+
+/* Boutons principaux */
+.woocommerce-MyAccount-content .woocommerce-Button,
+.woocommerce-MyAccount-content button[type="submit"],
+.woocommerce-MyAccount-content .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background-color: #DA9D42;
+    color: #fff !important;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.woocommerce-MyAccount-content .woocommerce-Button:hover,
+.woocommerce-MyAccount-content button[type="submit"]:hover,
+.woocommerce-MyAccount-content .button:hover {
+    background-color: #141B42;
+}
+
+/* Champs de formulaire */
+.woocommerce-MyAccount-content input[type="text"],
+.woocommerce-MyAccount-content input[type="email"],
+.woocommerce-MyAccount-content input[type="tel"],
+.woocommerce-MyAccount-content input[type="password"],
+.woocommerce-MyAccount-content select,
+.woocommerce-MyAccount-content textarea {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #e0e0e0;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    background-color: #fff;
+}
+
+.woocommerce-MyAccount-content input:focus,
+.woocommerce-MyAccount-content select:focus,
+.woocommerce-MyAccount-content textarea:focus {
+    border-color: #DA9D42;
+    outline: none;
+}
+
+/* Labels */
+.woocommerce-MyAccount-content label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #141B42;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Tableaux */
+.woocommerce-orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.woocommerce-orders-table th {
+    background-color: #141B42;
+    color: #fff;
+    padding: 15px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.woocommerce-orders-table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.woocommerce-orders-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Petits boutons dans les tableaux */
+.woocommerce-orders-table .woocommerce-button,
+.woocommerce-orders-table .button {
+    padding: 8px 16px !important;
+    font-size: 11px !important;
+}

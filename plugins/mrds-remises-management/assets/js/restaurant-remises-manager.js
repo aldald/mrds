@@ -71,12 +71,12 @@ const serviceDiner = document.getElementById('service-diner');
  
 
     // Conversion date : yyyy-mm-dd (input) -> d/m/Y (ACF)
-    function toAcfDate(value) {
-        if (!value) return '';
-        const [y, m, d] = value.split('-');
-        if (!y || !m || !d) return value;
-        return `${d}/${m}/${y}`;
-    }
+function toAcfDate(value) {
+    if (!value) return '';
+    const [y, m, d] = value.split('-');
+    if (!y || !m || !d) return '';
+    return `${d}/${m}/${y}`;
+}
 
     // Conversion date : d/m/Y (ACF) -> yyyy-mm-dd (input)
     function fromAcfDate(value) {
@@ -101,13 +101,17 @@ const serviceDiner = document.getElementById('service-diner');
             const tdTitle = document.createElement('td');
             tdTitle.textContent = remise.title || '';
 
-            const tdActive = document.createElement('td');
-            const activeText = remise.remise_active ? 'Oui' : 'Non';
-            tdActive.innerHTML = '<a href="#">' + activeText + '</a>';
-            tdActive.querySelector('a').addEventListener('click', (e) => {
-                e.preventDefault();
-                swapActiveStatus(remise.id);
-            });
+const tdActive = document.createElement('td');
+const toggleId = 'toggle-remise-' + remise.id;
+tdActive.innerHTML = `
+    <label class="mrds-toggle" for="${toggleId}" title="${remise.remise_active ? 'Désactiver' : 'Activer'}">
+        <input type="checkbox" id="${toggleId}" ${remise.remise_active ? 'checked' : ''}>
+        <span class="mrds-toggle-slider"></span>
+    </label>
+`;
+tdActive.querySelector('input').addEventListener('change', () => {
+    swapActiveStatus(remise.id);
+});
             const tdType = document.createElement('td');
             tdType.textContent = remise.type_de_remise_label || remise.type_de_remise || '';
 

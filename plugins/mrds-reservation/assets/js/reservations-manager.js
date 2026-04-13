@@ -570,10 +570,12 @@
     const statRefused = document.getElementById("stat-refused");
     const statToday = document.getElementById("stat-today");
     const statWeek = document.getElementById("stat-week");
+    const statCompleted = document.getElementById("stat-completed");
 
     if (statPending) statPending.textContent = stats.pending || 0;
     if (statConfirmed) statConfirmed.textContent = stats.confirmed || 0;
     if (statRefused) statRefused.textContent = stats.refused || 0;
+    if (statCompleted) statCompleted.textContent = stats.completed || 0;
     if (statToday) statToday.textContent = stats.today || 0;
     if (statWeek) statWeek.textContent = stats.week || 0;
   }

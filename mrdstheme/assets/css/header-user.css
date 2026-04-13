@@ -1,0 +1,158 @@
+/* ================================
+   HEADER USER - Utilisateur connecté
+   ================================ */
+
+/* Menu utilisateur desktop */
+.menu-user-logged {
+  display: flex;
+  align-items: center;
+}
+
+.menu-item-user {
+  position: relative;
+}
+
+.menu-item-user .user-menu-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  text-decoration: none;
+  padding: 5px 0;
+}
+
+/* Nom utilisateur */
+.user-menu-link .user-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Avatar - Initiales (Membre) */
+.user-menu-link .user-initiales {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Avatar - Image (Restaurateur) */
+.user-menu-link .user-avatar-image {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #da9d42;
+}
+
+.user-menu-link .user-avatar-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Submenu dropdown */
+.menu-item-user .user-submenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #fff;
+  min-width: 160px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  list-style: none;
+  padding: 10px 0;
+  margin: 10px 0 0 0;
+  z-index: 1000;
+}
+
+.menu-item-user:hover .user-submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.menu-item-user .user-submenu li a {
+  display: block;
+  padding: 8px 20px;
+  color: #141b42;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.menu-item-user .user-submenu li a:hover {
+  background-color: #f5f5f5;
+  color: #da9d42;
+}
+
+/* ================================
+   MOBILE - Avatar initiales
+   ================================ */
+.user-dropdown .user-avatar.user-initiales {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* Mobile - Avatar image */
+.user-dropdown .user-avatar img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #da9d42;
+}
+
+/* ================================
+   MOBILE - Dropdown menu
+   ================================ */
+.user-dropdown {
+  position: relative;
+}
+
+.user-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #fff;
+  min-width: 160px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  padding: 10px 0;
+  margin-top: 10px;
+  z-index: 9999;
+}
+
+.user-dropdown.active .user-dropdown-menu {
+  display: block;
+}
+
+@media only screen and (max-width: 860px) {
+  .user-dropdown-menu {
+    margin: 0;
+    padding: 0;
+  }
+  .user-dropdown-menu ul li a {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}

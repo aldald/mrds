@@ -1,0 +1,55 @@
+/* ================================
+   ANIMATIONS - SECTION CHIFFRES
+   ================================ */
+
+/* État initial : invisible et décalé vers le bas */
+.chiffre-item {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* État animé : visible */
+.chiffre-item.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Délais pour chaque item (effet cascade) */
+.col-md-4:nth-child(1) .chiffre-item {
+    transition-delay: 0s;
+}
+
+.col-md-4:nth-child(2) .chiffre-item {
+    transition-delay: 0.15s;
+}
+
+.col-md-4:nth-child(3) .chiffre-item {
+    transition-delay: 0.3s;
+}
+
+.col-md-4:nth-child(4) .chiffre-item {
+    transition-delay: 0.45s;
+}
+
+/* Animation du chiffre (petit scale au démarrage) */
+.chiffre-number {
+    display: inline-block;
+    transition: transform 0.3s ease-out;
+}
+
+.chiffre-item.animate .chiffre-number {
+    animation: pulseNumber 0.5s ease-out 0.3s;
+}
+
+@keyframes pulseNumber {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

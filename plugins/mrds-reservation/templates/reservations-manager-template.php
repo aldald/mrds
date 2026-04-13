@@ -132,6 +132,14 @@ $has_multiple = count($all_restaurants) > 1;
                 <span class="stat-label">Refusées</span>
             </div>
         </div>
+
+        <div class="col-6 col-md-2">
+            <div class="stat-card stat-completed">
+                <span class="stat-number" id="stat-completed">0</span>
+                <span class="stat-label">Effectuées</span>
+            </div>
+        </div>
+
         <div class="col-6 col-md-2">
             <div class="stat-card stat-today">
                 <span class="stat-number" id="stat-today">0</span>

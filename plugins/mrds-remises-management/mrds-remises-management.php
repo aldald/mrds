@@ -67,6 +67,7 @@ class MRDS_Remises_management
 
         // Sync remises_liees côté restaurant lors de la sauvegarde WP-Admin d'une remise
         add_action('acf/save_post', [$this, 'sync_remises_liees_on_save'], 20);
+        add_filter('acf/fields/relationship/result', [$this, 'prefix_remise_in_relationship'], 10, 4);
     }
     /**
      * Synchronise remises_liees côté restaurant lors de la sauvegarde WP-Admin d'une remise.
@@ -101,7 +102,9 @@ class MRDS_Remises_management
         foreach ($retires as $rid) {
             $remises = get_field('remises_liees', $rid);
             $remises = is_array($remises) ? $remises : [];
-            $ids = array_map(function ($r) { return is_object($r) ? (int) $r->ID : (int) $r; }, $remises);
+            $ids = array_map(function ($r) {
+                return is_object($r) ? (int) $r->ID : (int) $r;
+            }, $remises);
             $ids = array_values(array_filter($ids, fn($i) => $i !== (int) $post_id));
             update_field('remises_liees', $ids, $rid);
         }
@@ -110,7 +113,9 @@ class MRDS_Remises_management
         foreach ($nouveaux_ids as $rid) {
             $remises = get_field('remises_liees', $rid);
             $remises = is_array($remises) ? $remises : [];
-            $ids = array_map(function ($r) { return is_object($r) ? (int) $r->ID : (int) $r; }, $remises);
+            $ids = array_map(function ($r) {
+                return is_object($r) ? (int) $r->ID : (int) $r;
+            }, $remises);
 
             if (!in_array((int) $post_id, $ids, true)) {
                 $ids[] = (int) $post_id;
@@ -125,6 +130,34 @@ class MRDS_Remises_management
 
         // Mémoriser les restaurants actuels pour la prochaine sauvegarde
         update_post_meta($post_id, '_mrds_previous_restaurants', $nouveaux_ids);
+    }
+
+
+    public function prefix_remise_in_relationship($title, $post, $field, $post_id)
+    {
+        if ($field['name'] !== 'remises_liees') {
+            return $title;
+        }
+
+        if ($post->post_type !== $this->remise_post_type) {
+            return $title;
+        }
+
+        $restaurant_concerne = get_field('restaurant_concerne', $post->ID);
+        if (empty($restaurant_concerne)) {
+            return $title;
+        }
+
+        $restaurant_concerne = is_array($restaurant_concerne) ? $restaurant_concerne : [$restaurant_concerne];
+        $first = $restaurant_concerne[0];
+        $restaurant_id = is_object($first) ? $first->ID : (int) $first;
+        $restaurant_name = get_post_field('post_title', $restaurant_id);
+
+        if (!$restaurant_name) {
+            return $title;
+        }
+
+        return $restaurant_name . ' : ' . $title;
     }
 
     public function enqueue_assets()
@@ -364,17 +397,14 @@ class MRDS_Remises_management
             return new WP_Error('no_restaurant', __('Aucun restaurant associé à cet utilisateur.', 'restaurant-remises'), ['status' => 400]);
         }
 
-$title = isset($params['title']) ? sanitize_text_field($params['title']) : 'Remise';
-$restaurant_name = get_post_field('post_title', (int) $restaurant_id);
-if ($restaurant_name) {
-    $title = $restaurant_name . ' : ' . $title;
-}
+        // ✅ Titre pur sans préfixe restaurant
+        $title = isset($params['title']) ? sanitize_text_field($params['title']) : 'Remise';
 
-$post_id = wp_insert_post([
-    'post_type' => $this->remise_post_type,
-    'post_status' => 'publish',
-    'post_title' => $title,
-], true);
+        $post_id = wp_insert_post([
+            'post_type' => $this->remise_post_type,
+            'post_status' => 'publish',
+            'post_title' => $title,
+        ], true);
 
         if (is_wp_error($post_id)) {
             return $post_id;
@@ -401,27 +431,12 @@ $post_id = wp_insert_post([
             return new WP_Error('not_found', __('Remise introuvable.', 'restaurant-remises'), ['status' => 404]);
         }
 
-        // Optionnel : vérifier que cette remise est bien liée au restaurant du user
-
-if (isset($params['title'])) {
-    $restaurant_id_upd = $params['restaurant_id'] ?? null;
-    $restaurant_name   = $restaurant_id_upd ? get_post_field('post_title', (int) $restaurant_id_upd) : '';
-    $new_title         = sanitize_text_field($params['title']);
-
-    // Supprimer le préfixe s'il existe déjà
-    if ($restaurant_name && str_starts_with($new_title, $restaurant_name . ' : ')) {
-        $new_title = substr($new_title, strlen($restaurant_name . ' : '));
-    }
-
-    if ($restaurant_name) {
-        $new_title = $restaurant_name . ' : ' . $new_title;
-    }
-
-    wp_update_post([
-        'ID'         => $id,
-        'post_title' => $new_title,
-    ]);
-}
+        if (isset($params['title'])) {
+            wp_update_post([
+                'ID'         => $id,
+                'post_title' => sanitize_text_field($params['title']),
+            ]);
+        }
 
         $user_id = get_current_user_id();
         $restaurant_id = $params['restaurant_id'] ?? null;
@@ -536,13 +551,22 @@ if (isset($params['title'])) {
 
         // --- Conditions d’application ---
 
-        if (isset($params['date_debut'])) {
-            // Le JS envoie déjà au format d/m/Y (via toAcfDate), donc on stocke tel quel
-            update_field('date_debut', sanitize_text_field($params['date_debut']), $post_id);
+        if (isset($params['date_debut']) && $params['date_debut'] !== '') {
+            // Convertir d/m/Y → Ymd pour ACF date_picker
+            $parts = explode('/', $params['date_debut']);
+            if (count($parts) === 3) {
+                $acf_date = $parts[2] . $parts[1] . $parts[0];
+                update_field('date_debut', sanitize_text_field($acf_date), $post_id);
+            }
         }
 
-        if (isset($params['date_fin'])) {
-            update_field('date_fin', sanitize_text_field($params['date_fin']), $post_id);
+        if (isset($params['date_fin']) && $params['date_fin'] !== '') {
+            // Convertir d/m/Y → Ymd pour ACF date_picker
+            $parts = explode('/', $params['date_fin']);
+            if (count($parts) === 3) {
+                $acf_date = $parts[2] . $parts[1] . $parts[0];
+                update_field('date_fin', sanitize_text_field($acf_date), $post_id);
+            }
         }
 
         if (isset($params['jours_semaine']) && is_array($params['jours_semaine'])) {
@@ -752,7 +776,7 @@ if (isset($params['title'])) {
      *                                    Si fournie, filtre par jour de la semaine ET par plage date_debut/date_fin.
      * @return string                     Texte de la remise applicable, ou '' si aucune
      */
-    public function get_applicable_remises_for_restaurant($restaurant_id, $date = null)
+    public function get_applicable_remises_for_restaurant($restaurant_id, $date = null, $time = null)
     {
         // Récupérer les remises actives liées au restaurant
         $query_args = [
@@ -807,7 +831,7 @@ if (isset($params['title'])) {
             $day_num  = (int) date('N', $timestamp_resa);
             $day_code = $day_map[$day_num] ?? '';
 
-            $remises = array_values(array_filter($remises, function ($remise) use ($day_code, $timestamp_resa) {
+            $remises = array_values(array_filter($remises, function ($remise) use ($day_code, $timestamp_resa, $time) {
 
                 // --- Filtre 1 : jour de la semaine ---
                 $jours = get_field('jours_semaine', $remise->ID);
@@ -836,6 +860,33 @@ if (isset($params['title'])) {
                     if (count($parts) === 3) {
                         $ts_fin = strtotime($parts[2] . '-' . $parts[1] . '-' . $parts[0]);
                         if ($timestamp_resa > $ts_fin) {
+                            return false;
+                        }
+                    }
+                }
+
+                // --- Filtre 3 : service (heure) ---
+                if (!empty($time)) {
+                    $services = get_field('services', $remise->ID);
+                    if (!empty($services) && is_array($services)) {
+                        $h     = intval(substr($time, 0, 2));
+                        $m     = intval(substr($time, 3, 2));
+                        $total = $h * 60 + $m;
+
+                        $DEJEUNER_MIN = 12 * 60;       // 12:00
+                        $DEJEUNER_MAX = 16 * 60 + 30;  // 16:30
+                        $DINER_MIN    = 19 * 60;        // 19:00
+                        $DINER_MAX    = 23 * 60 + 30;   // 23:30
+
+                        $service_match = false;
+                        if (in_array('dejeuner', $services, true) && $total >= $DEJEUNER_MIN && $total <= $DEJEUNER_MAX) {
+                            $service_match = true;
+                        }
+                        if (in_array('diner', $services, true) && $total >= $DINER_MIN && $total <= $DINER_MAX) {
+                            $service_match = true;
+                        }
+
+                        if (!$service_match) {
                             return false;
                         }
                     }

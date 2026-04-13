@@ -926,7 +926,10 @@ class MRDS_Gestion_Restaurant
 
         $citation = [];
         if (isset($params['citation_description'])) {
-            $citation['description'] = sanitize_textarea_field($params['citation_description']);
+            $citation['description'] = wp_kses_post($params['citation_description']);
+        }
+        if (isset($params['citation_citation'])) {
+            $citation['citation'] = wp_kses_post($params['citation_citation']);
         }
         if (isset($params['citation_auteur'])) {
             $citation['auteur'] = sanitize_text_field($params['citation_auteur']);

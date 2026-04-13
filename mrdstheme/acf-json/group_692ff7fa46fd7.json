@@ -1,0 +1,188 @@
+{
+    "key": "group_692ff7fa46fd7",
+    "title": "Remise – Général",
+    "fields": [
+        {
+            "key": "field_692ff7fa12267",
+            "label": "Remise active",
+            "name": "remise_active",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Permet d’activer\/désactiver la règle",
+            "default_value": 0,
+            "allow_in_bindings": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_692ff82c12268",
+            "label": "Restaurant concerné",
+            "name": "restaurant_concerne",
+            "aria-label": "",
+            "type": "relationship",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "restaurant"
+            ],
+            "post_status": [
+                "publish",
+                "pending"
+            ],
+            "taxonomy": "",
+            "filters": [
+                "search"
+            ],
+            "return_format": "id",
+            "min": "",
+            "max": "",
+            "allow_in_bindings": 0,
+            "elements": "",
+            "bidirectional": 0,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_692ff8d858407",
+            "label": "Type de remise",
+            "name": "type_de_remise",
+            "aria-label": "",
+            "type": "taxonomy",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "taxonomy": "type_remise",
+            "add_term": 0,
+            "save_terms": 0,
+            "load_terms": 0,
+            "return_format": "id",
+            "field_type": "select",
+            "allow_null": 0,
+            "allow_in_bindings": 0,
+            "bidirectional": 0,
+            "multiple": 0,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_692ff96dcea8d",
+            "label": "Valeur de la remise",
+            "name": "valeur_de_la_remise",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "- 20 → 20% si type = Pourcentage  <br>\r\n- 20 → 20€ si type = Montant fixe",
+            "required": 1,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_692ff8d858407",
+                        "operator": "==",
+                        "value": "21"
+                    }
+                ],
+                [
+                    {
+                        "field": "field_692ff8d858407",
+                        "operator": "==",
+                        "value": "23"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "min": "",
+            "max": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "step": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_692ffa6c71065",
+            "label": "Remise max (en €)",
+            "name": "valeur_max_remise",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "min": "",
+            "max": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "step": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_692ffaa171066",
+            "label": "Note interne",
+            "name": "description_interne",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Pour expliquer la règle pour l’admin",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "rows": "",
+            "placeholder": "",
+            "new_lines": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "remise"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1773406624
+}

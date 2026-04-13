@@ -54,8 +54,19 @@ if (defined('WP_DEBUG') && WP_DEBUG) {
 }
 
 if (!empty($date) && class_exists('MRDS_Remises_management')) {
+    $time = sanitize_text_field($_GET['heure'] ?? '');
+
+    // DEBUG - à supprimer après
+    error_log('MRDS DEBUG - time from URL: ' . $time);
+    error_log('MRDS DEBUG - date: ' . $date);
+
     $remises_du_jour = MRDS_Remises_management::get_instance()
-        ->get_applicable_remises_for_restaurant($restaurant_id, $date);
+        ->get_applicable_remises_for_restaurant($restaurant_id, $date, $time);
+
+    // DEBUG
+    error_log('MRDS DEBUG - remises_du_jour: ' . print_r($remises_du_jour, true));
+    $remises_du_jour = MRDS_Remises_management::get_instance()
+        ->get_applicable_remises_for_restaurant($restaurant_id, $date, $time);
 
     if (!empty($remises_du_jour)) {
         // La fonction retourne une string directement
@@ -112,7 +123,7 @@ $user_email = $user->user_email;
                             <p class="recap-location"><?php echo esc_html($location); ?></p>
                             <?php if ($has_reduction) : ?>
                                 <span class="recap-reduction" id="header-reduction">
-                                    <?php echo esc_html($reduction); ?> <?php _e('de réduction', 'mrds-reservation'); ?>
+                                    <?php echo esc_html($reduction); ?>
                                 </span>
                             <?php else : ?>
                                 <span class="recap-reduction recap-no-reduction" id="header-reduction">

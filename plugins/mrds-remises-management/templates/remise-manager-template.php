@@ -24,7 +24,7 @@
                     <thead class="table-light">
                         <tr>
                             <th>Titre</th>
-                            <th>Active</th>
+                            <th>Statut</th>
                             <th>Description</th>
                             <th class="text-end">Actions</th>
                         </tr>

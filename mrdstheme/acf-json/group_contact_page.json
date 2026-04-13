@@ -1,0 +1,327 @@
+{
+    "key": "group_contact_page",
+    "title": "Page Contact - Paramètres",
+    "fields": [
+        {
+            "key": "field_contact_title",
+            "label": "Titre principal",
+            "name": "contact_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Ex: Contactez",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Contactez",
+            "placeholder": "Contactez",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_contact_subtitle",
+            "label": "Sous-titre (texte courbé)",
+            "name": "contact_subtitle",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Ex: NOUS",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "NOUS",
+            "placeholder": "NOUS",
+            "maxlength": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_contact_intro",
+            "label": "Texte d'introduction",
+            "name": "contact_intro",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Une question, une suggestion ou simplement envie d'en savoir plus sur notre club ? Notre équipe est à votre écoute.",
+            "rows": 3,
+            "new_lines": "",
+            "maxlength": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_contact_separator_1",
+            "label": "Informations de contact",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "<hr><h3>📍 Informations de contact<\/h3>",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_contact_adresse",
+            "label": "Adresse",
+            "name": "contact_adresse",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Adresse complète affichée sur la page",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "123 Avenue des Champs-Élysées, 75008 Paris",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_contact_telephone",
+            "label": "Téléphone",
+            "name": "contact_telephone",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "+33 1 23 45 67 89",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_contact_email",
+            "label": "Email",
+            "name": "contact_email",
+            "aria-label": "",
+            "type": "email",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "contact@mesrestosdusoir.fr",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_contact_horaires",
+            "label": "Horaires",
+            "name": "contact_horaires",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Ex: Lundi - Vendredi : 9h - 18h",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Lundi - Vendredi : 9h - 18h",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_contact_separator_2",
+            "label": "Formulaire Contact Form 7",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "<hr><h3>📝 Formulaire<\/h3>",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_cf7_form_id",
+            "label": "ID du formulaire Contact Form 7",
+            "name": "cf7_form_id",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "Laissez vide pour utiliser le formulaire par défaut. Sinon, entrez l'ID de votre formulaire CF7.",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "Ex: 123",
+            "min": "",
+            "max": "",
+            "step": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_contact_separator_3",
+            "label": "Réseaux sociaux",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "<hr><h3>🔗 Réseaux sociaux<\/h3>",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_social_facebook",
+            "label": "Facebook URL",
+            "name": "social_facebook",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_social_instagram",
+            "label": "Instagram URL",
+            "name": "social_instagram",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_social_linkedin",
+            "label": "LinkedIn URL",
+            "name": "social_linkedin",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
+        },
+        {
+            "key": "field_contact_separator_4",
+            "label": "Google Maps",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "<hr><h3>🗺️ Carte Google Maps<\/h3>",
+            "new_lines": "",
+            "esc_html": 0
+        },
+        {
+            "key": "field_contact_map_embed",
+            "label": "URL d'intégration Google Maps",
+            "name": "contact_map_embed",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "Copiez l'URL d'intégration de Google Maps (depuis 'Partager' > 'Intégrer une carte')",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "templates\/page-contact.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Paramètres de la page Contact",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1768899920
+}

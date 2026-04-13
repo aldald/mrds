@@ -194,9 +194,17 @@
                         <label for="mrds-exemple-plats" class="form-label">Exemples de plats</label>
                         <textarea id="mrds-exemple-plats" class="form-control" rows="3"></textarea>
                     </div>
+
+                    <!-- Description (nouveau) -->
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <div id="mrds-citation-description-text" class="form-control mrds-contenteditable" contenteditable="true"></div>
+                    </div>
+
+                    <!-- Citation + Auteur -->
                     <div class="row g-3">
                         <div class="col-md-8">
-                            <label for="mrds-citation-description" class="form-label">Citation / phrase d'accroche</label>
+                            <label class="form-label">Citation / phrase d'accroche</label>
                             <div id="mrds-citation-description" class="form-control mrds-contenteditable" contenteditable="true"></div>
                         </div>
                         <div class="col-md-4">

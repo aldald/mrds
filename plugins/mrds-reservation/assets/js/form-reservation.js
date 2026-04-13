@@ -36,7 +36,10 @@
       this.hasReduction = initRed.has_reduction ?? false;
       this.reductionText = initRed.reduction_text ?? "";
       this.dateKnown = initRed.date_known ?? false;
-
+      this.services = initRed.services ?? [];
+      this.remiseJours = initRed.remise_jours ?? [];
+      this.remiseDateDebut = initRed.remise_date_debut ?? "";
+      this.remiseDateFin = initRed.remise_date_fin ?? "";
       this.init();
     }
 
@@ -114,6 +117,10 @@
           this.hasReduction = result.data.has_reduction ?? false;
           this.reductionText = result.data.reduction_text ?? "";
           this.dateKnown = true;
+          this.services = result.data.services ?? [];
+          this.remiseJours = result.data.remise_jours ?? [];
+          this.remiseDateDebut = result.data.remise_date_debut ?? "";
+          this.remiseDateFin = result.data.remise_date_fin ?? "";
 
           const timeSlots = {
             Matin: [
@@ -189,7 +196,6 @@
             const urlHeure = this.getUrlParam("heure");
             if (urlHeure) {
               this.timeSelect.value = urlHeure;
-              // Pré-sélectionné mais éditable
             }
           } else {
             this.timeSelect.innerHTML =
@@ -211,10 +217,13 @@
     initSelects() {
       const self = this;
 
-      if (this.timeSelect) {
-        this.timeSelect.addEventListener("change", () => self.updateRecap());
-      }
-
+if (this.timeSelect) {
+  this.timeSelect.addEventListener("change", () => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("heure", self.timeSelect.value);
+    window.location.href = window.location.pathname + "?" + params.toString();
+  });
+}
       if (this.guestsSelect) {
         this.guestsSelect.addEventListener("change", () => self.updateRecap());
       }
@@ -231,6 +240,8 @@
         this.guestsSelect.value = personnes;
       }
     }
+
+  
 
     updateRecap() {
       const date = this.dateInput?.value || "-";
@@ -253,35 +264,6 @@
         } else {
           if (this.recapReductionItem)
             this.recapReductionItem.style.display = "";
-
-          if (this.hasReduction && this.reductionText) {
-            // Récap bas
-            if (this.recapReduction) {
-              this.recapReduction.textContent = this.reductionText;
-              this.recapReduction.classList.remove("no-reduction");
-            }
-            if (this.recapReductionItem)
-              this.recapReductionItem.classList.remove("recap-no-reduction");
-            // Badge en-tête
-            if (headerReduction) {
-              headerReduction.textContent =
-                this.reductionText + " de réduction";
-              headerReduction.classList.remove("recap-no-reduction");
-            }
-          } else {
-            // Récap bas
-            if (this.recapReduction) {
-              this.recapReduction.textContent = "Aucune réduction ce jour";
-              this.recapReduction.classList.add("no-reduction");
-            }
-            if (this.recapReductionItem)
-              this.recapReductionItem.classList.add("recap-no-reduction");
-            // Badge en-tête
-            if (headerReduction) {
-              headerReduction.textContent = "Aucune réduction ce jour";
-              headerReduction.classList.add("recap-no-reduction");
-            }
-          }
         }
       }
 

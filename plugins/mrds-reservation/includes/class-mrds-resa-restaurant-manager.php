@@ -445,7 +445,7 @@ class MRDS_Resa_Restaurant_Manager
             'client_name' => $user ? trim($user->first_name . ' ' . $user->last_name) : 'Client inconnu',
             'phone' => get_post_meta($post->ID, '_mrds_phone', true),
             'email' => get_post_meta($post->ID, '_mrds_email', true),
-            'remise' => $this->get_remise_for_reservation($restaurant_id_meta, get_post_meta($post->ID, '_mrds_date', true)),
+            'remise' => get_post_meta($post->ID, '_mrds_remise_text', true) ?: '',
         ];
 
         if ($full) {
@@ -476,6 +476,7 @@ class MRDS_Resa_Restaurant_Manager
             'pending'   => $this->count_reservations($restaurant_id, 'pending',   $date_from, $date_to),
             'confirmed' => $this->count_reservations($restaurant_id, 'confirmed', $date_from, $date_to),
             'refused'   => $this->count_reservations($restaurant_id, 'refused',   $date_from, $date_to),
+            'completed' => $this->count_reservations($restaurant_id, 'completed', $date_from, $date_to),
             'today'     => $this->count_reservations($restaurant_id, '', $today,      $today),
             'week'      => $this->count_reservations($restaurant_id, '', $week_start, $week_end),
         ];

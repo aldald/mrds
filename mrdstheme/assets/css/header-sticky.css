@@ -1,0 +1,119 @@
+/* État sticky (commun aux deux headers) */
+.site-header.header-sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    animation: slideDown 0.3s ease-out;
+}
+
+/* Animation d'apparition */
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ================================
+   LOGOS - GESTION DES DEUX VERSIONS
+   ================================ */
+
+/* Par défaut : Logo transparent visible, logo bleu CACHÉ */
+.site-header.header-transparent .logo-center .logo-transparent-version {
+    display: block !important;
+}
+
+.site-header.header-transparent .logo-center .logo-blue-version {
+    display: none !important;
+}
+
+/* Au scroll : Logo transparent CACHÉ, logo bleu visible */
+.site-header.header-transparent.header-scrolled .logo-center .logo-transparent-version {
+    display: none !important;
+}
+
+.site-header.header-transparent.header-scrolled .logo-center .logo-blue-version {
+    display: block !important;
+}
+
+/* ================================
+   HEADER TRANSPARENT → BLEU AU SCROLL
+   ================================ */
+
+/* Quand le header transparent devient sticky (scrolled) */
+.header-transparent.header-sticky.header-scrolled {
+    background-color: var(--color-blue);
+    padding: 15px 50px; /* Même padding que header-blue */
+}
+
+/* Cacher les éléments décoratifs quand scrolled */
+.header-transparent.header-scrolled .logo-center::after {
+    display: none !important;
+}
+
+.header-transparent.header-scrolled .nav-left::after,
+.header-transparent.header-scrolled .nav-right::after {
+    display: none !important;
+}
+
+/* Style du logo-center quand scrolled (comme header-blue) */
+.header-transparent.header-scrolled .logo-center {
+    padding: 0 30px;
+}
+
+/* Ombre subtile */
+.header-transparent.header-sticky.header-scrolled {
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ================================
+   HEADER BLEU STICKY
+   ================================ */
+
+/* Le header bleu reste identique mais devient fixed */
+.header-blue.header-sticky {
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+body.header-is-sticky.header-type-blue main {
+    padding-top: 80px;
+}
+
+/* ================================
+   RESPONSIVE - STICKY
+   ================================ */
+
+@media screen and (max-width: 860px) {
+    
+    /* Header sticky mobile */
+    .site-header.header-sticky {
+        padding: 10px 20px;
+    }
+    
+    .header-transparent.header-sticky.header-scrolled {
+        padding: 10px 20px;
+    }
+    
+    /* Compensation pour mobile */
+    body.header-is-sticky.header-type-blue main {
+        padding-top: 60px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    
+    .site-header.header-sticky {
+        padding: 8px 15px;
+    }
+    
+    .header-transparent.header-sticky.header-scrolled {
+        padding: 8px 15px;
+    }
+}

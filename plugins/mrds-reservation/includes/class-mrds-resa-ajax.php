@@ -190,10 +190,18 @@ class MRDS_Resa_Ajax
             }
         }
 
+        // Récupérer toutes les infos de la remise active
+        $reservation_instance = MRDS_Resa_Reservation::get_instance();
+        $remise_info = $reservation_instance->get_remise_info_for_restaurant($restaurant_id);
+
         wp_send_json_success([
-            'periods'        => $formatted_periods,
-            'has_reduction'  => $has_reduction,
-            'reduction_text' => $reduction_text,
+            'periods'           => $formatted_periods,
+            'has_reduction'     => $has_reduction,
+            'reduction_text'    => $reduction_text,
+            'services'          => $remise_info['services'],
+            'remise_jours'      => $remise_info['jours'],
+            'remise_date_debut' => $remise_info['date_debut'],
+            'remise_date_fin'   => $remise_info['date_fin'],
         ]);
     }
 

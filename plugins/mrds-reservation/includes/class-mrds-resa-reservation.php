@@ -34,49 +34,30 @@ class MRDS_Resa_Reservation
 
     private function __construct()
     {
-        // Email au membre (en attente)
         add_action('mrds_resa_created', [$this, 'send_pending_email_to_member'], 10, 2);
-
-        // Email aux gestionnaires (notification simple)
         add_action('mrds_resa_created', [$this, 'send_notification_email_to_restaurant'], 10, 2);
-
-        // Hook sur le changement de statut (back-office)
         add_action('updated_post_meta', [$this, 'on_status_change'], 10, 4);
     }
 
     public function create_reservation($data)
     {
-        // ========================================
-        // CONVERTIR LA DATE DU FORMAT FRANÇAIS
-        // ========================================
         if (!empty($data['date']) && strpos($data['date'], '/') !== false) {
             $date_parts = explode('/', $data['date']);
             if (count($date_parts) === 3) {
-                // dd/mm/YYYY -> YYYY-mm-dd
                 $data['date'] = $date_parts[2] . '-' . $date_parts[1] . '-' . $date_parts[0];
             }
         }
-        // ========================================
 
-        // Valider les données
         $validation = $this->validate_reservation_data($data);
         if (is_wp_error($validation)) {
             return $validation;
         }
 
-        // Vérifier la règle 1 réservation par restaurant par an
-        // $can_book = $this->can_user_book($data['user_id'], $data['restaurant_id']);
-        // if (is_wp_error($can_book)) {
-        //     return $can_book;
-        // }
-
-        // Vérifier les horaires du restaurant
         $hours_valid = $this->validate_restaurant_hours($data['restaurant_id'], $data['date'], $data['time']);
         if (is_wp_error($hours_valid)) {
             return $hours_valid;
         }
 
-        // Créer le post
         $restaurant = get_post($data['restaurant_id']);
         $user = get_userdata($data['user_id']);
 
@@ -89,8 +70,8 @@ class MRDS_Resa_Reservation
         );
 
         $reservation_id = wp_insert_post([
-            'post_type' => MRDS_Resa_Post_Type::POST_TYPE,
-            'post_title' => $title,
+            'post_type'   => MRDS_Resa_Post_Type::POST_TYPE,
+            'post_title'  => $title,
             'post_status' => 'publish',
             'post_author' => $data['user_id'],
         ]);
@@ -99,26 +80,32 @@ class MRDS_Resa_Reservation
             return $reservation_id;
         }
 
-        // Sauvegarder les meta données
-        update_post_meta($reservation_id, '_mrds_user_id', $data['user_id']);
+        update_post_meta($reservation_id, '_mrds_user_id',       $data['user_id']);
         update_post_meta($reservation_id, '_mrds_restaurant_id', $data['restaurant_id']);
-        update_post_meta($reservation_id, '_mrds_date', $data['date']);
-        update_post_meta($reservation_id, '_mrds_time', $data['time']);
-        update_post_meta($reservation_id, '_mrds_guests', $data['guests']);
-        update_post_meta($reservation_id, '_mrds_phone', $data['phone']);
-        update_post_meta($reservation_id, '_mrds_email', $data['email']);
-        update_post_meta($reservation_id, '_mrds_occasion', $data['occasion'] ?? '');
-        update_post_meta($reservation_id, '_mrds_allergies', $data['allergies'] ?? '');
-        update_post_meta($reservation_id, '_mrds_preferences', $data['preferences'] ?? '');
+        update_post_meta($reservation_id, '_mrds_date',          $data['date']);
+        update_post_meta($reservation_id, '_mrds_time',          $data['time']);
+        update_post_meta($reservation_id, '_mrds_guests',        $data['guests']);
+        update_post_meta($reservation_id, '_mrds_phone',         $data['phone']);
+        update_post_meta($reservation_id, '_mrds_email',         $data['email']);
+        update_post_meta($reservation_id, '_mrds_occasion',      $data['occasion']    ?? '');
+        update_post_meta($reservation_id, '_mrds_allergies',     $data['allergies']   ?? '');
+        update_post_meta($reservation_id, '_mrds_preferences',   $data['preferences'] ?? '');
 
-        // ========================================
-        // MODIFICATION : Statut = PENDING (en attente de validation)
-        // ========================================
-        update_post_meta($reservation_id, '_mrds_status', MRDS_Resa_Post_Type::STATUS_PENDING);
+        // Sauvegarder la remise applicable au moment de la réservation
+        $remise_text = '';
+        if (class_exists('MRDS_Remises_management')) {
+            $remise_text = MRDS_Remises_management::get_instance()
+                ->get_applicable_remises_for_restaurant(
+                    $data['restaurant_id'],
+                    $data['date'],
+                    $data['time']
+                );
+        }
+        update_post_meta($reservation_id, '_mrds_remise_text', $remise_text);
 
+        update_post_meta($reservation_id, '_mrds_status',     MRDS_Resa_Post_Type::STATUS_PENDING);
         update_post_meta($reservation_id, '_mrds_created_at', current_time('mysql'));
 
-        // Déclencher l'action post-création (emails)
         try {
             do_action('mrds_resa_created', $reservation_id, $data);
         } catch (Exception $e) {
@@ -135,7 +122,6 @@ class MRDS_Resa_Reservation
     {
         $errors = new WP_Error();
 
-        // Champs obligatoires
         $required = ['user_id', 'restaurant_id', 'date', 'time', 'guests', 'phone'];
         foreach ($required as $field) {
             if (empty($data[$field])) {
@@ -143,7 +129,6 @@ class MRDS_Resa_Reservation
             }
         }
 
-        // Vérifier l'utilisateur
         if (!empty($data['user_id'])) {
             $user = get_userdata($data['user_id']);
             if (!$user) {
@@ -151,7 +136,6 @@ class MRDS_Resa_Reservation
             }
         }
 
-        // Vérifier le restaurant
         if (!empty($data['restaurant_id'])) {
             $restaurant = get_post($data['restaurant_id']);
             if (!$restaurant || $restaurant->post_type !== 'restaurant') {
@@ -159,12 +143,10 @@ class MRDS_Resa_Reservation
             }
         }
 
-        // Vérifier la date (pas dans le passé)
         if (!empty($data['date'])) {
-            // Convertir la date du format français dd/mm/YYYY vers YYYY-mm-dd
             $date_parts = explode('/', $data['date']);
             if (count($date_parts) === 3) {
-                $formatted_date = $date_parts[2] . '-' . $date_parts[1] . '-' . $date_parts[0]; // YYYY-mm-dd
+                $formatted_date = $date_parts[2] . '-' . $date_parts[1] . '-' . $date_parts[0];
             } else {
                 $formatted_date = $data['date'];
             }
@@ -175,7 +157,6 @@ class MRDS_Resa_Reservation
             }
         }
 
-        // Vérifier le nombre de personnes
         if (!empty($data['guests'])) {
             $guests = intval($data['guests']);
             if ($guests < 1 || $guests > 20) {
@@ -183,7 +164,6 @@ class MRDS_Resa_Reservation
             }
         }
 
-        // Vérifier le téléphone
         if (!empty($data['phone'])) {
             $phone = preg_replace('/[^0-9+]/', '', $data['phone']);
             if (strlen($phone) < 10) {
@@ -191,7 +171,6 @@ class MRDS_Resa_Reservation
             }
         }
 
-        // Vérifier l'email si fourni
         if (!empty($data['email']) && !is_email($data['email'])) {
             $errors->add('invalid_email', __('Adresse email invalide.', 'mrds-reservation'));
         }
@@ -211,32 +190,19 @@ class MRDS_Resa_Reservation
         $one_year_ago = date('Y-m-d', strtotime('-1 year'));
 
         $args = [
-            'post_type' => 'mrds_reservation',
+            'post_type'      => 'mrds_reservation',
             'posts_per_page' => 1,
-            'post_status' => 'publish',
-            'meta_query' => [
+            'post_status'    => 'publish',
+            'meta_query'     => [
                 'relation' => 'AND',
+                ['key' => '_mrds_user_id',       'value' => $user_id,       'compare' => '='],
+                ['key' => '_mrds_restaurant_id', 'value' => $restaurant_id, 'compare' => '='],
                 [
-                    'key' => '_mrds_user_id',
-                    'value' => $user_id,
-                    'compare' => '='
-                ],
-                [
-                    'key' => '_mrds_restaurant_id',
-                    'value' => $restaurant_id,
-                    'compare' => '='
-                ],
-                [
-                    'key' => '_mrds_status',
-                    'value' => [MRDS_Resa_Post_Type::STATUS_CONFIRMED, MRDS_Resa_Post_Type::STATUS_PENDING, MRDS_Resa_Post_Type::STATUS_COMPLETED],
+                    'key'     => '_mrds_status',
+                    'value'   => [MRDS_Resa_Post_Type::STATUS_CONFIRMED, MRDS_Resa_Post_Type::STATUS_PENDING, MRDS_Resa_Post_Type::STATUS_COMPLETED],
                     'compare' => 'IN'
                 ],
-                [
-                    'key' => '_mrds_date',
-                    'value' => $one_year_ago,
-                    'compare' => '>=',
-                    'type' => 'DATE'
-                ]
+                ['key' => '_mrds_date', 'value' => $one_year_ago, 'compare' => '>=', 'type' => 'DATE'],
             ]
         ];
 
@@ -273,28 +239,19 @@ class MRDS_Resa_Reservation
      */
     public function validate_restaurant_hours($restaurant_id, $date, $time)
     {
-        // Récupérer les horaires ACF
         $horaires = get_field('horaires', $restaurant_id);
 
         if (empty($horaires)) {
-            // Pas d'horaires définis = toujours ouvert
             return true;
         }
 
-        // Déterminer le jour de la semaine
-        $day_of_week = date('N', strtotime($date)); // 1=Lundi, 7=Dimanche
+        $day_of_week = date('N', strtotime($date));
         $day_map = [
-            1 => 'L',
-            2 => 'Mar',
-            3 => 'Mer',
-            4 => 'J',
-            5 => 'V',
-            6 => 'S',
-            7 => 'D'
+            1 => 'L', 2 => 'Mar', 3 => 'Mer',
+            4 => 'J', 5 => 'V',   6 => 'S', 7 => 'D'
         ];
         $day_code = $day_map[$day_of_week];
 
-        // Déterminer la période selon l'heure
         $hour = intval(substr($time, 0, 2));
         if ($hour >= 8 && $hour < 12) {
             $periode = 'Matin';
@@ -304,7 +261,6 @@ class MRDS_Resa_Reservation
             $periode = 'Soir';
         }
 
-        // Vérifier si ouvert ce jour à cette période
         foreach ($horaires as $horaire) {
             if ($horaire['periode'] === $periode) {
                 $jours = $horaire['jours'] ?? [];
@@ -329,30 +285,61 @@ class MRDS_Resa_Reservation
         $available = [];
 
         if (empty($horaires)) {
-            // Pas d'horaires = tout ouvert
             return ['Matin' => true, 'Midi' => true, 'Soir' => true];
         }
 
-        // Jour de la semaine
         $day_of_week = date('N', strtotime($date));
         $day_map = [
-            1 => 'L',
-            2 => 'Mar',
-            3 => 'Mer',
-            4 => 'J',
-            5 => 'V',
-            6 => 'S',
-            7 => 'D'
+            1 => 'L', 2 => 'Mar', 3 => 'Mer',
+            4 => 'J', 5 => 'V',   6 => 'S', 7 => 'D'
         ];
         $day_code = $day_map[$day_of_week];
 
         foreach ($horaires as $horaire) {
             $periode = $horaire['periode'];
-            $jours = $horaire['jours'] ?? [];
+            $jours   = $horaire['jours'] ?? [];
             $available[$periode] = in_array($day_code, $jours);
         }
 
         return $available;
+    }
+
+    /**
+     * Récupérer les infos complètes de la remise active d'un restaurant
+     */
+    public function get_remise_info_for_restaurant($restaurant_id)
+    {
+        $remises_liees = get_field('remises_liees', $restaurant_id);
+
+        if (empty($remises_liees) || !is_array($remises_liees)) {
+            return ['services' => [], 'jours' => [], 'date_debut' => '', 'date_fin' => ''];
+        }
+
+        foreach ($remises_liees as $remise) {
+            $remise_id = is_object($remise) ? $remise->ID : (int) $remise;
+            if (!(bool) get_field('remise_active', $remise_id)) continue;
+
+            $services = get_field('services', $remise_id) ?: [];
+            $jours    = get_field('jours_semaine', $remise_id) ?: [];
+
+            $date_debut = '';
+            $date_fin   = '';
+            $raw_debut  = get_field('date_debut', $remise_id) ?: '';
+            $raw_fin    = get_field('date_fin', $remise_id)   ?: '';
+
+            if ($raw_debut) {
+                $p = explode('/', $raw_debut);
+                if (count($p) === 3) $date_debut = $p[2] . '-' . $p[1] . '-' . $p[0];
+            }
+            if ($raw_fin) {
+                $p = explode('/', $raw_fin);
+                if (count($p) === 3) $date_fin = $p[2] . '-' . $p[1] . '-' . $p[0];
+            }
+
+            return ['services' => $services, 'jours' => $jours, 'date_debut' => $date_debut, 'date_fin' => $date_fin];
+        }
+
+        return ['services' => [], 'jours' => [], 'date_debut' => '', 'date_fin' => ''];
     }
 
     /**
@@ -371,7 +358,6 @@ class MRDS_Resa_Reservation
                     $slots[] = sprintf('%02d:45', $h);
                 }
                 break;
-
             case 'Midi':
                 for ($h = 12; $h <= 14; $h++) {
                     $slots[] = sprintf('%02d:00', $h);
@@ -380,7 +366,6 @@ class MRDS_Resa_Reservation
                     $slots[] = sprintf('%02d:45', $h);
                 }
                 break;
-
             case 'Soir':
                 for ($h = 19; $h <= 22; $h++) {
                     $slots[] = sprintf('%02d:00', $h);
@@ -402,20 +387,14 @@ class MRDS_Resa_Reservation
         $horaires = get_field('horaires', $restaurant_id);
 
         if (empty($horaires)) {
-            return []; // Aucun jour fermé
+            return [];
         }
 
         $day_map = [
-            'L' => 1,
-            'Mar' => 2,
-            'Mer' => 3,
-            'J' => 4,
-            'V' => 5,
-            'S' => 6,
-            'D' => 7
+            'L' => 1, 'Mar' => 2, 'Mer' => 3,
+            'J' => 4, 'V'   => 5, 'S'   => 6, 'D' => 7
         ];
 
-        // Collecter tous les jours ouverts
         $open_days = [];
         foreach ($horaires as $horaire) {
             $jours = $horaire['jours'] ?? [];
@@ -426,7 +405,6 @@ class MRDS_Resa_Reservation
             }
         }
 
-        // Retourner les jours fermés
         $closed_days = [];
         for ($d = 1; $d <= 7; $d++) {
             if (!isset($open_days[$d])) {
@@ -445,22 +423,22 @@ class MRDS_Resa_Reservation
         $today = date('Y-m-d');
 
         $query = new WP_Query([
-            'post_type' => MRDS_Resa_Post_Type::POST_TYPE,
+            'post_type'      => MRDS_Resa_Post_Type::POST_TYPE,
             'posts_per_page' => $limit,
-            'post_status' => 'publish',
-            'meta_query' => [
+            'post_status'    => 'publish',
+            'meta_query'     => [
                 'relation' => 'AND',
                 ['key' => '_mrds_user_id', 'value' => $user_id],
                 ['key' => '_mrds_date', 'value' => $today, 'compare' => '>=', 'type' => 'DATE'],
                 [
-                    'key' => '_mrds_status',
-                    'value' => [MRDS_Resa_Post_Type::STATUS_CANCELLED, MRDS_Resa_Post_Type::STATUS_REFUSED],
+                    'key'     => '_mrds_status',
+                    'value'   => [MRDS_Resa_Post_Type::STATUS_CANCELLED, MRDS_Resa_Post_Type::STATUS_REFUSED],
                     'compare' => 'NOT IN'
                 ],
             ],
             'meta_key' => '_mrds_date',
-            'orderby' => 'meta_value',
-            'order' => 'ASC',
+            'orderby'  => 'meta_value',
+            'order'    => 'ASC',
         ]);
 
         return $this->format_reservations($query->posts);
@@ -474,18 +452,18 @@ class MRDS_Resa_Reservation
         $today = date('Y-m-d');
 
         $query = new WP_Query([
-            'post_type' => MRDS_Resa_Post_Type::POST_TYPE,
+            'post_type'      => MRDS_Resa_Post_Type::POST_TYPE,
             'posts_per_page' => $limit,
-            'post_status' => 'publish',
-            'meta_query' => [
+            'post_status'    => 'publish',
+            'meta_query'     => [
                 'relation' => 'AND',
                 ['key' => '_mrds_user_id', 'value' => $user_id],
                 ['key' => '_mrds_date', 'value' => $today, 'compare' => '<', 'type' => 'DATE'],
                 ['key' => '_mrds_status', 'value' => MRDS_Resa_Post_Type::STATUS_CANCELLED, 'compare' => '!='],
             ],
             'meta_key' => '_mrds_date',
-            'orderby' => 'meta_value',
-            'order' => 'DESC',
+            'orderby'  => 'meta_value',
+            'order'    => 'DESC',
         ]);
 
         return $this->format_reservations($query->posts);
@@ -496,19 +474,20 @@ class MRDS_Resa_Reservation
      */
     private function format_reservations($posts)
     {
+        
         $reservations = [];
 
         foreach ($posts as $post) {
             $restaurant_id = get_post_meta($post->ID, '_mrds_restaurant_id', true);
-            $restaurant = get_post($restaurant_id);
+            $restaurant    = get_post($restaurant_id);
 
             if (!$restaurant) continue;
 
-            $adresse = get_field('adresse', $restaurant_id);
+            $adresse        = get_field('adresse', $restaurant_id);
             $arrondissement = $adresse['arrondissement'] ?? '';
-            $location = $arrondissement ? 'Paris ' . $arrondissement . ($arrondissement == 1 ? 'er' : 'e') : '';
+            $location       = $arrondissement ? 'Paris ' . $arrondissement . ($arrondissement == 1 ? 'er' : 'e') : '';
 
-            $tags = [];
+            $tags     = [];
             $tags_ids = get_field('tags_restaurant', $restaurant_id);
             if ($tags_ids) {
                 foreach ($tags_ids as $tag_id) {
@@ -520,26 +499,25 @@ class MRDS_Resa_Reservation
             }
 
             $citation = get_field('citation_de_restaurant', $restaurant_id);
-
             $resa_date = get_post_meta($post->ID, '_mrds_date', true);
 
             $reservations[] = [
-                'id' => $post->ID,
-                'restaurant_id' => $restaurant_id,
-                'restaurant_name' => $restaurant->post_title,
-                'restaurant_link' => get_permalink($restaurant_id),
+                'id'               => $post->ID,
+                'restaurant_id'    => $restaurant_id,
+                'restaurant_name'  => $restaurant->post_title,
+                'restaurant_link'  => get_permalink($restaurant_id),
                 'restaurant_image' => get_the_post_thumbnail_url($restaurant_id, 'medium'),
-                'location' => $location,
-                'tags' => $tags,
-                'citation' => $citation['description'] ?? '',
-                'citation_auteur' => $citation['auteur'] ?? '',
-                'date' => $resa_date,
-                'date_formatted' => date_i18n('l j F', strtotime($resa_date)),
-                'time' => get_post_meta($post->ID, '_mrds_time', true),
-                'time_formatted' => str_replace(':', 'h', get_post_meta($post->ID, '_mrds_time', true)),
-                'guests' => get_post_meta($post->ID, '_mrds_guests', true),
-                'status' => get_post_meta($post->ID, '_mrds_status', true),
-                'remise' => $this->get_restaurant_remise_for_email($restaurant_id, $resa_date),
+                'location'         => $location,
+                'tags'             => $tags,
+                'citation'         => $citation['description'] ?? '',
+                'citation_auteur'  => $citation['auteur'] ?? '',
+                'date'             => $resa_date,
+                'date_formatted'   => date_i18n('l j F', strtotime($resa_date)),
+                'time'             => get_post_meta($post->ID, '_mrds_time', true),
+                'time_formatted'   => str_replace(':', 'h', get_post_meta($post->ID, '_mrds_time', true)),
+                'guests'           => get_post_meta($post->ID, '_mrds_guests', true),
+                'status'           => get_post_meta($post->ID, '_mrds_status', true),
+                'remise'           => get_post_meta($post->ID, '_mrds_remise_text', true) ?: '',
             ];
         }
 
@@ -551,7 +529,7 @@ class MRDS_Resa_Reservation
     // ========================================
 
     /**
-     * Construire l'adresse du restaurant pour les emails (sans arrondissement)
+     * Construire l'adresse du restaurant pour les emails
      */
     private function get_restaurant_address_for_email($restaurant_id)
     {
@@ -568,68 +546,60 @@ class MRDS_Resa_Reservation
     }
 
     /**
-     * Récupérer le texte de remise applicable (si le plugin de remises est actif)
+     * Récupérer le texte de remise — utilise la meta sauvegardée si disponible
      */
-    private function get_restaurant_remise_for_email($restaurant_id, $date)
+    private function get_restaurant_remise_for_email($restaurant_id, $date, $time = '', $reservation_id = null)
     {
+        // Priorité : remise sauvegardée au moment de la réservation
+        if ($reservation_id) {
+            $saved = get_post_meta($reservation_id, '_mrds_remise_text', true);
+            if ($saved !== false) {
+                return $saved;
+            }
+        }
+
+        // Fallback : recalculer avec l'heure
         if (!class_exists('MRDS_Remises_management')) {
             return '';
         }
 
-        $remise_text = MRDS_Remises_management::get_instance()
-            ->get_applicable_remises_for_restaurant($restaurant_id, $date);
-
-        if (empty($remise_text)) {
-            return '';
-        }
-
-        // get_applicable_remises_for_restaurant() retourne une string directement
-        if (is_string($remise_text)) {
-            return $remise_text;
-        }
-
-        // Fallback sécuritaire : si jamais la méthode évolue et retourne un array
-        if (function_exists('mrdstheme_get_restaurant_remise_text')) {
-            return mrdstheme_get_restaurant_remise_text($restaurant_id, $date);
-        }
-
-        return '';
+        return MRDS_Remises_management::get_instance()
+            ->get_applicable_remises_for_restaurant($restaurant_id, $date, $time);
     }
 
     /**
-     * Email au membre : Réservation en attente de confirmation
+     * Email au membre : Réservation en attente
      */
     public function send_pending_email_to_member($reservation_id, $data)
     {
-        $user = get_userdata($data['user_id']);
+        $user       = get_userdata($data['user_id']);
         $restaurant = get_post($data['restaurant_id']);
         if (!$user || !$restaurant) return;
 
-        $to = !empty($data['email']) ? $data['email'] : $user->user_email;
+        $to      = !empty($data['email']) ? $data['email'] : $user->user_email;
         $subject = sprintf(__('Réservation en attente - %s', 'mrds-reservation'), $restaurant->post_title);
 
         MRDS_Resa_Email_Manager::get_instance()->send($to, $subject, 'pending-member', [
-            'first_name'      => $user->first_name ?: $user->display_name,
-            'restaurant_name' => $restaurant->post_title,
+            'first_name'         => $user->first_name ?: $user->display_name,
+            'restaurant_name'    => $restaurant->post_title,
             'restaurant_address' => $this->get_restaurant_address_for_email($data['restaurant_id']),
-            'remise'          => $this->get_restaurant_remise_for_email($data['restaurant_id'], $data['date']),
-            'date_label'      => date_i18n('l j F Y', strtotime($data['date'])),
-            'time'            => $data['time'],
-            'guests'          => $data['guests'],
-            'occasion'        => $data['occasion'] ?? '',
-            'allergies'       => $data['allergies'] ?? '',
-            'preferences'     => $data['preferences'] ?? '',
+            'remise'             => $this->get_restaurant_remise_for_email($data['restaurant_id'], $data['date'], $data['time'] ?? '', $reservation_id),
+            'date_label'         => date_i18n('l j F Y', strtotime($data['date'])),
+            'time'               => $data['time'],
+            'guests'             => $data['guests'],
+            'occasion'           => $data['occasion']    ?? '',
+            'allergies'          => $data['allergies']   ?? '',
+            'preferences'        => $data['preferences'] ?? '',
         ]);
     }
 
-
     /**
-     * Email aux gestionnaires : Notification simple avec lien back-office
+     * Email aux gestionnaires : Notification nouvelle réservation
      */
     public function send_notification_email_to_restaurant($reservation_id, $data)
     {
         $restaurant = get_post($data['restaurant_id']);
-        $user = get_userdata($data['user_id']);
+        $user       = get_userdata($data['user_id']);
         if (!$restaurant || !$user) return;
 
         $gestionnaires = get_field('restaurant_restaurateurs', $data['restaurant_id']);
@@ -645,20 +615,20 @@ class MRDS_Resa_Reservation
         }
 
         $edit_link = home_url('/gestion-reservations/');
-        $subject = sprintf(__('Nouvelle demande de réservation - %s', 'mrds-reservation'), $restaurant->post_title);
+        $subject   = sprintf(__('Nouvelle demande de réservation - %s', 'mrds-reservation'), $restaurant->post_title);
 
         $vars = [
             'restaurant_name'    => $restaurant->post_title,
             'restaurant_address' => $this->get_restaurant_address_for_email($data['restaurant_id']),
-            'remise'             => $this->get_restaurant_remise_for_email($data['restaurant_id'], $data['date']),
+            'remise'             => $this->get_restaurant_remise_for_email($data['restaurant_id'], $data['date'], $data['time'] ?? '', $reservation_id),
             'client_name'        => trim(($user->first_name ?? '') . ' ' . ($user->last_name ?? '')),
-            'phone'              => $data['phone'] ?? '',
-            'email'              => $data['email'] ?? ($user->user_email ?? ''),
+            'phone'              => $data['phone']    ?? '',
+            'email'              => $data['email']    ?? ($user->user_email ?? ''),
             'date_label'         => date_i18n('l j F Y', strtotime($data['date'])),
-            'time'               => $data['time'] ?? '',
-            'guests'             => $data['guests'] ?? '',
-            'occasion'           => $data['occasion'] ?? '',
-            'allergies'          => $data['allergies'] ?? '',
+            'time'               => $data['time']     ?? '',
+            'guests'             => $data['guests']   ?? '',
+            'occasion'           => $data['occasion']    ?? '',
+            'allergies'          => $data['allergies']   ?? '',
             'preferences'        => $data['preferences'] ?? '',
             'edit_link'          => $edit_link,
         ];
@@ -671,40 +641,23 @@ class MRDS_Resa_Reservation
         }
     }
 
-
     // ========================================
     // HOOK : Changement de statut dans le back-office
     // ========================================
 
-    /**
-     * Détecter le changement de statut et envoyer l'email correspondant
-     */
     public function on_status_change($meta_id, $post_id, $meta_key, $meta_value)
     {
-        // Vérifier que c'est bien le champ statut
-        if ($meta_key !== '_mrds_status') {
-            return;
-        }
+        if ($meta_key !== '_mrds_status') return;
 
-        // Vérifier que c'est une réservation
         $post = get_post($post_id);
-        if (!$post || $post->post_type !== MRDS_Resa_Post_Type::POST_TYPE) {
-            return;
-        }
+        if (!$post || $post->post_type !== MRDS_Resa_Post_Type::POST_TYPE) return;
 
-        // Récupérer l'ancien statut (avant mise à jour)
-        // Note: updated_post_meta est appelé APRÈS la mise à jour, donc on doit vérifier différemment
-        // On utilise un transient pour éviter les doublons
         $transient_key = 'mrds_status_email_sent_' . $post_id;
-        if (get_transient($transient_key)) {
-            return; // Email déjà envoyé récemment
-        }
+        if (get_transient($transient_key)) return;
 
-        // Envoyer l'email selon le nouveau statut
         if ($meta_value === MRDS_Resa_Post_Type::STATUS_CONFIRMED) {
             $this->send_confirmed_email_to_member($post_id);
-            set_transient($transient_key, true, 60); // Éviter doublons pendant 60 secondes
-
+            set_transient($transient_key, true, 60);
         } elseif ($meta_value === MRDS_Resa_Post_Type::STATUS_REFUSED) {
             $this->send_refused_email_to_member($post_id);
             set_transient($transient_key, true, 60);
@@ -737,7 +690,7 @@ class MRDS_Resa_Reservation
             'first_name'         => $user->first_name ?: $user->display_name,
             'restaurant_name'    => $restaurant->post_title,
             'restaurant_address' => $this->get_restaurant_address_for_email($restaurant_id),
-            'remise'             => $this->get_restaurant_remise_for_email($restaurant_id, $date),
+            'remise'             => $this->get_restaurant_remise_for_email($restaurant_id, $date, $time, $reservation_id),
             'date_label'         => date_i18n('l j F Y', strtotime($date)),
             'time'               => $time,
             'guests'             => $guests,
@@ -773,7 +726,7 @@ class MRDS_Resa_Reservation
             'first_name'         => $user->first_name ?: $user->display_name,
             'restaurant_name'    => $restaurant->post_title,
             'restaurant_address' => $this->get_restaurant_address_for_email($restaurant_id),
-            'remise'             => $this->get_restaurant_remise_for_email($restaurant_id, $date),
+            'remise'             => $this->get_restaurant_remise_for_email($restaurant_id, $date, $time, $reservation_id),
             'date_label'         => date_i18n('l j F Y', strtotime($date)),
             'time'               => $time,
             'guests'             => $guests,

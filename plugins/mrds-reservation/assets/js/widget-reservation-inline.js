@@ -34,18 +34,21 @@
       this.init();
     }
 
-    async init() {
-      // Charger les jours fermés
-      await this.loadClosedDays();
+async init() {
+  await this.loadClosedDays();
+  this.initDatePicker();
 
-      // Initialiser Flatpickr
-      this.initDatePicker();
+if (this.timeSelect) {
+  const self = this;
+  this.timeSelect.addEventListener("change", function() {
+    self.updateRemisesDisplay();
+  });
+}
 
-      // Event submit
-      if (this.submitBtn) {
-        this.submitBtn.addEventListener("click", (e) => this.handleSubmit(e));
-      }
-    }
+  if (this.submitBtn) {
+    this.submitBtn.addEventListener("click", (e) => this.handleSubmit(e));
+  }
+}
 
     async loadClosedDays() {
       try {
@@ -102,8 +105,8 @@
           console.log("Date sélectionnée:", dateStr, selectedDates);
           if (selectedDates.length > 0) {
             self.selectedDate = dateStr;
-            self.loadTimeSlots(selectedDates[0]);
-            self.highlightRemises(selectedDates[0]);
+self.loadTimeSlots(selectedDates[0]);
+self.updateRemisesDisplay();
           }
         },
       });
@@ -215,46 +218,83 @@
       }
     }
 
-    highlightRemises(dateObj) {
-      const offerBox = this.container.closest(".offer-box");
-      if (!offerBox) return;
 
-      const cards = offerBox.querySelectorAll(".remise-card");
-      if (!cards.length) return;
+updateRemisesDisplay() {
+  const offerBox = this.container.closest(".offer-box");
+  if (!offerBox) return;
 
-      // JS getDay() : 0=dim, 1=lun, ..., 6=sam
-      const dayMap = {
-        0: "sun",
-        1: "mon",
-        2: "tue",
-        3: "wed",
-        4: "thu",
-        5: "fri",
-        6: "sat",
-      };
-      const dayCode = dayMap[dateObj.getDay()];
-      const dateStr = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, "0")}-${String(dateObj.getDate()).padStart(2, "0")}`;
+  const cards = offerBox.querySelectorAll(".remise-card");
+  if (!cards.length) return;
 
-      cards.forEach((card) => {
-        const dateDebut = card.dataset.dateDebut;
-        const dateFin = card.dataset.dateFin;
-        const jours = JSON.parse(card.dataset.jours || "[]");
+  const time = this.timeSelect ? this.timeSelect.value : "";
+  const dateStr = this.selectedDate
+    ? (() => {
+        const parts = this.selectedDate.split("/");
+        return parts.length === 3 ? `${parts[2]}-${parts[1]}-${parts[0]}` : "";
+      })()
+    : "";
 
-        let applicable = true;
+  // Jour de la semaine depuis la date sélectionnée
+  let dayCode = "";
+  if (dateStr) {
+    const dateObj = new Date(dateStr + "T00:00:00");
+    const dayMap = { 0: "sun", 1: "mon", 2: "tue", 3: "wed", 4: "thu", 5: "fri", 6: "sat" };
+    dayCode = dayMap[dateObj.getDay()];
+  }
 
-        if (jours.length > 0 && !jours.includes(dayCode)) applicable = false;
-        if (dateDebut && dateStr < dateDebut) applicable = false;
-        if (dateFin && dateStr > dateFin) applicable = false;
+  // Heure en minutes
+  let totalMinutes = -1;
+  if (time) {
+    const [h, m] = time.split(":").map(Number);
+    totalMinutes = h * 60 + m;
+  }
 
-        if (applicable) {
-          card.classList.add("remise-active");
-          card.classList.remove("remise-inactive");
-        } else {
-          card.classList.remove("remise-active");
-          card.classList.add("remise-inactive");
-        }
-      });
+  const DEJEUNER_MIN = 12 * 60;       // 12:00
+  const DEJEUNER_MAX = 16 * 60 + 30;  // 16:30
+  const DINER_MIN    = 19 * 60;       // 19:00
+  const DINER_MAX    = 23 * 60 + 30;  // 23:30
+
+  cards.forEach((card) => {
+    const dateDebut  = card.dataset.dateDebut  || "";
+    const dateFin    = card.dataset.dateFin    || "";
+    const jours      = JSON.parse(card.dataset.jours    || "[]");
+    const services   = JSON.parse(card.dataset.services || "[]");
+
+    let applicable = true;
+
+    // 1. Vérifier le jour de la semaine
+    if (dayCode && jours.length > 0 && !jours.includes(dayCode)) {
+      applicable = false;
     }
+
+    // 2. Vérifier la date de validité
+    if (dateStr) {
+      if (dateDebut && dateStr < dateDebut) applicable = false;
+      if (dateFin   && dateStr > dateFin)   applicable = false;
+    }
+
+    // 3. Vérifier l'heure vs service de la remise
+    if (applicable && services.length > 0 && totalMinutes >= 0) {
+      let serviceMatch = false;
+      if (services.includes("dejeuner") && totalMinutes >= DEJEUNER_MIN && totalMinutes <= DEJEUNER_MAX) {
+        serviceMatch = true;
+      }
+      if (services.includes("diner") && totalMinutes >= DINER_MIN && totalMinutes <= DINER_MAX) {
+        serviceMatch = true;
+      }
+      if (!serviceMatch) applicable = false;
+    }
+
+    if (applicable) {
+      card.classList.add("remise-active");
+      card.classList.remove("remise-inactive");
+    } else {
+      card.classList.remove("remise-active");
+      card.classList.add("remise-inactive");
+    }
+  });
+}
+
 
     handleSubmit(e) {
       e.preventDefault();

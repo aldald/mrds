@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "mrds-citation-description",
   );
   const fieldCitationAut = document.getElementById("mrds-citation-auteur");
+  const fieldCitationDescText = document.getElementById("mrds-citation-description-text");
+
 
   // Champs image principale
   const fieldImage = document.getElementById("mrds-restaurant-image");
@@ -270,6 +272,9 @@ document.addEventListener("DOMContentLoaded", function () {
     fieldTitle.value = "";
 
     if (fieldOwner) fieldOwner.value = "";
+
+    if (fieldCitationDescText) fieldCitationDescText.innerHTML = "";
+
 
     if (fieldRestaurateurs) {
       Array.from(fieldRestaurateurs.options).forEach(function (o) {
@@ -613,10 +618,11 @@ inputPrix.value = prix;
     fieldDescMenu.value = r.description_menu || "";
     fieldExemplePlats.value = r.exemple_de_plats || "";
 
-    if (r.citation) {
-      fieldCitationDesc.innerHTML = r.citation.description || "";
-      fieldCitationAut.value = r.citation.auteur || "";
-    }
+if (r.citation) {
+    if (fieldCitationDescText) fieldCitationDescText.innerHTML = r.citation.description || "";
+    fieldCitationDesc.innerHTML = r.citation.citation || "";
+    fieldCitationAut.value = r.citation.auteur || "";
+}
 
     tarifsContainer.innerHTML = "";
     if (Array.isArray(r.tarifs)) {
@@ -700,10 +706,9 @@ inputPrix.value = prix;
 
       description_menu: fieldDescMenu.value,
       exemple_de_plats: fieldExemplePlats.value,
-      citation_description: fieldCitationDesc
-        ? fieldCitationDesc.innerHTML
-        : "",
-      citation_auteur: fieldCitationAut.value,
+citation_description: fieldCitationDescText ? fieldCitationDescText.innerHTML : "",
+citation_citation: fieldCitationDesc ? fieldCitationDesc.innerHTML : "",
+citation_auteur: fieldCitationAut.value,
 
       tarifs: [],
       horaires: [],
